@@ -1,0 +1,12 @@
+{
+	// Nuxt 4 project-references tsconfig.
+	// No "extends" — references are mutually exclusive with extends.
+	// Each context (app, server, shared, node) gets its own type environment.
+	"files": [],
+	"references": [
+		{ "path": "./.nuxt/tsconfig.app.json" },
+		{ "path": "./.nuxt/tsconfig.server.json" },
+		{ "path": "./.nuxt/tsconfig.shared.json" },
+		{ "path": "./.nuxt/tsconfig.node.json" }
+	]
+}

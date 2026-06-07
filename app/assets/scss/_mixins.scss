@@ -1,0 +1,70 @@
+// Reusable SCSS mixins. Tokens are imported here so the mixins resolve their own
+// token references regardless of where they are @included.
+@use "sass:math";
+@use "~/assets/scss/_tokens.scss" as *;
+
+// Min-width media query helper. Usage: @include up($bp-md) { ... }
+@mixin up($breakpoint) {
+	@media (min-width: $breakpoint) {
+		@content;
+	}
+}
+
+// Centred, padded content column (mobile-first).
+@mixin content-column {
+	width: 100%;
+	max-width: $content-max-width;
+	margin-inline: auto;
+	padding-inline: $content-padding;
+
+	@include up($bp-md) {
+		max-width: 40rem;
+	}
+}
+
+// Fluid font size that scales between two viewport widths.
+// Usage: @include fluid-type(1rem, 1.5rem);
+@mixin fluid-type($min, $max, $min-vw: $bp-sm, $max-vw: $bp-lg) {
+	font-size: $min;
+
+	@media (min-width: $min-vw) {
+		font-size: calc(#{$min} + (#{strip-unit($max)} - #{strip-unit($min)}) *
+			((100vw - #{$min-vw}) / (#{strip-unit($max-vw)} - #{strip-unit($min-vw)})));
+	}
+
+	@media (min-width: $max-vw) {
+		font-size: $max;
+	}
+}
+
+// Strip the unit from a value (helper for fluid-type maths).
+@function strip-unit($value) {
+	@return math.div($value, ($value * 0 + 1));
+}
+
+// Display/script heading style.
+@mixin heading-display {
+	font-family: $font-display;
+	font-weight: $font-weight-regular;
+	line-height: $line-height-tight;
+}
+
+// Visually hide an element but keep it available to screen readers.
+@mixin visually-hidden {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+// Respect users who prefer reduced motion.
+@mixin reduced-motion {
+	@media (prefers-reduced-motion: reduce) {
+		@content;
+	}
+}

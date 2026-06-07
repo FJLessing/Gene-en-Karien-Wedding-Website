@@ -1,0 +1,85 @@
+// Design tokens — pulled from Figma (Genie-San / Krienie-San).
+// These are the single source of truth for the visual system. The design is a
+// work in progress, so prefer referencing these tokens over raw values.
+
+// ── Colour palette ────────────────────────────────────────────────────────────
+$color-black: #4a4a4a;
+$color-grey: #8a8a8a;
+$color-light-grey: #cbcbcb;
+$color-white: #ffffff;
+
+$color-gold: #c5b39a;
+$color-light-gold-1: #e8ded0;
+$color-light-gold-2: #f4efe7;
+
+// Semantic aliases
+$color-text: $color-black;
+$color-text-muted: $color-grey;
+$color-bg: $color-light-gold-2;
+$color-bg-alt: $color-light-gold-1;
+$color-accent: $color-gold;
+$color-border: $color-light-grey;
+$color-error: #b3534b;
+
+// ── Typography ───────────────────────────────────────────────────────────────
+// Poppins = body, Bagien = display/script accents.
+$font-body: "Poppins", "Helvetica Neue", Arial, sans-serif;
+$font-display: "Bagien", "Poppins", serif;
+
+$font-weight-light: 300;
+$font-weight-regular: 400;
+$font-weight-medium: 500;
+
+// Fluid type scale (rem). Adjust as the design firms up.
+$font-size-xs: 0.75rem; // 12px
+$font-size-sm: 0.875rem; // 14px
+$font-size-base: 1rem; // 16px
+$font-size-lg: 1.25rem; // 20px
+$font-size-xl: 1.6875rem; // 27px (section headings)
+$font-size-2xl: 2.5625rem; // 41px (names)
+
+$line-height-tight: 1.2;
+$line-height-base: 1.4;
+$line-height-loose: 1.6;
+
+// ── Spacing scale (rem) ──────────────────────────────────────────────────────
+$space-3xs: 0.25rem;
+$space-2xs: 0.5rem;
+$space-xs: 0.75rem;
+$space-sm: 1rem;
+$space-md: 1.5rem;
+$space-lg: 2rem;
+$space-xl: 3rem;
+$space-2xl: 4rem;
+
+// ── Radii ────────────────────────────────────────────────────────────────────
+$radius-sm: 0.25rem;
+$radius-md: 0.5rem;
+$radius-lg: 1rem;
+$radius-pill: 62.4375rem;
+
+// ── Layout ───────────────────────────────────────────────────────────────────
+// Mobile-first; this is the content max width on larger screens.
+$content-max-width: 24.5625rem; // ~393px (Figma frame width)
+$content-padding: 1.25rem;
+
+// ── Breakpoints (min-width) ──────────────────────────────────────────────────
+$bp-sm: 30rem; // 480px
+$bp-md: 48rem; // 768px
+$bp-lg: 64rem; // 1024px
+
+// ── Elevation ────────────────────────────────────────────────────────────────
+// "Embossed" neumorphic effect from Figma.
+$shadow-embossed: 1px 1px 2px rgba(#000000, 0.08), -1px -1px 2px rgba(#ffffff, 0.8),
+	inset -1px -1px 2px rgba(#000000, 0.04), inset 1px 1px 2px rgba(#bdbdbd, 0.5);
+$shadow-soft: 0 2px 4px rgba(#000000, 0.1);
+
+// ── Motion ───────────────────────────────────────────────────────────────────
+// Shared timings so GSAP and CSS stay in sync.
+$ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+$duration-fast: 0.2s;
+$duration-base: 0.4s;
+$duration-slow: 0.8s;
+
+$z-modal: 100;
+$z-loader: 200;

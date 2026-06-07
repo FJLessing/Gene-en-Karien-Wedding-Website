@@ -1,0 +1,32 @@
+{
+	"name": "gene-karien-trou-website",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"dev": "nuxt dev",
+		"build": "nuxt build",
+		"generate": "nuxt generate",
+		"preview": "nuxt preview",
+		"postinstall": "nuxt prepare",
+		"typecheck": "nuxt typecheck"
+	},
+	"dependencies": {
+		"@pinia/nuxt": "^0.11.3",
+		"fuse.js": "^7.4.2",
+		"gsap": "^3.15.0",
+		"nuxt": "^4.4.7",
+		"pinia": "^3.0.4",
+		"vue": "^3.5.35",
+		"vue-router": "^5.1.0"
+	},
+	"devDependencies": {
+		"@google-cloud/storage": "^7.19.0",
+		"@types/node": "^25.9.2",
+		"googleapis": "^173.0.0",
+		"sass": "^1.100.0",
+		"vue-tsc": "^3.3.3"
+	},
+	"overrides": {
+		"uuid": ">=11.1.1"
+	}
+}

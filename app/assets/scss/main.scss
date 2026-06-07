@@ -1,0 +1,60 @@
+// Master global stylesheet. Imported once via nuxt.config `css`.
+// NOTE: _tokens and _mixins are auto-injected into every SCSS context by
+// nuxt.config `additionalData`, so they must NOT be @use'd again here.
+@use "~/assets/scss/_reset.scss";
+
+// ── Font faces ───────────────────────────────────────────────────────────────
+// Drop the actual font files into assets/fonts/ and update the src paths.
+// Poppins (body) and Bagien (display) are placeholders until the files land.
+@font-face {
+	font-family: "Poppins";
+	font-style: normal;
+	font-weight: 300 500;
+	font-display: swap;
+	src: local("Poppins");
+}
+
+@font-face {
+	font-family: "Bagien";
+	font-style: normal;
+	font-weight: 400;
+	font-display: swap;
+	src: local("Bagien");
+}
+
+// ── Base element styling ─────────────────────────────────────────────────────
+:root {
+	color-scheme: light;
+}
+
+body {
+	font-family: $font-body;
+	font-weight: $font-weight-light;
+	font-size: $font-size-base;
+	color: $color-text;
+	background-color: $color-bg;
+}
+
+::selection {
+	background-color: $color-gold;
+	color: $color-white;
+}
+
+// Focus visibility for keyboard users (accessibility).
+:focus-visible {
+	outline: 2px solid $color-gold;
+	outline-offset: 2px;
+}
+
+// ── Shared utility classes ───────────────────────────────────────────────────
+.u-content {
+	@include content-column;
+}
+
+.u-visually-hidden {
+	@include visually-hidden;
+}
+
+.u-heading {
+	@include heading-display;
+}
