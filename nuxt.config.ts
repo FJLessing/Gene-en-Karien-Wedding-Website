@@ -53,7 +53,12 @@ export default defineNuxtConfig({
 				{ name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
 				{ name: "theme-color", content: "#F4EFE7" },
 			],
-			link: [{ rel: "icon", type: "image/svg+xml", href: "/favicon.svg" }],
+			link: [
+				{ rel: "preconnect", href: "https://fonts.googleapis.com" },
+				{ rel: "preconnect", href: "https://fonts.gstatic.com", crossorigin: "" },
+				{ rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap" },
+				{ rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
+			],
 		},
 	},
 

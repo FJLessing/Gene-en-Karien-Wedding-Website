@@ -1,17 +1,67 @@
 <script lang="ts" setup>
-// Program timeline (Story 2): Friday / Saturday / Sunday tabs. Each timeline item
-// has a time, icon, and description, connected by a line. Tab content animates in
-// from alternating directions (wired via use-reveal per item later).
 const { content } = useContent();
+const { gsap, ScrollTrigger, withCleanup } = useGsap();
 
 const activeIndex = ref(0);
 
 const days = computed(() => content.value?.program ?? []);
 const activeDay = computed(() => days.value[activeIndex.value] ?? null);
 
+const listRef = ref<HTMLElement | null>(null);
+
 function selectDay(index: number): void {
 	activeIndex.value = index;
 }
+
+function revealItems(): void {
+	const list = listRef.value;
+	if (!list) return;
+
+	const items = Array.from(list.querySelectorAll<HTMLElement>(".program__item"));
+	if (!items.length) return;
+
+	gsap.killTweensOf(items);
+	ScrollTrigger.getAll()
+		.filter((t) => items.includes(t.trigger as HTMLElement))
+		.forEach((t) => t.kill());
+
+	items.forEach((item, i) => {
+		const fromLeft = i % 2 === 0;
+		gsap.fromTo(
+			item,
+			{ opacity: 0, x: fromLeft ? "-2rem" : "2rem" },
+			{
+				opacity: 1,
+				x: "0rem",
+				duration: 0.6,
+				ease: "power2.out",
+				scrollTrigger: {
+					trigger: item,
+					start: "top 85%",
+				},
+			},
+		);
+	});
+}
+
+watch(
+	activeIndex,
+	() => {
+		nextTick(() => {
+			withCleanup(() => {
+				revealItems();
+			}, listRef.value);
+		});
+	},
+);
+
+onMounted(() => {
+	nextTick(() => {
+		withCleanup(() => {
+			revealItems();
+		}, listRef.value);
+	});
+});
 </script>
 
 <template>
@@ -32,7 +82,7 @@ function selectDay(index: number): void {
 			</button>
 		</div>
 
-		<ol v-if="activeDay" class="program__timeline">
+		<ol v-if="activeDay" ref="listRef" class="program__timeline">
 			<li v-for="(item, i) in activeDay.items" :key="i" class="program__item">
 				<span class="program__time">{{ item.time }}</span>
 				<span class="program__icon" aria-hidden="true" />
