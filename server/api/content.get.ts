@@ -8,29 +8,29 @@ export default defineEventHandler((): SiteContent => {
 			invitationLine: "Together with their families, they joyfully invite you to celebrate their wedding",
 		},
 		event: {
-			dateLabel: "14 February 2026",
-			startsAt: "2026-02-14T14:00:00+02:00",
-			venueName: "Babylonstoren",
-			venueLocation: "Simondium, Franschhoek Valley",
-			rsvpByLabel: "15 January 2026",
+			dateLabel: "10 October 2026",
+			startsAt: "2026-10-10T14:00:00+02:00",
+			venueName: "Dunkeld Equestrian Estate",
+			venueLocation: "Dunkeld, Johannesburg",
+			rsvpByLabel: "1 August 2026",
 		},
 		welcome: "We are so grateful you can join us for this special day. Your presence means the world to us as we begin this new chapter together surrounded by the people we love most.",
 		details: {
-			dateLabel: "14 February 2026",
-			locationLabel: "Babylonstoren, Simondium",
-			rsvpByLabel: "RSVP by 15 January 2026",
+			dateLabel: "10 October 2026",
+			locationLabel: "Dunkeld Equestrian Estate, Johannesburg",
+			rsvpByLabel: "RSVP by 1 August 2026",
 		},
 		program: [
 			{
-				label: "Friday 13 Feb",
+				label: "Friday 9 Oct",
 				items: [
-					{ time: "15:00", icon: "arrival", description: "Arrival and check-in at Babylonstoren" },
+					{ time: "15:00", icon: "arrival", description: "Arrival and check-in at the estate" },
 					{ time: "17:00", icon: "drinks", description: "Welcome drinks in the garden" },
 					{ time: "19:00", icon: "dinner", description: "Dinner together under the stars" },
 				],
 			},
 			{
-				label: "Saturday 14 Feb",
+				label: "Saturday 10 Oct",
 				items: [
 					{ time: "14:00", icon: "ceremony", description: "Wedding ceremony" },
 					{ time: "16:00", icon: "cocktails", description: "Cocktails and canapés" },
@@ -39,7 +39,7 @@ export default defineEventHandler((): SiteContent => {
 				],
 			},
 			{
-				label: "Sunday 15 Feb",
+				label: "Sunday 11 Oct",
 				items: [
 					{ time: "10:00", icon: "brunch", description: "Farewell brunch" },
 				],
@@ -47,29 +47,28 @@ export default defineEventHandler((): SiteContent => {
 		],
 		dressCode: "Black tie optional. Think elegant and romantic — the ladies are encouraged to wear soft florals or metallics.",
 		venue: {
-			about: "Babylonstoren is one of the oldest Cape Dutch farms in the Franschhoek Valley, surrounded by dramatic mountain scenery, lush gardens, and world-class vineyards. It is the perfect setting for a celebration of love.",
+			about: "Dunkeld Equestrian Estate is a stunning venue set against the backdrop of lush grounds and beautiful equestrian facilities in Johannesburg. It is the perfect setting for an intimate and elegant celebration of love.",
 			mapUrl: "",
-			contact: "+27 21 863 3852",
+			contact: "",
 			accommodation: {
-				heading: "Staying at Babylonstoren",
-				body: "A limited number of rooms are available on-site at Babylonstoren. We recommend booking early as rooms fill quickly. Additional accommodation is available in the surrounding Franschhoek Valley.",
+				heading: "Accommodation near the estate",
+				body: "A selection of hotels and guesthouses are available nearby. We will share recommended options and shuttle information closer to the date.",
 				bookingUrl: "",
 			},
 			activities: [
-				{ title: "Garden Tour", image: "", description: "Explore the iconic biodynamic garden with a guided tour.", link: "" },
-				{ title: "Wine Tasting", image: "", description: "Sample award-winning wines from the Babylonstoren cellar.", link: "" },
-				{ title: "Spa at Babel", image: "", description: "Relax and rejuvenate at the on-site spa.", link: "" },
+				{ title: "Estate Grounds", image: "", description: "Explore the beautiful gardens and equestrian grounds of the estate.", link: "" },
+				{ title: "Horse Riding", image: "", description: "Enjoy a morning ride through the estate's equestrian facilities.", link: "" },
 			],
 		},
 		areaActivities: [
-			{ title: "Franschhoek Wine Tram", image: "", description: "Hop-on hop-off wine tram through the beautiful Franschhoek Valley.", link: "" },
-			{ title: "Huguenot Memorial Museum", image: "", description: "Discover the rich Huguenot heritage of the Franschhoek region.", link: "" },
-			{ title: "Hiking in the Valley", image: "", description: "Scenic trails through vineyards and mountain fynbos.", link: "" },
+			{ title: "Sandton City", image: "", description: "World-class shopping and dining in the heart of Johannesburg's financial district.", link: "" },
+			{ title: "Apartheid Museum", image: "", description: "A powerful and moving tribute to the history and struggle for freedom in South Africa.", link: "" },
+			{ title: "Maboneng Precinct", image: "", description: "Vibrant arts and culture district with galleries, markets, and great food.", link: "" },
 		],
 		faqs: [
 			{
 				question: "Is there parking available at the venue?",
-				answer: "Yes, ample complimentary parking is available at Babylonstoren. We also encourage carpooling and will share shuttle information closer to the date.",
+				answer: "Yes, ample complimentary parking is available at Dunkeld Equestrian Estate. We also encourage carpooling and will share shuttle information closer to the date.",
 			},
 			{
 				question: "Are children welcome?",
@@ -85,7 +84,7 @@ export default defineEventHandler((): SiteContent => {
 			},
 			{
 				question: "What time should I arrive for the ceremony?",
-				answer: "Please be seated by 13:45 on Saturday 14 February. The ceremony will begin promptly at 14:00.",
+				answer: "Please be seated by 13:45 on Saturday 10 October. The ceremony will begin promptly at 14:00.",
 			},
 		],
 		rsvp: {
@@ -104,6 +103,6 @@ export default defineEventHandler((): SiteContent => {
 				{ label: "Kosher", value: "kosher" },
 			],
 		},
-		footer: { tagline: "Gene & Karien · 14 February 2026" },
+		footer: { tagline: "Gene & Karien · 10 October 2026" },
 	};
 });
