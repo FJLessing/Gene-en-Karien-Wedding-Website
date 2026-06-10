@@ -16,13 +16,13 @@ export default defineEventHandler((): SiteContent => {
 			startsAt: "2026-10-10T15:00:00+02:00", // ceremony at the chapel, Saturday 15:00
 			venueName: "Dunkeld Equestrian Estate",
 			venueLocation: "Dullstroom, Mpumalanga",
-			rsvpByLabel: "1 August 2026",
+			rsvpByLabel: "20 July 2026",
 		},
 		welcome: "Welcome to our wedding website! We are thrilled to celebrate our special day with the people who mean the most to us. Here, you will find all the details you need for the evening. We cannot wait to raise a glass and celebrate with you.",
 		details: {
 			dateLabel: "9 - 11 October 2026",
 			locationLabel: "Dunkeld Equestrian Estate, Dullstroom, Mpumalanga",
-			rsvpByLabel: "RSVP by 1 August 2026",
+			rsvpByLabel: "RSVP by 20 July 2026",
 		},
 		program: [
 			{
