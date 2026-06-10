@@ -33,12 +33,13 @@ function computeRemaining(): void {
 	};
 }
 
-const labels = ["days", "hours", "minutes"];
+const labels = ["days", "hours", "minutes", "seconds"];
 
 const unitStrings = computed(() => [
 	String(remaining.value.days).padStart(2, "0"),
 	String(remaining.value.hours).padStart(2, "0"),
 	String(remaining.value.minutes).padStart(2, "0"),
+	String(remaining.value.seconds).padStart(2, "0"),
 ]);
 
 // One cell per digit column. `shown` is the resting digit; `incoming` is the

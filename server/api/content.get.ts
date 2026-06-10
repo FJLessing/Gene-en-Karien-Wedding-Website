@@ -1,8 +1,8 @@
 import type { SiteContent } from "#shared/types/types";
 
-// Copy is sourced from the Figma design (Wireframe Mockup 2, node 32:658).
-// Fields the design leaves unspecified (Friday/Sunday program, most FAQ
-// answers, extra Dullstroom activities) carry placeholder copy consistent
+// Copy is sourced from the Figma design (Wireframe Mockup 2, node 32:658);
+// FAQ copy supplied by the couple. Fields neither specifies (Friday/Sunday
+// program, extra Dullstroom activities) carry placeholder copy consistent
 // with the design facts and should be confirmed with the couple.
 export default defineEventHandler((): SiteContent => {
 	return {
@@ -78,32 +78,44 @@ export default defineEventHandler((): SiteContent => {
 		],
 		faqs: [
 			{
-				question: "Can I bring my kids?",
-				answer: "Nee! Die grootmense gaan suip!",
+				question: "Can I bring a plus one?",
+				answer: "Please note that unless you’ve received a personal invitation including a guest, we ask that you do not bring a plus one.",
+			},
+			{
+				question: "Can I bring my children?",
+				answer: "We have decided to make our wedding an adult-only celebration. There will be a baby area with babysitters available for those under 2, and we ask that you arrange care for older children — rooms are large enough to accommodate both.",
+			},
+			{
+				question: "What is happening on Friday night?",
+				answer: "We invite everyone to come and join us on Friday night at the venue. We will provide food at the Tea Garden venue, and drinks will be available at the Jazz Club. Parking will be available next to the hotel. We would like everyone to join for the whole weekend, and accommodation is available at reduced rates at the Dunkeld Equestrian Estate.",
+			},
+			{
+				question: "The dress code says black tie, what does that mean?",
+				answer: "For the men: a tuxedo or dark suit (black, charcoal or navy) with a bow tie or tie. For the ladies: a floor-length gown or elegant evening dress. If you’re still not sure, please reach out to Karien for advice or to double-check your outfit.",
+			},
+			{
+				question: "Gifts",
+				answer: "We know that many of you are going out of your way — crossing borders, provinces, and time zones — just to celebrate with us. Being surrounded by all our favourite people is more than enough. But if you’re feeling especially generous and want to give us something, we ask that you contribute to our home’s art collection.",
 			},
 			{
 				question: "Will there be a cash bar?",
-				answer: "The bar is on us for the evening — a cash bar will open for last rounds.",
+				answer: "We will be providing drinks during canapés, and bubbles and wine during the reception. All other drinks will be available at the two available bars throughout the night — since one is just never enough!",
 			},
 			{
 				question: "By when should I RSVP?",
-				answer: "Please RSVP by 1 August 2026 using the RSVP button on this site.",
-			},
-			{
-				question: "What exactly does Black Tie mean?",
-				answer: "Strictly formal evening wear: a tuxedo or dark suit with a bow tie for the gentlemen, and a full-length gown or elegant evening dress for the ladies.",
+				answer: "Please let us know whether you’ll be able to attend our weekend celebration by 20 July.",
 			},
 			{
 				question: "Will my dietary restrictions be catered for?",
-				answer: "Yes — let us know your dietary requirements when you RSVP and the kitchen will take care of you.",
+				answer: "Absolutely! After your RSVP there will be an option to select your dishes for the night. Please also indicate whether you have any other restrictions or preferences, and especially any allergies we need to be aware of.",
 			},
 			{
 				question: "Where can I upload pictures of the day?",
-				answer: "Enter the password for party mode on this site to upload your photos of the weekend.",
+				answer: "There will be a scannable QR code on the day that will direct you to our album, as well as a link on our website to upload all your photos.",
 			},
 			{
-				question: "What can I get the couple?",
-				answer: "Your presence is the greatest gift. If you would like to spoil us further, a contribution to our honeymoon fund would be warmly appreciated.",
+				question: "Dullstroom looks incredible — could we come through earlier?",
+				answer: "Absolutely! We will be on the venue from the Thursday onwards; you are more than welcome to join us. Please also see the activity links for a whole list of activities to enjoy.",
 			},
 		],
 		rsvp: {
