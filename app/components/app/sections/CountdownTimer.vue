@@ -1,9 +1,10 @@
 <script lang="ts" setup>
-// Custom countdown (Story 2). Replaces vue-countdown with a bespoke vertical-roll
-// animation (per the Dribbble/Framer references). This is the boilerplate shell:
-// it computes the time remaining from content.event.startsAt and exposes the
-// digit values; the GSAP roll transition is layered on later.
+// Countdown to the ceremony (per the Dribbble roll reference; digits flip in
+// from below per the designer's note). Each digit is its own masked column:
+// Vue owns the text content, GSAP owns the transforms — they never touch the
+// same thing, so ticks can't desync the DOM.
 const { content } = useContent();
+const { gsap } = useGsap();
 
 interface TimeParts {
 	days: number;
@@ -32,11 +33,81 @@ function computeRemaining(): void {
 	};
 }
 
-const units = computed(() => [
-	{ label: "days", value: remaining.value.days },
-	{ label: "hours", value: remaining.value.hours },
-	{ label: "minutes", value: remaining.value.minutes },
+const labels = ["days", "hours", "minutes", "seconds"];
+
+const unitStrings = computed(() => [
+	String(remaining.value.days).padStart(2, "0"),
+	String(remaining.value.hours).padStart(2, "0"),
+	String(remaining.value.minutes).padStart(2, "0"),
+	String(remaining.value.seconds).padStart(2, "0"),
 ]);
+
+// One cell per digit column. `shown` is the resting digit; `incoming` is the
+// digit rolling in from below while a tween is in flight.
+interface DigitCell {
+	shown: string;
+	incoming: string;
+}
+
+const digitCells = ref<DigitCell[][]>([]);
+
+const root = ref<HTMLElement | null>(null);
+const trackRefs = new Map<string, HTMLElement>();
+
+function setTrackRef(el: Element | null, unitIndex: number, digitIndex: number): void {
+	const key = `${unitIndex}:${digitIndex}`;
+	if (el instanceof HTMLElement) trackRefs.set(key, el);
+	else trackRefs.delete(key);
+}
+
+function rollDigit(unitIndex: number, digitIndex: number, cell: DigitCell): void {
+	const track = trackRefs.get(`${unitIndex}:${digitIndex}`);
+	const current = track?.querySelector<HTMLElement>(".countdown__digit--current");
+	const next = track?.querySelector<HTMLElement>(".countdown__digit--next");
+	if (!current || !next) {
+		cell.shown = cell.incoming;
+		return;
+	}
+
+	gsap.killTweensOf([current, next]);
+	gsap.set(next, { y: "100%" });
+
+	gsap.timeline({
+		onComplete: () => {
+			// Let Vue patch the current span's text to the new digit before the
+			// transforms swap back, so the change is never visible.
+			cell.shown = cell.incoming;
+			nextTick(() => {
+				gsap.set(current, { y: "0%" });
+				gsap.set(next, { y: "100%" });
+			});
+		},
+	})
+		.to(current, { y: "-100%", duration: 0.45, ease: "power2.in" }, 0)
+		.to(next, { y: "0%", duration: 0.45, ease: "power2.out" }, 0);
+}
+
+watch(
+	unitStrings,
+	(strings) => {
+		strings.forEach((str, unitIndex) => {
+			const cells = digitCells.value[unitIndex];
+			// First render or digit-count change (e.g. 100 → 99 days): rebuild
+			// the columns without animating.
+			if (!cells || cells.length !== str.length) {
+				digitCells.value[unitIndex] = str.split("").map((char) => ({ shown: char, incoming: char }));
+				return;
+			}
+			str.split("").forEach((char, digitIndex) => {
+				const cell = cells[digitIndex];
+				if (!cell || cell.incoming === char) return;
+				cell.incoming = char;
+				rollDigit(unitIndex, digitIndex, cell);
+			});
+		});
+	},
+	{ immediate: true },
+);
 
 onMounted(() => {
 	computeRemaining();
@@ -45,15 +116,31 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
 	if (timer) clearInterval(timer);
+	if (root.value) gsap.killTweensOf(root.value.querySelectorAll(".countdown__digit"));
 });
 </script>
 
 <template>
-	<section class="countdown" aria-label="Countdown to the wedding">
+	<section ref="root" class="countdown" aria-label="Countdown to the wedding">
 		<div class="countdown__row">
-			<div v-for="unit in units" :key="unit.label" class="countdown__unit">
-				<span class="countdown__value">{{ String(unit.value).padStart(2, "0") }}</span>
-				<span class="countdown__label">{{ unit.label }}</span>
+			<div v-for="(cells, unitIndex) in digitCells" :key="labels[unitIndex]" class="countdown__unit">
+				<div
+					class="countdown__digits"
+					aria-live="polite"
+					:aria-label="`${unitStrings[unitIndex]} ${labels[unitIndex]}`"
+				>
+					<div
+						v-for="(cell, digitIndex) in cells"
+						:key="digitIndex"
+						:ref="(el) => setTrackRef(el as Element | null, unitIndex, digitIndex)"
+						class="countdown__digit-track"
+						aria-hidden="true"
+					>
+						<span class="countdown__digit countdown__digit--current">{{ cell.shown }}</span>
+						<span class="countdown__digit countdown__digit--next">{{ cell.incoming }}</span>
+					</div>
+				</div>
+				<span class="countdown__label">{{ labels[unitIndex] }}</span>
 			</div>
 		</div>
 	</section>
@@ -78,12 +165,34 @@ onBeforeUnmount(() => {
 	gap: $space-3xs;
 }
 
-.countdown__value {
+.countdown__digits {
+	display: flex;
 	font-family: $font-display;
 	font-size: $font-size-2xl;
+	font-variant-numeric: tabular-nums;
 	line-height: 1;
-	// Roll animation will mask/translate this digit column.
+}
+
+// The mask: sized in the digits' own font-size so nothing gets clipped.
+.countdown__digit-track {
+	position: relative;
 	overflow: hidden;
+	width: 1ch;
+	height: 1em;
+	text-align: center;
+}
+
+.countdown__digit {
+	display: block;
+	height: 100%;
+
+	&--next {
+		position: absolute;
+		inset-block-start: 0;
+		inset-inline-start: 0;
+		width: 100%;
+		transform: translateY(100%);
+	}
 }
 
 .countdown__label {

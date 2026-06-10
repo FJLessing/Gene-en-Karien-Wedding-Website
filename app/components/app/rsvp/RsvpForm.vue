@@ -29,8 +29,8 @@ function blankEntry(): RsvpEntry {
 const form = ref<RsvpEntry>(blankEntry());
 
 const arrivalOptions = [
-	{ label: "Friday", value: ArrivalDay.Friday },
-	{ label: "Saturday", value: ArrivalDay.Saturday },
+	{ label: "Saturday only", value: ArrivalDay.Saturday },
+	{ label: "Friday and Saturday", value: ArrivalDay.Friday },
 ];
 
 const mealOptions = computed(() => content.value?.rsvp.mealOptions ?? []);

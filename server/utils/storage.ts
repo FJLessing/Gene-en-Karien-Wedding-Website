@@ -1,8 +1,3 @@
-// GCP Cloud Storage integration (STUB).
-// `@google-cloud/storage` is imported lazily so the server boots without
-// credentials during the boilerplate stage.
-//
-// Flow: Nuxt API route → GCP Cloud Storage (fast, cheap) → optional Drive sync.
 export interface UploadedPhoto {
 	name: string;
 	url: string;
@@ -16,17 +11,14 @@ export async function uploadPhotos(files: { name: string; data: Buffer; type: st
 		return [];
 	}
 
-	// TODO: implement with @google-cloud/storage
-	// const { Storage } = await import("@google-cloud/storage");
-	// const storage = new Storage({ projectId: config.gcsProjectId });
-	// const bucket = storage.bucket(config.gcsBucket);
-	// const results: UploadedPhoto[] = [];
-	// for (const file of files) {
-	// 	const blob = bucket.file(`uploads/${Date.now()}-${file.name}`);
-	// 	await blob.save(file.data, { contentType: file.type });
-	// 	results.push({ name: file.name, url: blob.publicUrl() });
-	// }
-	// return results;
-
-	return files.map((f) => ({ name: f.name, url: "" }));
+	const { Storage } = await import("@google-cloud/storage");
+	const storage = new Storage({ projectId: config.gcsProjectId });
+	const bucket = storage.bucket(config.gcsBucket);
+	const results: UploadedPhoto[] = [];
+	for (const file of files) {
+		const blob = bucket.file(`uploads/${Date.now()}-${file.name}`);
+		await blob.save(file.data, { contentType: file.type });
+		results.push({ name: file.name, url: blob.publicUrl() });
+	}
+	return results;
 }

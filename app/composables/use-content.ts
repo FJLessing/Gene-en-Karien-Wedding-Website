@@ -8,7 +8,12 @@ export function useContent() {
 	const { content, isLoading, error, isLoaded } = storeToRefs(store);
 
 	// Kick off a fetch during setup; awaited on the server so SSR has data.
-	const ready = useAsyncData("site-content", () => store.fetchContent());
+	// useAsyncData requires a non-undefined return value, so resolve to the
+	// hydrated content (or null on failure).
+	const ready = useAsyncData("site-content", async () => {
+		await store.fetchContent();
+		return store.content;
+	});
 
 	return {
 		content,
