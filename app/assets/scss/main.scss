@@ -4,14 +4,31 @@
 @use "~/assets/scss/_reset.scss";
 
 // ── Font faces ───────────────────────────────────────────────────────────────
-// Drop the actual font files into assets/fonts/ and update the src paths.
-// Poppins (body) and Bagien (display) are placeholders until the files land.
+// Font files live in /public/fonts and are served from the site root.
+// Poppins (body) ships Light/Regular/Medium — the weights the design uses.
+// Bagien (display/script) is the supplied brand font.
 @font-face {
 	font-family: "Poppins";
 	font-style: normal;
-	font-weight: 300 500;
+	font-weight: 300;
 	font-display: swap;
-	src: local("Poppins");
+	src: url("/fonts/Poppins-Light.ttf") format("truetype");
+}
+
+@font-face {
+	font-family: "Poppins";
+	font-style: normal;
+	font-weight: 400;
+	font-display: swap;
+	src: url("/fonts/Poppins-Regular.ttf") format("truetype");
+}
+
+@font-face {
+	font-family: "Poppins";
+	font-style: normal;
+	font-weight: 500;
+	font-display: swap;
+	src: url("/fonts/Poppins-Medium.ttf") format("truetype");
 }
 
 @font-face {
@@ -19,7 +36,7 @@
 	font-style: normal;
 	font-weight: 400;
 	font-display: swap;
-	src: local("Bagien");
+	src: url("/fonts/bagien-demo.regular.ttf") format("truetype");
 }
 
 // ── Base element styling ─────────────────────────────────────────────────────

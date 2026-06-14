@@ -3,8 +3,8 @@
 A mobile-first wedding website built with **Nuxt 3 + Vue 3 + GSAP + SCSS**. See
 [`IMPLEMENTATION-PLAN.md`](./IMPLEMENTATION-PLAN.md) for the full brief and user stories.
 
-> Status: **boilerplate**. Architecture, conventions, and integration stubs are in place.
-> Content is intentionally empty (served from `/api/content`) and the design is a work in
+> Status: **Work In Progress**. Architecture, conventions, and integrations are in place. 
+> Most of the content is in. (served from `/api/content`) but needs review.
 > progress — nothing is hardcoded.
 
 ## Stack
@@ -59,11 +59,3 @@ stores/              content-store, rsvp-store
 
 See `.env.example`. Nuxt maps `NUXT_`-prefixed env vars onto `runtimeConfig` at runtime
 (works on Cloud Run). Secrets stay server-side; only `runtimeConfig.public.*` reaches the client.
-
-## Integration TODOs (post-boilerplate)
-
-- Wire real Google Sheets auth + append in `server/utils/sheets.ts`.
-- Wire GCP Cloud Storage upload in `server/utils/storage.ts`.
-- Populate `/api/content` from a real source (config/SQLite/CMS).
-- Build the full GSAP envelope sequence, countdown roll, and timeline reveals.
-- Export the real logo (Figma node `17:491`) and fonts (Poppins, Bagien).

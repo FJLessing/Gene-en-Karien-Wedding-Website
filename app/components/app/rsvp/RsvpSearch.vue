@@ -21,11 +21,11 @@ const showNoResults = computed(() => query.value.trim().length >= 3 && !store.ha
 <template>
 	<div class="rsvp-search">
 		<h2 class="rsvp-search__title">I am RSVPing for:</h2>
-		<TextField v-model="query" placeholder="Type your name to search" type="text" />
+		<TextField v-model="query" placeholder="Type your name to search" type="text" tone="subtle" />
 
 		<ul v-if="store.hasResults" class="rsvp-search__results">
 			<li v-for="guest in store.searchResults" :key="guest.id">
-				<button class="rsvp-search__result" @click="choose(guest)">{{ guest.name }}</button>
+				<button type="button" class="rsvp-search__result" @click="choose(guest)">{{ guest.name }}</button>
 			</li>
 		</ul>
 
@@ -44,7 +44,8 @@ const showNoResults = computed(() => query.value.trim().length >= 3 && !store.ha
 
 .rsvp-search__title {
 	font-size: $font-size-base;
-	font-weight: $font-weight-medium;
+	font-weight: $font-weight-regular;
+	color: $color-text;
 }
 
 .rsvp-search__results {
@@ -55,11 +56,20 @@ const showNoResults = computed(() => query.value.trim().length >= 3 && !store.ha
 
 .rsvp-search__result {
 	width: 100%;
-	padding: $space-2xs $space-xs;
-	border-radius: $radius-md;
-	background-color: $color-white;
+	min-height: 2.6875rem;
+	padding: $space-3xs $space-md;
+	border: 1px solid $color-field-border;
+	border-radius: $radius-sm;
+	background-color: $color-field-subtle;
+	font-size: $font-size-sm;
+	color: $color-text;
 	text-align: left;
-	box-shadow: $shadow-embossed;
+	transition: background-color $duration-fast $ease-standard, border-color $duration-fast $ease-standard;
+
+	&:hover {
+		background-color: $color-field;
+		border-color: $color-gold;
+	}
 }
 
 .rsvp-search__empty {

@@ -21,6 +21,12 @@ $color-accent: $color-gold;
 $color-border: $color-light-grey;
 $color-error: #b3534b;
 
+// Form fields (from the RSVP designs). Inputs use a soft gold tint; neutral /
+// read-only fields use an off-white. Field borders are a near-invisible hairline.
+$color-field: $color-light-gold-2; // #f4efe7 — editable inputs & selected state
+$color-field-subtle: #f7f7f7; // read-only / unselected rows
+$color-field-border: #f2f2f2;
+
 // ── Typography ───────────────────────────────────────────────────────────────
 // Poppins = body, Bagien = display/script accents.
 $font-body: "Poppins", "Helvetica Neue", Arial, sans-serif;

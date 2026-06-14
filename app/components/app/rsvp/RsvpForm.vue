@@ -1,6 +1,7 @@
 <script lang="ts" setup>
-// RSVP step 3 (Story 3): attendee detail form. Supports adding additional guests.
-// Validation is intentionally minimal at the boilerplate stage.
+// RSVP step 3 (Story 3): attendee detail form. The primary guest's name is locked
+// from the search; additional guests get an editable name field. Layout follows
+// the "RSVP 2" design (placeholder-driven fields, Save guest / Add guest / RSVP).
 import TextField from "~/components/ui/TextField.vue";
 import SelectField from "~/components/ui/SelectField.vue";
 import BaseButton from "~/components/ui/BaseButton.vue";
@@ -12,10 +13,11 @@ import type { RsvpEntry } from "#shared/types/types";
 const store = useRsvpStore();
 const { content } = useContent();
 
-function blankEntry(): RsvpEntry {
+// A blank entry. `fromSearch` marks the primary guest (name locked from search).
+function blankEntry(fromSearch: boolean): RsvpEntry {
 	return {
-		guestId: store.selectedGuest?.id ?? null,
-		name: store.selectedGuest?.name ?? "",
+		guestId: fromSearch ? store.selectedGuest?.id ?? null : null,
+		name: fromSearch ? store.selectedGuest?.name ?? "" : "",
 		email: "",
 		phone: "",
 		mealPreference: "",
@@ -26,7 +28,10 @@ function blankEntry(): RsvpEntry {
 	};
 }
 
-const form = ref<RsvpEntry>(blankEntry());
+const form = ref<RsvpEntry>(blankEntry(true));
+
+// The primary guest's name is fixed; subsequent guests type their own.
+const isPrimaryGuest = computed(() => form.value.guestId !== null);
 
 const arrivalOptions = [
 	{ label: "Saturday only", value: ArrivalDay.Saturday },
@@ -36,37 +41,48 @@ const arrivalOptions = [
 const mealOptions = computed(() => content.value?.rsvp.mealOptions ?? []);
 const dietaryOptions = computed(() => content.value?.rsvp.dietaryOptions ?? []);
 
-function addGuest(): void {
-	store.addEntry(form.value);
-	form.value = blankEntry();
-	store.reset();
+// Commit the current form into the saved-guests list and start a fresh, editable
+// entry so another guest can be added.
+function saveGuest(): void {
+	if (!form.value.name.trim()) return;
+	store.addEntry({ ...form.value });
+	form.value = blankEntry(false);
 }
 
 async function submit(): Promise<void> {
-	store.addEntry(form.value);
+	// Fold any in-progress entry in before submitting.
+	if (form.value.name.trim()) {
+		store.addEntry({ ...form.value });
+		form.value = blankEntry(false);
+	}
 	await store.submit();
 }
 </script>
 
 <template>
 	<form class="rsvp-form" @submit.prevent="submit">
-		<TextField v-model="form.name" label="Name" required />
-		<TextField v-model="form.email" label="Email address" type="email" required />
-		<TextField v-model="form.phone" label="Phone number" type="tel" />
-		<SelectField v-model="form.mealPreference" label="Meal preference" :options="mealOptions" />
-		<SelectField v-model="form.dietaryRequirement" label="Dietary requirements" :options="dietaryOptions" />
-		<SelectField v-model="form.arrivalDay as string" label="I'm coming on" :options="arrivalOptions" />
-		<TextField v-model="form.songRequest" label="Song request for the DJ" />
+		<h2 class="rsvp-form__title">I am RSVPing for:</h2>
+		<TextField v-if="isPrimaryGuest" :model-value="form.name" tone="subtle" readonly />
+		<TextField v-else v-model="form.name" placeholder="Enter guest name" required />
 
-		<div v-if="store.entries.length" class="rsvp-form__added">
-			<p>Added guests:</p>
-			<ul>
-				<li v-for="(entry, i) in store.entries" :key="i">{{ entry.name }}</li>
-			</ul>
-		</div>
+		<TextField v-model="form.email" type="email" placeholder="Enter your email address" required />
+		<TextField v-model="form.phone" type="tel" placeholder="Enter your phone number" />
+		<SelectField v-model="form.mealPreference" placeholder="Select menu option" :options="mealOptions" />
+		<SelectField v-model="form.dietaryRequirement" placeholder="Dietary restrictions" :options="dietaryOptions" />
+		<SelectField v-model="form.arrivalDay as string" placeholder="I'm coming on" :options="arrivalOptions" />
 
-		<BaseButton variant="ghost" type="button" @click="addGuest">Add guest</BaseButton>
-		<BaseButton type="submit" :loading="store.isSubmitting">RSVP</BaseButton>
+		<ul v-if="store.entries.length" class="rsvp-form__added">
+			<li v-for="(entry, i) in store.entries" :key="i">{{ entry.name }} — added</li>
+		</ul>
+
+		<BaseButton variant="primary" type="button" @click="saveGuest">Save guest</BaseButton>
+
+		<button type="button" class="rsvp-form__add" @click="saveGuest">
+			<span class="rsvp-form__add-icon" aria-hidden="true">+</span>
+			<span class="rsvp-form__add-text">Add guest</span>
+		</button>
+
+		<BaseButton variant="secondary" type="submit" :loading="store.isSubmitting">RSVP</BaseButton>
 		<p v-if="store.error" class="rsvp-form__error">{{ store.error }}</p>
 	</form>
 </template>
@@ -78,9 +94,37 @@ async function submit(): Promise<void> {
 	gap: $space-sm;
 }
 
+.rsvp-form__title {
+	font-size: $font-size-base;
+	font-weight: $font-weight-regular;
+	color: $color-text;
+}
+
 .rsvp-form__added {
+	display: flex;
+	flex-direction: column;
+	gap: $space-3xs;
 	font-size: $font-size-sm;
 	color: $color-text-muted;
+}
+
+.rsvp-form__add {
+	display: inline-flex;
+	align-items: center;
+	gap: $space-2xs;
+	align-self: flex-start;
+	padding: $space-2xs;
+	color: $color-text;
+}
+
+.rsvp-form__add-icon {
+	font-size: $font-size-lg;
+	line-height: 1;
+}
+
+.rsvp-form__add-text {
+	font-size: $font-size-sm;
+	text-decoration: underline;
 }
 
 .rsvp-form__error {

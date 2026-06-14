@@ -1,5 +1,7 @@
 <script lang="ts" setup>
 // Text input wrapper (fj-vue form-field pattern). Works for text/email/tel.
+// The RSVP designs are placeholder-driven (no visible label) and use a soft gold
+// field tint; pass `tone="subtle"` for read-only / neutral fields.
 defineOptions({ inheritAttrs: false });
 
 const props = withDefaults(
@@ -9,6 +11,8 @@ const props = withDefaults(
 		required?: boolean;
 		type?: "text" | "email" | "tel";
 		placeholder?: string;
+		tone?: "default" | "subtle";
+		readonly?: boolean;
 	}>(),
 	{
 		label: "",
@@ -16,6 +20,8 @@ const props = withDefaults(
 		required: false,
 		type: "text",
 		placeholder: "",
+		tone: "default",
+		readonly: false,
 	},
 );
 
@@ -31,7 +37,8 @@ const model = defineModel<string>();
 			v-model="model"
 			:type="props.type"
 			:placeholder="props.placeholder"
-			class="form-field__input"
+			:readonly="props.readonly"
+			:class="['form-field__input', `form-field__input--${props.tone}`]"
 			v-bind="$attrs"
 		/>
 		<p v-if="props.error" class="form-field__error">{{ props.error }}</p>
@@ -57,11 +64,11 @@ const model = defineModel<string>();
 .form-field__input {
 	width: 100%;
 	min-height: 2.6875rem;
-	padding: $space-2xs $space-xs;
-	border: 1px solid $color-border;
-	border-radius: $radius-md;
-	background-color: $color-white;
-	font-size: $font-size-base;
+	padding: $space-3xs $space-md;
+	border: 1px solid $color-field-border;
+	border-radius: $radius-sm;
+	font-size: $font-size-sm;
+	color: $color-text;
 
 	&::placeholder {
 		color: $color-text-muted;
@@ -70,6 +77,18 @@ const model = defineModel<string>();
 	&:focus-visible {
 		border-color: $color-gold;
 	}
+
+	&[readonly] {
+		cursor: default;
+	}
+}
+
+.form-field__input--default {
+	background-color: $color-field;
+}
+
+.form-field__input--subtle {
+	background-color: $color-field-subtle;
 }
 
 .form-field__error {

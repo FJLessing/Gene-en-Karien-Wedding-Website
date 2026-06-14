@@ -1,6 +1,10 @@
 <script lang="ts" setup>
-// Primary CTA / action button. Embossed pill styling from the Figma tokens.
-type ButtonVariant = "primary" | "ghost";
+// Action button. Three variants mapped to the Figma "Button States" frame:
+//   primary   → gold fill, dark text          (main CTAs, "Save guest")
+//   secondary → dark fill, white text          (submit, "Book accommodation")
+//   ghost     → outlined, transparent fill     (tertiary actions)
+// Each variant has default / hover / on-click states. Hover adds a subtle lift.
+type ButtonVariant = "primary" | "secondary" | "ghost";
 
 const props = withDefaults(
 	defineProps<{
@@ -39,34 +43,76 @@ const emit = defineEmits<{ click: [event: MouseEvent]; }>();
 	justify-content: center;
 	gap: $space-2xs;
 	width: 100%;
-	min-height: 3rem;
-	padding: $space-xs $space-md;
-	border-radius: $radius-pill;
+	height: 3rem; // 48px
+	padding: 0 $space-md;
+	border: 1px solid transparent;
+	border-radius: $radius-sm; // 4px — the design uses rounded rectangles, not pills
 	font-family: $font-body;
 	font-weight: $font-weight-medium;
-	font-size: $font-size-base;
-	transition: transform $duration-fast $ease-standard, opacity $duration-fast $ease-standard;
+	font-size: $font-size-xs; // 12px
+	line-height: $line-height-loose; // 1.6
+	transition: transform $duration-fast $ease-standard, background-color $duration-fast $ease-standard,
+		box-shadow $duration-fast $ease-standard;
 
 	&:disabled {
 		opacity: 0.5;
 		cursor: not-allowed;
 	}
 
+	// Lift on hover (per the "add lift animation effect on hover" note).
+	&:not(:disabled):hover {
+		transform: translateY(-2px);
+		box-shadow: $shadow-soft;
+	}
+
 	&:not(:disabled):active {
-		transform: scale(0.98);
+		transform: translateY(0);
+		box-shadow: none;
+	}
+
+	@include reduced-motion {
+		transition: background-color $duration-fast $ease-standard;
+
+		&:not(:disabled):hover,
+		&:not(:disabled):active {
+			transform: none;
+		}
 	}
 }
 
+// ── Primary: gold fill, dark text ──────────────────────────────────────────────
 .base-button--primary {
 	background-color: $color-gold;
-	color: $color-white;
-	box-shadow: $shadow-soft;
+	color: $color-text;
+
+	&:not(:disabled):active {
+		background-color: $color-light-gold-1;
+	}
 }
 
+// ── Secondary: dark fill, white text ───────────────────────────────────────────
+.base-button--secondary {
+	background-color: $color-black;
+	color: $color-white;
+
+	&:not(:disabled):active {
+		background-color: $color-grey;
+	}
+}
+
+// ── Ghost / tertiary: outlined ─────────────────────────────────────────────────
 .base-button--ghost {
 	background-color: transparent;
+	border-color: $color-black;
 	color: $color-text;
-	box-shadow: $shadow-embossed;
+
+	&:not(:disabled):hover {
+		background-color: $color-light-gold-1;
+	}
+
+	&:not(:disabled):active {
+		background-color: $color-gold;
+	}
 }
 
 .base-button__spinner {

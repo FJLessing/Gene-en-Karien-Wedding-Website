@@ -58,17 +58,19 @@ export default defineEventHandler((): SiteContent => {
 				body: "Kindly note all activities have to be booked with the venue in advance.",
 				bookingUrl: "",
 			},
+			// Images downloaded from dunkeldestate.co.za/activities (public/img/activities).
+			// Activities without a matching estate photo carry an empty image.
 			activities: [
-				{ title: "Horse Riding", image: "", description: "Take a guided ride through the estate's rolling hills.", link: "" },
-				{ title: "Fly Fishing", image: "", description: "Cast a line in the estate's crystal-clear trout dams.", link: "" },
-				{ title: "Archery", image: "", description: "Test your aim at the estate's archery range.", link: "" },
-				{ title: "Paintball", image: "", description: "Gather a team for a friendly paintball skirmish.", link: "" },
+				{ title: "Horse Riding", image: "/img/activities/horse_riding.webp", description: "Take a guided ride through the estate's rolling hills.", link: "https://www.dunkeldestate.co.za/horse-riding/" },
+				{ title: "Fly Fishing", image: "/img/activities/fly_fishing.webp", description: "Cast a line in the estate's crystal-clear trout dams.", link: "https://www.dunkeldestate.co.za/fly-fishing/" },
+				{ title: "Archery", image: "", description: "Test your aim at the estate's archery range.", link: "https://www.dunkeldestate.co.za/archery-2/" },
+				{ title: "Paintball", image: "/img/activities/paintball.webp", description: "Gather a team for a friendly paintball skirmish.", link: "https://www.dunkeldestate.co.za/paintball-2/" },
 				{ title: "Spa", image: "", description: "Unwind with a treatment at the estate spa.", link: "" },
-				{ title: "Four Wheeling", image: "", description: "Explore the countryside on a four-wheeler.", link: "" },
-				{ title: "Hiking & Running", image: "", description: "Follow the trails through pine forests and hills.", link: "" },
-				{ title: "Mini Golf", image: "", description: "A relaxed round of putt-putt on the estate.", link: "" },
-				{ title: "Mountain Biking", image: "", description: "Ride the estate's scenic mountain-bike trails.", link: "" },
-				{ title: "Padel", image: "", description: "Book a court for a social game of padel.", link: "" },
+				{ title: "Four Wheeling", image: "/img/activities/quad_biking.webp", description: "Explore the countryside on a four-wheeler.", link: "https://www.dunkeldestate.co.za/quad-biking/" },
+				{ title: "Hiking & Running", image: "/img/activities/hiking_running.webp", description: "Follow the trails through pine forests and hills.", link: "https://www.dunkeldestate.co.za/hiking-running/" },
+				{ title: "Mini Golf", image: "", description: "A relaxed round of putt-putt on the estate.", link: "https://www.dunkeldestate.co.za/adventure-centre/" },
+				{ title: "Mountain Biking", image: "/img/activities/mountain_biking.webp", description: "Ride the estate's scenic mountain-bike trails.", link: "https://www.dunkeldestate.co.za/mountain-biking/" },
+				{ title: "Padel", image: "/img/activities/padel.webp", description: "Book a court for a social game of padel.", link: "https://www.dunkeldestate.co.za/activities/" },
 			],
 		},
 		areaActivities: [

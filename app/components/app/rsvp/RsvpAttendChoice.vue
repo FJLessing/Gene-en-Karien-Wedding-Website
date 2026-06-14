@@ -1,21 +1,40 @@
 <script lang="ts" setup>
-// RSVP step 2 (Story 3): attendance choice.
-import BaseButton from "~/components/ui/BaseButton.vue";
+// RSVP step 2 (Story 3): attendance choice, presented as two selectable rows.
+import TextField from "~/components/ui/TextField.vue";
 import { useRsvpStore } from "~/stores/rsvp-store";
 import { AttendanceChoice } from "#shared/types/types";
 
 const store = useRsvpStore();
+
+const selectedName = computed(() => store.selectedGuest?.name ?? "");
+
+function choose(choice: AttendanceChoice): void {
+	store.setAttendance(choice);
+}
 </script>
 
 <template>
 	<div class="attend-choice">
-		<p v-if="store.selectedGuest" class="attend-choice__name">
-			I am RSVPing for: <strong>{{ store.selectedGuest.name }}</strong>
-		</p>
-		<BaseButton @click="store.setAttendance(AttendanceChoice.Attending)">Yes, can't wait!</BaseButton>
-		<BaseButton variant="ghost" @click="store.setAttendance(AttendanceChoice.Declined)">
-			Unfortunately I won't be able to.
-		</BaseButton>
+		<h2 class="attend-choice__title">I am RSVPing for:</h2>
+		<TextField :model-value="selectedName" tone="subtle" readonly />
+
+		<h2 class="attend-choice__title">I am attending</h2>
+		<div class="attend-choice__options">
+			<button
+				type="button"
+				:class="['attend-choice__option', { 'attend-choice__option--selected': store.attendance === AttendanceChoice.Attending }]"
+				@click="choose(AttendanceChoice.Attending)"
+			>
+				Yes, can't wait!
+			</button>
+			<button
+				type="button"
+				:class="['attend-choice__option', { 'attend-choice__option--selected': store.attendance === AttendanceChoice.Declined }]"
+				@click="choose(AttendanceChoice.Declined)"
+			>
+				Unfortunately I won't be able to.
+			</button>
+		</div>
 	</div>
 </template>
 
@@ -26,8 +45,37 @@ const store = useRsvpStore();
 	gap: $space-sm;
 }
 
-.attend-choice__name {
+.attend-choice__title {
+	font-size: $font-size-base;
+	font-weight: $font-weight-regular;
+	color: $color-text;
+}
+
+.attend-choice__options {
+	display: flex;
+	flex-direction: column;
+	gap: $space-2xs;
+}
+
+.attend-choice__option {
+	width: 100%;
+	min-height: 2.6875rem;
+	padding: $space-3xs $space-md;
+	border: 1px solid $color-field-border;
+	border-radius: $radius-sm;
+	background-color: $color-field-subtle;
 	font-size: $font-size-sm;
-	color: $color-text-muted;
+	color: $color-text;
+	text-align: left;
+	transition: background-color $duration-fast $ease-standard, border-color $duration-fast $ease-standard;
+
+	&:hover {
+		border-color: $color-gold;
+	}
+}
+
+.attend-choice__option--selected {
+	background-color: $color-field;
+	border-color: $color-gold;
 }
 </style>
