@@ -22,9 +22,9 @@ definePageMeta({ layout: false });
 const { isUnlocked, unlock } = useAccess();
 
 // Hydrate content up front so sections have data on first paint.
-useContent();
+const { content } = useContent();
 
-SEOService.set({ title: "", description: "You are invited to celebrate with us." });
+SEOService.set({ description: () => content.value?.ui.meta.homeDescription });
 </script>
 
 <template>

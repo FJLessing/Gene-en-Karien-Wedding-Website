@@ -7,7 +7,7 @@ const { content } = useContent();
 
 <template>
 	<section v-if="content" class="faq u-content">
-		<h2 class="faq__heading u-heading">FAQs</h2>
+		<h2 class="faq__heading u-heading">{{ content.ui.faqs.heading }}</h2>
 		<BaseAccordion v-for="faq in content.faqs" :key="faq.question" :title="faq.question">
 			<p>{{ faq.answer }}</p>
 		</BaseAccordion>

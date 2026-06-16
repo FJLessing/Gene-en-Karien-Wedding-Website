@@ -14,9 +14,10 @@ A mobile-first wedding website built with **Nuxt 4 + Vue 3 + GSAP + SCSS**. See
 - Full RSVP multi-step flow: search → attendance → form → confirm; Sheets append (server util stubbed)
 - Photo upload → GCS route (server util stubbed)
 - All API routes, server utils, Pinia stores, shared types
+- **English + Afrikaans translation** — per-locale content files, browser auto-detect, footer toggle, cookie persistence
 
 **Pending / In Review**
-- Content copy — served from `server/api/content.get.ts`; needs sign-off
+- Content copy — served from `server/content/{en,af}.ts`; needs sign-off (Afrikaans needs a native proofread)
 - Google Sheets & GCS credentials (real env vars not yet wired)
 - Hero imagery — venue + couple photos
 - Gallery grid rendering + date-gated unlock
@@ -29,6 +30,7 @@ A mobile-first wedding website built with **Nuxt 4 + Vue 3 + GSAP + SCSS**. See
 - **GSAP + ScrollTrigger** for animation
 - **SCSS** — design tokens + mixins auto-injected; no Tailwind; no pixel units
 - **fuse.js** — RSVP fuzzy guest search
+- **i18n** — lightweight, content-driven (EN/AF); no `@nuxtjs/i18n` dependency
 - **Server:** Nitro API routes → Google Sheets (RSVPs) + GCP Cloud Storage (photos)
 
 ## Getting started
@@ -50,8 +52,9 @@ Follows the `fj-vue` conventions adapted for Nuxt:
 - Pinia Options Stores with `isLoading`/`error` + `acceptHMRUpdate`
 - `<style scoped lang="scss">` for components; global SCSS in `app/assets/scss/`
 - All client API calls go through the static `ApiService` (`$fetch` wrapper → `Result<T>`)
-- Content flows from `/api/content` → `content-store` → `use-content()` — never hardcoded
-- Auth is a URL-param/password gate in middleware — no user accounts, no cookies
+- Content flows from `/api/content` → `content-store` → `use-content()` — never hardcoded (UI chrome included, under `SiteContent.ui`)
+- Translations live in `server/content/en.ts` + `af.ts` (keep both in sync); add a string to `SiteUi`/`SiteContent`, fill both locales, read via `content.ui.*`
+- Auth is a URL-param/password gate in middleware — locale preference is the only cookie
 
 ## Project structure
 
@@ -61,24 +64,25 @@ app/
   components/
     ui/                 BaseButton, BaseModal, BaseAccordion, TextField, SelectField
     app/
-      layout/           AppLoader, AppFooter, EnvelopeGate
+      layout/           AppLoader, AppFooter, EnvelopeGate, LocaleToggle
       sections/         HeroSection, CountdownTimer, WelcomeSection, DetailsSection,
                         ProgramSection, DressCodeSection, VenueSection,
                         AreaActivitiesSection, FaqSection, RsvpCta
       rsvp/             RsvpSearch, RsvpAttendChoice, RsvpForm, RsvpConfirm
       PhotoUpload.vue
-  composables/          use-gsap, use-reveal, use-access, use-content
+  composables/          use-gsap, use-reveal, use-access, use-content (locale-aware)
   layouts/              default (with footer), minimal
   middleware/           auth-gate.global
   pages/                index, rsvp, gallery
-  plugins/              gsap.client (registers GSAP + ScrollTrigger)
+  plugins/              gsap.client (GSAP + ScrollTrigger), locale (detect + <html lang>)
   services/             api-service, seo-service
-  stores/               content-store, rsvp-store
+  stores/               content-store, rsvp-store, locale-store
 server/
-  api/                  auth.post, content.get, guests.get, rsvp.post, photos.post
+  api/                  auth.post, content.get (locale-aware), guests.get, rsvp.post, photos.post
+  content/              en.ts, af.ts  — per-locale SiteContent (copy + UI strings)
   utils/                sheets.ts, storage.ts
 shared/
-  types/types.ts        Enums + interfaces (Guest, RsvpEntry, SiteContent, …)
+  types/types.ts        Enums + interfaces (Locale, Guest, RsvpEntry, SiteContent, SiteUi, …)
   utils/result.ts       Result<T> envelope
 public/
   fonts/                Poppins (Light/Regular/Medium), Bagien Regular

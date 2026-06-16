@@ -19,7 +19,7 @@ function close(): void {
 
 <template>
 	<section v-if="content" class="area u-content">
-		<BaseAccordion title="Dullstroom activities">
+		<BaseAccordion :title="content.ui.areaActivities.heading">
 			<ul class="area__list">
 				<li v-for="activity in content.areaActivities" :key="activity.title">
 					<button class="area__item" @click="open(activity)">{{ activity.title }}</button>
@@ -30,7 +30,7 @@ function close(): void {
 		<BaseModal :open="selected !== null" :title="selected?.title" @close="close">
 			<p v-if="selected">{{ selected.description }}</p>
 			<a v-if="selected?.link" :href="selected.link" class="area__link" target="_blank" rel="noopener">
-				Learn more
+				{{ content.ui.areaActivities.learnMore }}
 			</a>
 		</BaseModal>
 	</section>

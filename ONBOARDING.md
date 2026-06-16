@@ -32,6 +32,8 @@ http://localhost:3000/?invite=anything
 
 Any value for the `invite` param unlocks the site. The param name is controlled by `NUXT_PUBLIC_ACCESS_PARAM` (default: `invite`). To test the password flow, set `NUXT_SITE_PASSWORD=yourpassword` in `.env` and visit without the param.
 
+The site is bilingual (English + Afrikaans). It opens in English by default — Afrikaans is auto-selected only if it's your browser's most-preferred language — and you can switch any time with the **EN/AF toggle in the footer** (the choice is remembered via a cookie). See [§7 Translations](#7-translations--enaf) for how it works and how to add strings.
+
 ---
 
 ## Nuxt 4 caveats
@@ -116,7 +118,8 @@ app/
     ui/                 Generic, reusable primitives (BaseButton, BaseModal, BaseAccordion,
                         TextField, SelectField). No domain logic.
     app/
-      layout/           AppLoader (route transition), AppFooter, EnvelopeGate (Story 1)
+      layout/           AppLoader (route transition), AppFooter, EnvelopeGate (Story 1),
+                        LocaleToggle (footer EN/AF switch)
       sections/         One component per landing-page section (see below)
       rsvp/             RSVP multi-step flow components
       PhotoUpload.vue
@@ -124,7 +127,7 @@ app/
     use-gsap.ts         Access GSAP + ScrollTrigger; always use this, never import gsap directly
     use-reveal.ts       Scroll-entrance animation helper (wraps GSAP + ScrollTrigger)
     use-access.ts       Access gate state (isUnlocked, verifyPassword, unlock)
-    use-content.ts      Hydrates and exposes site content from content-store
+    use-content.ts      Hydrates and exposes site content; refetches on locale change
   layouts/
     default.vue         Standard layout with footer
     minimal.vue         Centered column, no footer (RSVP, gallery pages)
@@ -136,26 +139,31 @@ app/
     gallery.vue         Photo gallery (Story 4)
   plugins/
     gsap.client.ts      Registers GSAP + ScrollTrigger; provides $gsap and $ScrollTrigger
+    locale.ts           Resolves active locale on startup; binds <html lang>
   services/
     api-service.ts      $fetch wrapper; every client HTTP call goes through here
-    seo-service.ts      useSeoMeta() helper
+    seo-service.ts      useSeoMeta() helper; accepts getters for localised/reactive meta
   stores/
-    content-store.ts    Site content (fetched once from /api/content)
+    content-store.ts    Site content for the active locale (fetched from /api/content)
     rsvp-store.ts       RSVP multi-step state + fuse.js guest search
+    locale-store.ts     Active language (detect / cookie / setLocale)
 
 server/
   api/
     auth.post.ts        POST /api/auth   — password verification
-    content.get.ts      GET  /api/content — site copy (edit this to update text)
+    content.get.ts      GET  /api/content — returns the locale file for ?locale= (default en)
     guests.get.ts       GET  /api/guests  — guest list from Sheets
     rsvp.post.ts        POST /api/rsvp   — append RSVP to Sheets
     photos.post.ts      POST /api/photos — upload to GCS
+  content/
+    en.ts               English SiteContent — copy + UI strings (edit to update text)
+    af.ts               Afrikaans SiteContent — keep structurally in sync with en.ts
   utils/
     sheets.ts           fetchGuestList(), appendRsvpRows() — Google Sheets integration
     storage.ts          uploadPhotos() — GCP Cloud Storage integration
 
 shared/
-  types/types.ts        All enums and interfaces used by both app and server
+  types/types.ts        All enums and interfaces (Locale, SiteContent, SiteUi, …)
   utils/result.ts       Result<T> class
 ```
 
@@ -165,14 +173,15 @@ shared/
 
 ### 1. Content — never hardcode
 
-All user-facing copy lives in `server/api/content.get.ts`. It returns a `SiteContent` object (typed in `shared/types/types.ts`). Components read it through `use-content.ts`:
+All user-facing text — both editorial copy **and** UI chrome (headings, button labels, placeholders, error/confirmation messages) — lives in the per-locale content files `server/content/en.ts` and `server/content/af.ts`. Each exports a `SiteContent` object (typed in `shared/types/types.ts`); UI chrome sits under its `ui` field (`SiteUi`). `server/api/content.get.ts` just returns the file matching `?locale=`. Components read it through `use-content.ts`:
 
 ```ts
 const { content, ready } = useContent();
-// content.value?.event.dateLabel, etc.
+// content.value?.event.dateLabel        — editorial copy
+// content.value?.ui.details.heading      — UI chrome
 ```
 
-To update wording, add a field, or change dates: edit `content.get.ts`. The shape is enforced by `SiteContent` — add new fields to the interface in `shared/types/types.ts` first if needed.
+To update wording, add a field, or change dates: edit the locale files (not the API route). The shape is enforced by `SiteContent`/`SiteUi`, so a field added to the type must exist in **both** locale files or the typecheck fails. **Never** put a literal user-facing string in a component — see [§7 Translations](#7-translations--enaf) for the full workflow.
 
 ### 2. API calls — always `ApiService` → `Result<T>`
 
@@ -260,15 +269,55 @@ All discrete string values must be enums defined in `shared/types/types.ts`. Do 
 
 No `px` units. Use `rem`, `em`, `%`, `vh`, `dvh`. No Tailwind.
 
+### 7. Translations — EN/AF
+
+The site is bilingual (English + Afrikaans) using a lightweight, content-driven approach — **no `@nuxtjs/i18n`**. The moving parts:
+
+- **`server/content/en.ts`, `server/content/af.ts`** — the two sources of truth. Structurally identical `SiteContent` objects; `af.ts` is the Afrikaans translation of `en.ts`.
+- **`server/api/content.get.ts`** — reads `?locale=` and returns the matching file (defaults to `en` for anything unrecognised).
+- **`app/stores/locale-store.ts`** — holds the active `Locale`. On first visit it resolves cookie → browser preference → English, and persists the choice in a `locale` cookie. `setLocale()` switches language.
+- **`app/plugins/locale.ts`** — runs the detection on startup (server + client) and keeps `<html lang>` in sync.
+- **`app/composables/use-content.ts`** — fetches content for the active locale and **refetches when the language changes** (the `useAsyncData` key and `watch` are locale-bound).
+- **`app/components/app/layout/LocaleToggle.vue`** — the EN/AF switch in the footer.
+
+**Default language is English.** Afrikaans is auto-selected only when it is the visitor's *most-preferred* browser language (top of `navigator.languages`, or the highest `q`-value in `Accept-Language`); Afrikaans listed only as a low-priority fallback still yields English. The footer toggle overrides detection and persists in the cookie.
+
+#### Adding or changing a translatable string
+
+1. **Type first.** Add the field to `SiteContent` (editorial copy) or `SiteUi` (UI chrome) in `shared/types/types.ts`.
+2. **Fill both locales.** Add the field to `server/content/en.ts` **and** `server/content/af.ts`. Skipping one fails the typecheck — that's the safety net.
+3. **Read it in the component** via `content.value?.ui.<section>.<key>` (or `content.value?.<field>`). Never inline the literal.
+4. For page `<title>`/meta, pass a **getter** to `SEOService.set` so it updates live on language switch:
+   ```ts
+   const { content } = useContent();
+   SEOService.set({ title: () => content.value?.ui.rsvp.metaTitle });
+   ```
+
+#### What must NOT be translated (keep identical in both files)
+
+- Option **`value`s** for meal / dietary / arrival selects — they key the Google Sheet. Translate the `label` only.
+- `program[].items[].icon` (icon keys), image paths, external `link`s, `mapUrl`/`bookingUrl`.
+- `event.startsAt` (ISO timestamp driving the countdown), and proper nouns you don't want changed (names, venue).
+
+#### Verifying
+
+```bash
+bun run typecheck                       # both locale files must satisfy SiteContent
+curl 'localhost:3000/api/content?locale=af' | jq .ui.details.heading   # → "Die besonderhede"
+curl 'localhost:3000/api/content?locale=xx' | jq .ui.details.heading   # → "The details" (fallback)
+```
+
+In the browser, switch via the footer toggle and confirm every section, the RSVP flow, the gate, the footer, and the page `<title>`/`<html lang>` update with no leftover text. The choice should survive a reload (cookie).
+
 ---
 
 ## Adding a new landing-page section
 
 1. Create `app/components/app/sections/MySectionName.vue`
-2. Use `useContent()` to pull data — add any new fields to `SiteContent` in `shared/types/types.ts` and to the return value in `server/api/content.get.ts`
+2. Use `useContent()` to pull data — add any new fields to `SiteContent`/`SiteUi` in `shared/types/types.ts` and fill them in **both** `server/content/en.ts` and `server/content/af.ts` (see [§7 Translations](#7-translations--enaf))
 3. Use `useReveal()` for scroll entrances
 4. Mount it in `app/pages/index.vue` in the correct order
-5. No hardcoded copy in the component — everything via `content.value`
+5. No hardcoded copy in the component — every string (including headings and button labels) via `content.value` / `content.value.ui`
 
 ---
 

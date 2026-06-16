@@ -3,6 +3,7 @@
 import BaseButton from "~/components/ui/BaseButton.vue";
 import { ApiService } from "~/services/api-service";
 
+const { content } = useContent();
 const files = ref<File[]>([]);
 const isUploading = ref(false);
 const message = ref("");
@@ -23,7 +24,10 @@ async function upload(): Promise<void> {
 
 	const result = await ApiService._request("/api/photos", "POST", undefined, formData, true);
 	isUploading.value = false;
-	message.value = result.success ? "Thanks for sharing your photos!" : result.msg || "Upload failed.";
+	const ui = content.value?.ui.photoUpload;
+	message.value = result.success
+		? ui?.success ?? "Thanks for sharing your photos!"
+		: result.msg || ui?.failed || "Upload failed.";
 }
 </script>
 
@@ -31,10 +35,10 @@ async function upload(): Promise<void> {
 	<div class="photo-upload">
 		<label class="photo-upload__label">
 			<input type="file" accept="image/*" multiple class="photo-upload__input" @change="onChange" />
-			<span>Choose photo(s)</span>
+			<span>{{ content?.ui.photoUpload.choose }}</span>
 		</label>
-		<p v-if="files.length" class="photo-upload__count">{{ files.length }} selected</p>
-		<BaseButton :disabled="files.length === 0" :loading="isUploading" @click="upload">Upload photos</BaseButton>
+		<p v-if="files.length" class="photo-upload__count">{{ files.length }} {{ content?.ui.photoUpload.selectedSuffix }}</p>
+		<BaseButton :disabled="files.length === 0" :loading="isUploading" @click="upload">{{ content?.ui.photoUpload.upload }}</BaseButton>
 		<p v-if="message" class="photo-upload__message">{{ message }}</p>
 	</div>
 </template>

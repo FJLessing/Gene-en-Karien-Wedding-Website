@@ -31,7 +31,7 @@ useReveal(root, { direction: "fade", duration: 1 });
 		</div>
 		<div class="hero__scroll" aria-hidden="true">
 			<BaseScrollIndicator />
-			<span>scroll</span>
+			<span>{{ content?.ui.nav.scroll }}</span>
 		</div>
 	</section>
 </template>

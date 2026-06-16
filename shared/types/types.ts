@@ -6,6 +6,14 @@ export enum AccessState {
 	Unlocked = "unlocked",
 }
 
+// ── Localisation ─────────────────────────────────────────────────────────────
+// Supported site languages. Drives the content API (`/api/content?locale=`) and
+// the footer language toggle. English is the default / fallback.
+export enum Locale {
+	En = "en",
+	Af = "af",
+}
+
 // ── RSVP (Story 3) ───────────────────────────────────────────────────────────
 export enum RsvpStep {
 	Search = "search",
@@ -78,6 +86,50 @@ export interface FaqItem {
 	answer: string;
 }
 
+// UI chrome strings (headings, buttons, labels, placeholders, messages). Kept in
+// the locale-aware content object so they translate alongside the copy — no
+// hardcoded strings in components (AGENTS.md rule).
+export interface SiteUi {
+	nav: { rsvpHere: string; back: string; backHome: string; scroll: string };
+	countdown: { ariaLabel: string; days: string; hours: string; minutes: string; seconds: string };
+	details: { heading: string; when: string; where: string; rsvpBy: string };
+	program: { heading: string };
+	dressCode: { heading: string };
+	venue: {
+		heading: string;
+		bookAccommodation: string;
+		activitiesTitle: string;
+		downloadMap: string;
+		bookNow: string;
+	};
+	areaActivities: { heading: string; learnMore: string };
+	faqs: { heading: string };
+	gate: { passwordLabel: string; passwordPlaceholder: string; open: string; wrongPassword: string };
+	loader: { loading: string };
+	gallery: { metaTitle: string; heading: string; lockedMessage: string };
+	photoUpload: { choose: string; selectedSuffix: string; upload: string; success: string; failed: string };
+	rsvp: {
+		metaTitle: string;
+		rsvpingFor: string;
+		searchPlaceholder: string;
+		notFound: string;
+		attendingHeading: string;
+		yes: string;
+		no: string;
+		arrivalOptions: SelectOption[];
+		placeholders: { guestName: string; email: string; phone: string; meal: string; dietary: string; arrival: string };
+		addedSuffix: string;
+		saveGuest: string;
+		addGuest: string;
+		submit: string;
+		thankYou: string;
+		attendingMsg: string;
+		declinedMsg: string;
+	};
+	meta: { homeDescription: string };
+	errors: { content: string; guests: string; rsvpSubmit: string; request: string };
+}
+
 export interface SiteContent {
 	couple: {
 		nameOne: string;
@@ -110,4 +162,5 @@ export interface SiteContent {
 		dietaryOptions: SelectOption[];
 	};
 	footer: { tagline: string };
+	ui: SiteUi;
 }

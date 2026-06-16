@@ -7,7 +7,7 @@ import SelectField from "~/components/ui/SelectField.vue";
 import BaseButton from "~/components/ui/BaseButton.vue";
 import { useContent } from "~/composables/use-content";
 import { useRsvpStore } from "~/stores/rsvp-store";
-import { ArrivalDay, AttendanceChoice } from "#shared/types/types";
+import { AttendanceChoice } from "#shared/types/types";
 import type { RsvpEntry } from "#shared/types/types";
 
 const store = useRsvpStore();
@@ -33,13 +33,10 @@ const form = ref<RsvpEntry>(blankEntry(true));
 // The primary guest's name is fixed; subsequent guests type their own.
 const isPrimaryGuest = computed(() => form.value.guestId !== null);
 
-const arrivalOptions = [
-	{ label: "Saturday only", value: ArrivalDay.Saturday },
-	{ label: "Friday and Saturday", value: ArrivalDay.Friday },
-];
-
+const arrivalOptions = computed(() => content.value?.ui.rsvp.arrivalOptions ?? []);
 const mealOptions = computed(() => content.value?.rsvp.mealOptions ?? []);
 const dietaryOptions = computed(() => content.value?.rsvp.dietaryOptions ?? []);
+const ui = computed(() => content.value?.ui.rsvp);
 
 // Commit the current form into the saved-guests list and start a fresh, editable
 // entry so another guest can be added.
@@ -61,28 +58,28 @@ async function submit(): Promise<void> {
 
 <template>
 	<form class="rsvp-form" @submit.prevent="submit">
-		<h2 class="rsvp-form__title">I am RSVPing for:</h2>
+		<h2 class="rsvp-form__title">{{ ui?.rsvpingFor }}</h2>
 		<TextField v-if="isPrimaryGuest" :model-value="form.name" tone="subtle" readonly />
-		<TextField v-else v-model="form.name" placeholder="Enter guest name" required />
+		<TextField v-else v-model="form.name" :placeholder="ui?.placeholders.guestName" required />
 
-		<TextField v-model="form.email" type="email" placeholder="Enter your email address" required />
-		<TextField v-model="form.phone" type="tel" placeholder="Enter your phone number" />
-		<SelectField v-model="form.mealPreference" placeholder="Select menu option" :options="mealOptions" />
-		<SelectField v-model="form.dietaryRequirement" placeholder="Dietary restrictions" :options="dietaryOptions" />
-		<SelectField v-model="form.arrivalDay as string" placeholder="I'm coming on" :options="arrivalOptions" />
+		<TextField v-model="form.email" type="email" :placeholder="ui?.placeholders.email" required />
+		<TextField v-model="form.phone" type="tel" :placeholder="ui?.placeholders.phone" />
+		<SelectField v-model="form.mealPreference" :placeholder="ui?.placeholders.meal" :options="mealOptions" />
+		<SelectField v-model="form.dietaryRequirement" :placeholder="ui?.placeholders.dietary" :options="dietaryOptions" />
+		<SelectField v-model="form.arrivalDay as string" :placeholder="ui?.placeholders.arrival" :options="arrivalOptions" />
 
 		<ul v-if="store.entries.length" class="rsvp-form__added">
-			<li v-for="(entry, i) in store.entries" :key="i">{{ entry.name }} — added</li>
+			<li v-for="(entry, i) in store.entries" :key="i">{{ entry.name }} {{ ui?.addedSuffix }}</li>
 		</ul>
 
-		<BaseButton variant="primary" type="button" @click="saveGuest">Save guest</BaseButton>
+		<BaseButton variant="primary" type="button" @click="saveGuest">{{ ui?.saveGuest }}</BaseButton>
 
 		<button type="button" class="rsvp-form__add" @click="saveGuest">
 			<span class="rsvp-form__add-icon" aria-hidden="true">+</span>
-			<span class="rsvp-form__add-text">Add guest</span>
+			<span class="rsvp-form__add-text">{{ ui?.addGuest }}</span>
 		</button>
 
-		<BaseButton variant="secondary" type="submit" :loading="store.isSubmitting">RSVP</BaseButton>
+		<BaseButton variant="secondary" type="submit" :loading="store.isSubmitting">{{ ui?.submit }}</BaseButton>
 		<p v-if="store.error" class="rsvp-form__error">{{ store.error }}</p>
 	</form>
 </template>

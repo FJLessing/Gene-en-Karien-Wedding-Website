@@ -12,6 +12,7 @@ import { SEOService } from "~/services/seo-service";
 definePageMeta({ layout: "minimal" });
 
 const store = useRsvpStore();
+const { content } = useContent();
 
 // The confirmation screen is self-contained (no monogram/back chrome).
 const showChrome = computed(() => store.step !== RsvpStep.Confirm);
@@ -27,7 +28,7 @@ function goBack(): void {
 	}
 }
 
-SEOService.set({ title: "RSVP" });
+SEOService.set({ title: () => content.value?.ui.rsvp.metaTitle });
 </script>
 
 <template>
@@ -36,7 +37,7 @@ SEOService.set({ title: "RSVP" });
 			<img src="/logo.svg" alt="" class="rsvp-page__logo" />
 			<button class="rsvp-page__back" type="button" @click="goBack">
 				<span class="rsvp-page__back-caret" aria-hidden="true" />
-				Back
+				{{ content?.ui.nav.back }}
 			</button>
 		</template>
 

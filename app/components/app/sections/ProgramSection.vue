@@ -66,7 +66,7 @@ onMounted(() => {
 
 <template>
 	<section class="program u-content">
-		<h2 class="program__heading u-heading">The program</h2>
+		<h2 class="program__heading u-heading">{{ content?.ui.program.heading }}</h2>
 
 		<div class="program__tabs" role="tablist">
 			<button

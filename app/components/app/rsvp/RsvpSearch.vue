@@ -5,6 +5,7 @@ import { useRsvpStore } from "~/stores/rsvp-store";
 import type { Guest } from "#shared/types/types";
 
 const store = useRsvpStore();
+const { content } = useContent();
 const query = ref("");
 
 watch(query, (value) => store.search(value));
@@ -20,8 +21,8 @@ const showNoResults = computed(() => query.value.trim().length >= 3 && !store.ha
 
 <template>
 	<div class="rsvp-search">
-		<h2 class="rsvp-search__title">I am RSVPing for:</h2>
-		<TextField v-model="query" placeholder="Type your name to search" type="text" tone="subtle" />
+		<h2 class="rsvp-search__title">{{ content?.ui.rsvp.rsvpingFor }}</h2>
+		<TextField v-model="query" :placeholder="content?.ui.rsvp.searchPlaceholder" type="text" tone="subtle" />
 
 		<ul v-if="store.hasResults" class="rsvp-search__results">
 			<li v-for="guest in store.searchResults" :key="guest.id">
@@ -30,7 +31,7 @@ const showNoResults = computed(() => query.value.trim().length >= 3 && !store.ha
 		</ul>
 
 		<p v-else-if="showNoResults" class="rsvp-search__empty">
-			We couldn't find that name. Please try again.
+			{{ content?.ui.rsvp.notFound }}
 		</p>
 	</div>
 </template>

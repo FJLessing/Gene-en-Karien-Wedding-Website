@@ -8,7 +8,7 @@ Nuxt 4 `srcDir: 'app/'`. Three root-level dirs matter:
 
 ```
 app/        Vue source (pages, components, composables, stores, services, plugins, layouts)
-server/     Nitro API routes + utils (sheets.ts, storage.ts)
+server/     Nitro API routes + utils (sheets.ts, storage.ts) + content/ (per-locale copy)
 shared/     Types + Result class — imported by both app and server, no Vue deps allowed here
 ```
 
@@ -21,18 +21,24 @@ shared/     Types + Result class — imported by both app and server, no Vue dep
 
 | File | Purpose |
 |---|---|
-| `server/api/content.get.ts` | All site copy — edit here, never hardcode in components |
-| `shared/types/types.ts` | All enums and interfaces |
+| `server/content/en.ts`, `af.ts` | All site copy + UI strings, one file per locale — edit here, never hardcode in components |
+| `server/api/content.get.ts` | Returns the right locale file for `?locale=` (defaults to `en`) |
+| `shared/types/types.ts` | All enums and interfaces (incl. `Locale`, `SiteContent`, `SiteUi`) |
 | `shared/utils/result.ts` | `Result<T>` envelope |
 | `app/services/api-service.ts` | `ApiService._request<T>()` — only way to call `/api/*` from client |
+| `app/services/seo-service.ts` | `SEOService.set({ title, description })` — accepts getters for reactive/localised meta |
 | `app/composables/use-gsap.ts` | GSAP access — always use this, never `import gsap` |
 | `app/composables/use-reveal.ts` | Scroll-reveal helper (`useReveal(ref, { direction, delay })`) |
-| `app/composables/use-content.ts` | `const { content, ready } = useContent()` |
+| `app/composables/use-content.ts` | `const { content, ready } = useContent()` — locale-aware, refetches on language change |
+| `app/stores/locale-store.ts` | Active language; detect/cookie/`setLocale()` |
+| `app/plugins/locale.ts` | Resolves the locale on startup, binds `<html lang>` |
+| `app/components/app/layout/LocaleToggle.vue` | Footer EN/AF switch |
 | `app/assets/scss/_tokens.scss` | Design tokens (colours, fonts, easing) |
 
 ## Rules
 
-- **Content**: all copy flows from `/api/content` → `content-store` → `useContent()`. Never hardcode strings in components.
+- **Content**: all copy flows from `/api/content` → `content-store` → `useContent()`. Never hardcode strings in components — this includes UI chrome (headings, buttons, labels, placeholders, error/confirmation messages), which lives under `SiteContent.ui`.
+- **i18n (EN/AF)**: every user-facing string is keyed per locale in `server/content/en.ts` and `server/content/af.ts` — keep both files structurally identical (the `SiteContent` type enforces this). Translate human-readable text only; keep option `value`s (meal/dietary/arrival — they key the Sheet), `program[].icon`, image paths, links, and `event.startsAt` identical across locales. Add a string → add the field to `SiteUi`/`SiteContent` in `shared/types/types.ts`, then fill it in **both** locale files, then read it via `content.ui.*` in the component. Default language is English; Afrikaans is auto-selected only when it's the visitor's most-preferred browser language, and the footer `LocaleToggle` overrides + persists the choice in a cookie. For page `<title>`/meta, pass getters to `SEOService.set` (e.g. `{ title: () => content.value?.ui.rsvp.metaTitle }`) so they update on language switch.
 - **API calls**: always `ApiService._request<T>()` → `Result<T>`. Check `result.success` before `result.data`.
 - **GSAP**: `const { gsap, withCleanup } = useGsap()`. Wrap all tweens in `withCleanup()` to prevent leaks. Never import `gsap` directly.
 - **Stores**: Pinia Options Store pattern with `isLoading: boolean`, `error: string | null`, and `acceptHMRUpdate` at the bottom.
@@ -53,4 +59,4 @@ Tokens: Black `#4A4A4A`, Grey `#8A8A8A`, Gold `#C5B39A`, Light Gold `#E8DED0`/`#
 
 ## Status
 
-All architecture, pages, components, and API routes are in place. Pending: content sign-off, real Sheets/GCS credentials, hero imagery, gallery grid.
+All architecture, pages, components, and API routes are in place. English + Afrikaans translation is wired end-to-end (per-locale content files, auto-detect, footer toggle). Pending: content sign-off (incl. Afrikaans proofread), real Sheets/GCS credentials, hero imagery, gallery grid.

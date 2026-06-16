@@ -7,6 +7,7 @@ import { SEOService } from "~/services/seo-service";
 
 definePageMeta({ layout: "minimal" });
 
+const { content } = useContent();
 const config = useRuntimeConfig();
 const unlockDate = config.public.galleryUnlockDate;
 
@@ -15,12 +16,12 @@ const isUnlocked = computed(() => {
 	return Date.now() >= new Date(unlockDate).getTime();
 });
 
-SEOService.set({ title: "Gallery" });
+SEOService.set({ title: () => content.value?.ui.gallery.metaTitle });
 </script>
 
 <template>
 	<div class="gallery-page">
-		<h1 class="gallery-page__title u-heading">Photo gallery</h1>
+		<h1 class="gallery-page__title u-heading">{{ content?.ui.gallery.heading }}</h1>
 
 		<template v-if="isUnlocked">
 			<PhotoUpload />
@@ -29,7 +30,7 @@ SEOService.set({ title: "Gallery" });
 		</template>
 
 		<p v-else class="gallery-page__locked">
-			The gallery opens on the wedding weekend. Check back soon!
+			{{ content?.ui.gallery.lockedMessage }}
 		</p>
 	</div>
 </template>

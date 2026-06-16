@@ -1,6 +1,7 @@
 import { defineStore, acceptHMRUpdate } from "pinia";
 import Fuse from "fuse.js";
 import { ApiService } from "~/services/api-service";
+import { useContentStore } from "~/stores/content-store";
 import { AttendanceChoice, RsvpStep } from "#shared/types/types";
 import type { Guest, RsvpEntry, RsvpSubmission } from "#shared/types/types";
 
@@ -55,7 +56,7 @@ export const useRsvpStore = defineStore("rsvp", {
 				if (result.success && result.data?.guests) {
 					this.guests = result.data.guests;
 				} else {
-					this.error = result.msg || "Failed to load guest list";
+					this.error = result.msg || useContentStore().content?.ui.errors.guests || "Failed to load guest list";
 				}
 			} catch (err) {
 				this.error = (err as Error).message;
@@ -117,7 +118,7 @@ export const useRsvpStore = defineStore("rsvp", {
 					this.step = RsvpStep.Confirm;
 					return true;
 				}
-				this.error = result.msg || "Failed to submit RSVP";
+				this.error = result.msg || useContentStore().content?.ui.errors.rsvpSubmit || "Failed to submit RSVP";
 				return false;
 			} catch (err) {
 				this.error = (err as Error).message;

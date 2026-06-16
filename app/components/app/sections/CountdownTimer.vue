@@ -33,7 +33,12 @@ function computeRemaining(): void {
 	};
 }
 
-const labels = ["days", "hours", "minutes", "seconds"];
+// Stable keys for refs/iteration; display labels come from content (localised).
+const unitKeys = ["days", "hours", "minutes", "seconds"];
+const labels = computed(() => {
+	const cd = content.value?.ui.countdown;
+	return [cd?.days ?? "", cd?.hours ?? "", cd?.minutes ?? "", cd?.seconds ?? ""];
+});
 
 const unitStrings = computed(() => [
 	String(remaining.value.days).padStart(2, "0"),
@@ -121,9 +126,9 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-	<section ref="root" class="countdown" aria-label="Countdown to the wedding">
+	<section ref="root" class="countdown" :aria-label="content?.ui.countdown.ariaLabel">
 		<div class="countdown__row">
-			<div v-for="(cells, unitIndex) in digitCells" :key="labels[unitIndex]" class="countdown__unit">
+			<div v-for="(cells, unitIndex) in digitCells" :key="unitKeys[unitIndex]" class="countdown__unit">
 				<div
 					class="countdown__digits"
 					aria-live="polite"

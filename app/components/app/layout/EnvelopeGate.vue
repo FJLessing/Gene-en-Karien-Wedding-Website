@@ -5,6 +5,7 @@
 const emit = defineEmits<{ unlock: []; }>();
 
 const { isUnlocked, verifyPassword } = useAccess();
+const { content } = useContent();
 const { gsap, withCleanup } = useGsap();
 
 const root = ref<HTMLElement | null>(null);
@@ -23,7 +24,7 @@ async function onSubmit(): Promise<void> {
 	if (ok) {
 		emit("unlock");
 	} else {
-		error.value = "That password didn't match. Please try again.";
+		error.value = content.value?.ui.gate.wrongPassword ?? "That password didn't match. Please try again.";
 	}
 }
 
@@ -78,17 +79,17 @@ onMounted(() => {
 
 			<!-- Password entry, revealed on the front when the envelope opens. -->
 			<form ref="formEl" class="gate__form" @submit.prevent="onSubmit">
-				<label class="u-visually-hidden" for="site-password">Password</label>
+				<label class="u-visually-hidden" for="site-password">{{ content?.ui.gate.passwordLabel }}</label>
 				<input
 					id="site-password"
 					v-model="password"
 					type="password"
-					placeholder="enter password"
+					:placeholder="content?.ui.gate.passwordPlaceholder"
 					class="gate__input"
 					:disabled="isChecking"
 					autocomplete="off"
 				/>
-				<button class="u-visually-hidden" type="submit">Open</button>
+				<button class="u-visually-hidden" type="submit">{{ content?.ui.gate.open }}</button>
 				<p v-if="error" class="gate__error">{{ error }}</p>
 			</form>
 

@@ -11,12 +11,12 @@ const accommodationOpen = ref(false);
 
 <template>
 	<section v-if="content" class="venue u-content">
-		<h2 class="venue__heading u-heading">About the venue</h2>
+		<h2 class="venue__heading u-heading">{{ content.ui.venue.heading }}</h2>
 		<p class="venue__about">{{ content.venue.about }}</p>
 
-		<BaseButton variant="secondary" @click="accommodationOpen = true">Book your accommodation</BaseButton>
+		<BaseButton variant="secondary" @click="accommodationOpen = true">{{ content.ui.venue.bookAccommodation }}</BaseButton>
 
-		<BaseAccordion title="Venue activities" :open="true">
+		<BaseAccordion :title="content.ui.venue.activitiesTitle" :open="true">
 			<ul class="venue__activities">
 				<li v-for="activity in content.venue.activities" :key="activity.title">
 					<component
@@ -42,7 +42,7 @@ const accommodationOpen = ref(false);
 		</BaseAccordion>
 
 		<a v-if="content.venue.mapUrl" :href="content.venue.mapUrl" class="venue__map" download>
-			Download the venue map
+			{{ content.ui.venue.downloadMap }}
 		</a>
 
 		<p v-if="content.venue.contact" class="venue__contact">{{ content.venue.contact }}</p>
@@ -58,7 +58,7 @@ const accommodationOpen = ref(false);
 				class="venue__modal-cta"
 				@click="() => null"
 			>
-				Book now
+				{{ content.ui.venue.bookNow }}
 			</BaseButton>
 		</BaseModal>
 	</section>

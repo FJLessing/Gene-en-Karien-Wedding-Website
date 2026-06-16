@@ -5,6 +5,7 @@ import { useRsvpStore } from "~/stores/rsvp-store";
 import { AttendanceChoice } from "#shared/types/types";
 
 const store = useRsvpStore();
+const { content } = useContent();
 
 const selectedName = computed(() => store.selectedGuest?.name ?? "");
 
@@ -15,24 +16,24 @@ function choose(choice: AttendanceChoice): void {
 
 <template>
 	<div class="attend-choice">
-		<h2 class="attend-choice__title">I am RSVPing for:</h2>
+		<h2 class="attend-choice__title">{{ content?.ui.rsvp.rsvpingFor }}</h2>
 		<TextField :model-value="selectedName" tone="subtle" readonly />
 
-		<h2 class="attend-choice__title">I am attending</h2>
+		<h2 class="attend-choice__title">{{ content?.ui.rsvp.attendingHeading }}</h2>
 		<div class="attend-choice__options">
 			<button
 				type="button"
 				:class="['attend-choice__option', { 'attend-choice__option--selected': store.attendance === AttendanceChoice.Attending }]"
 				@click="choose(AttendanceChoice.Attending)"
 			>
-				Yes, can't wait!
+				{{ content?.ui.rsvp.yes }}
 			</button>
 			<button
 				type="button"
 				:class="['attend-choice__option', { 'attend-choice__option--selected': store.attendance === AttendanceChoice.Declined }]"
 				@click="choose(AttendanceChoice.Declined)"
 			>
-				Unfortunately I won't be able to.
+				{{ content?.ui.rsvp.no }}
 			</button>
 		</div>
 	</div>

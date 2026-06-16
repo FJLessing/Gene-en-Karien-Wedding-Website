@@ -7,7 +7,7 @@ useReveal(root, { direction: "up" });
 
 <template>
 	<section ref="root" class="dress-code u-content">
-		<h2 class="dress-code__heading u-heading">Dress code</h2>
+		<h2 class="dress-code__heading u-heading">{{ content?.ui.dressCode.heading }}</h2>
 		<p v-if="content" class="dress-code__text">{{ content.dressCode }}</p>
 		<div class="dress-code__swatches" aria-hidden="true">
 			<span v-for="n in 5" :key="n" class="dress-code__swatch" />

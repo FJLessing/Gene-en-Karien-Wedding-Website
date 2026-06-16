@@ -4,12 +4,14 @@
 const props = withDefaults(defineProps<{ visible?: boolean; }>(), {
 	visible: true,
 });
+
+const { content } = useContent();
 </script>
 
 <template>
 	<Transition name="loader-fade">
 		<div v-if="props.visible" class="app-loader" role="status" aria-live="polite">
-			<span class="u-visually-hidden">Loading</span>
+			<span class="u-visually-hidden">{{ content?.ui.loader.loading ?? "Loading" }}</span>
 			<img src="/logo.svg" alt="" class="app-loader__logo" />
 		</div>
 	</Transition>

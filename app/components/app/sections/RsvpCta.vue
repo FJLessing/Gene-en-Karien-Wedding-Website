@@ -1,11 +1,13 @@
 <script lang="ts" setup>
 // RSVP call-to-action (Story 2 → Story 3). Routes to the dedicated RSVP page.
 import BaseButton from "~/components/ui/BaseButton.vue";
+
+const { content } = useContent();
 </script>
 
 <template>
 	<section class="rsvp-cta u-content">
-		<BaseButton @click="navigateTo('/rsvp')">RSVP here</BaseButton>
+		<BaseButton @click="navigateTo('/rsvp')">{{ content?.ui.nav.rsvpHere }}</BaseButton>
 	</section>
 </template>
 

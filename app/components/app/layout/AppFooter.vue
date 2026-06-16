@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-// Footer (Story 2). Logo, couple names, date/venue line, and tagline.
+// Footer (Story 2). Logo, couple names, date/venue line, tagline, language toggle.
+import LocaleToggle from "~/components/app/layout/LocaleToggle.vue";
 const { content } = useContent();
 </script>
 
@@ -13,6 +14,7 @@ const { content } = useContent();
 			{{ content.event.dateLabel }} · {{ content.event.venueLocation }}
 		</p>
 		<p v-if="content" class="app-footer__tagline">{{ content.footer.tagline }}</p>
+		<LocaleToggle class="app-footer__locale" />
 	</footer>
 </template>
 
@@ -45,5 +47,9 @@ const { content } = useContent();
 .app-footer__tagline {
 	font-family: $font-display;
 	font-size: $font-size-base;
+}
+
+.app-footer__locale {
+	margin-top: $space-sm;
 }
 </style>

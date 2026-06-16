@@ -6,19 +6,19 @@ useReveal(root, { direction: "up" });
 </script>
 
 <template>
-	<section ref="root" class="details u-content">
-		<h2 class="details__heading u-heading">The details</h2>
-		<dl v-if="content" class="details__list">
+	<section v-if="content" ref="root" class="details u-content">
+		<h2 class="details__heading u-heading">{{ content.ui.details.heading }}</h2>
+		<dl class="details__list">
 			<div class="details__item">
-				<dt>When</dt>
+				<dt>{{ content.ui.details.when }}</dt>
 				<dd>{{ content.details.dateLabel }}</dd>
 			</div>
 			<div class="details__item">
-				<dt>Where</dt>
+				<dt>{{ content.ui.details.where }}</dt>
 				<dd>{{ content.details.locationLabel }}</dd>
 			</div>
 			<div class="details__item">
-				<dt>RSVP by</dt>
+				<dt>{{ content.ui.details.rsvpBy }}</dt>
 				<dd>{{ content.details.rsvpByLabel }}</dd>
 			</div>
 		</dl>

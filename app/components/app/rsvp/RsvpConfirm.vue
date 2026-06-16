@@ -5,10 +5,12 @@ import BaseButton from "~/components/ui/BaseButton.vue";
 import { useRsvpStore } from "~/stores/rsvp-store";
 
 const store = useRsvpStore();
+const { content } = useContent();
 
-const message = computed(() =>
-	store.isAttending ? "We can't wait to see you on our big day!" : "Thank you for letting us know!",
-);
+const message = computed(() => {
+	const ui = content.value?.ui.rsvp;
+	return store.isAttending ? ui?.attendingMsg : ui?.declinedMsg;
+});
 
 function goHome(): void {
 	store.reset();
@@ -19,12 +21,12 @@ function goHome(): void {
 <template>
 	<div class="rsvp-confirm">
 		<img src="/logo.svg" alt="" class="rsvp-confirm__logo" />
-		<h2 class="rsvp-confirm__title u-heading">Thank you</h2>
+		<h2 class="rsvp-confirm__title u-heading">{{ content?.ui.rsvp.thankYou }}</h2>
 		<p class="rsvp-confirm__message">{{ message }}</p>
 
 		<PhotoUpload class="rsvp-confirm__upload" />
 
-		<BaseButton variant="ghost" @click="goHome">Back to home page</BaseButton>
+		<BaseButton variant="ghost" @click="goHome">{{ content?.ui.nav.backHome }}</BaseButton>
 	</div>
 </template>
 
