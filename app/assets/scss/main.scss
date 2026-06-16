@@ -36,7 +36,8 @@
 	font-style: normal;
 	font-weight: 400;
 	font-display: swap;
-	src: url("/fonts/bagien-demo.regular.ttf") format("truetype");
+	src: url("/fonts/Bagien.ttf") format("truetype"),
+		url("/fonts/Bagien.otf") format("opentype");
 }
 
 // ── Base element styling ─────────────────────────────────────────────────────

@@ -11,11 +11,12 @@ $color-white: #ffffff;
 $color-gold: #c5b39a;
 $color-light-gold-1: #e8ded0;
 $color-light-gold-2: #f4efe7;
+$color-light-gold-3: #fdfdfc;
 
 // Semantic aliases
 $color-text: $color-black;
 $color-text-muted: $color-grey;
-$color-bg: $color-light-gold-2;
+$color-bg: $color-light-gold-3;
 $color-bg-alt: $color-light-gold-1;
 $color-accent: $color-gold;
 $color-border: $color-light-grey;
@@ -30,7 +31,7 @@ $color-field-border: #f2f2f2;
 // ── Typography ───────────────────────────────────────────────────────────────
 // Poppins = body, Bagien = display/script accents.
 $font-body: "Poppins", "Helvetica Neue", Arial, sans-serif;
-$font-display: "Bagien", "Poppins", serif;
+$font-display: "Bagien", "Times New Roman", serif;
 
 $font-weight-light: 300;
 $font-weight-regular: 400;
@@ -57,6 +58,8 @@ $space-md: 1.5rem;
 $space-lg: 2rem;
 $space-xl: 3rem;
 $space-2xl: 4rem;
+$space-3xl: 5rem;
+$space-4xl: 6rem;
 
 // ── Radii ────────────────────────────────────────────────────────────────────
 $radius-sm: 0.25rem;

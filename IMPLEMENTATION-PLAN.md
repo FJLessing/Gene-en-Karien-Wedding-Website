@@ -1,18 +1,15 @@
 # Gene + Karien Wedding Website
 
 We are building a mobile-first wedding website for a couple called Gene Stoltz and Carien De Kock
-using NuxtJS, Vue and GSAP. The website will be hosted on GCP and code will be stored in a private
+using Nuxt 4, Vue and GSAP. The website will be hosted on GCP and code will be stored in a private
 GitHub repository. The website will be designed to be responsive and accessible, and will include
 features such as a countdown timer, RSVP form, and Google Drive linked photo gallery where users can
 upload their photos.
 
 ## Stack
 
-The planned stack is Nuxt with Vue and GSAP for the frontend, and SCSS for styling. Wherever possible
-SCSS classes and tokens will be generated for elements in the design.
-
-Any database requirements, if there are any, will be handled by a SQLite database deployed alongside
-the website on GCP.
+The stack is Nuxt 4 (Vue 3, `app/` srcDir) with GSAP for the frontend, and SCSS for styling. Wherever
+possible SCSS classes and tokens will be generated for elements in the design.
 
 RSVPs will be stored in Google Sheets for easy access and management by the couple. This is the flow
 of data:
@@ -68,6 +65,8 @@ The following user journeys outline the structure of the site, which should act 
 
 ### Story 1 - Access
 
+> **Status: Done.** URL-param gate + password fallback fully implemented. `EnvelopeGate.vue` runs the GSAP hinge animation; `auth-gate.global.ts` guards all routes; `/api/auth` verifies the password server-side.
+
 The website should load quickly and be responsive on all devices.
 
 **Scenario:** User has the URL parameter pre-populated
@@ -89,6 +88,8 @@ The website should load quickly and be responsive on all devices.
 - If incorrect, an error message is displayed and the user is prompted to try again.
 
 ### Story 2 - Browsing the site
+
+> **Status: Structure done; content in review.** All 9 sections are implemented (`HeroSection`, `CountdownTimer`, `WelcomeSection`, `DetailsSection`, `ProgramSection`, `DressCodeSection`, `VenueSection`, `AreaActivitiesSection`, `FaqSection`) plus `RsvpCta` and `AppFooter`. Program tabs (Fri/Sat/Sun), venue modals, accommodation modal, area-activity modals, and FAQ accordion are all wired. Copy served from `/api/content` — awaiting sign-off. Hero and activity images still placeholder.
 
 - Users navigate through the different sections: story of the couple, wedding details, RSVP form, and
   photo gallery.
@@ -122,6 +123,8 @@ The website should load quickly and be responsive on all devices.
 
 ### Story 3 - RSVP
 
+> **Status: Done; credentials pending.** Full 4-step flow (`RsvpSearch` → `RsvpAttendChoice` → `RsvpForm` → `RsvpConfirm`) implemented. fuse.js fuzzy search, multi-entry (add another guest), meal/dietary/arrival-day/song-request fields all wired. `rsvp-store` handles state. `/api/rsvp` appends to Sheets via `server/utils/sheets.ts` — real Google service account credentials not yet configured.
+
 **Scenario:** Successful RSVP for attendance
 
 - A user taps a CTA button to RSVP.
@@ -144,6 +147,8 @@ The website should load quickly and be responsive on all devices.
   upload photo(s).
 
 ### Story 4 - Photo Gallery
+
+> **Status: Skeleton done; gallery grid pending.** `PhotoUpload.vue` + `/api/photos` → GCS pipeline implemented (`server/utils/storage.ts` stubbed). `gallery.vue` page exists. Date-gated unlock logic and moderated gallery grid rendering not yet built.
 
 - On the wedding weekend a section of the website unlocks, allowing users to upload photos to a shared
   Google Drive folder, which are then displayed on the website in a gallery format.
@@ -169,7 +174,7 @@ This project follows the `fj-vue` conventions adapted for Nuxt:
 - 2-tab indentation, semicolons, no `var`, minimise `any`, enums over string literals.
 - Components `PascalCase`; `.ts` files `kebab-case`; assets `snake_case`.
 - Pinia **Options Store** pattern with `isLoading`/`error` and `acceptHMRUpdate`.
-- `<style scoped lang="scss">` for components; global SCSS in `assets/scss/`.
+- `<style scoped lang="scss">` for components; global SCSS in `app/assets/scss/`.
 - No Tailwind. No pixel units — use `rem`/`em`/`%`/`vh`/`dvh`.
 - All client API calls go through a static `ApiService` (a `$fetch` wrapper returning a `Result`).
 - Content is served from `/api/content` and consumed via a content store — **never hardcoded**.

@@ -9,7 +9,8 @@ export default defineEventHandler((): SiteContent => {
 		couple: {
 			nameOne: "Gene Stoltz",
 			nameTwo: "Karien de Kock",
-			invitationLine: "You are hereby formally invited to the nuptials of",
+			invitationLine1: "You are hereby",
+			invitationLine2: "formally invited to the nuptials of",
 		},
 		event: {
 			dateLabel: "9 - 11 October 2026",
@@ -18,7 +19,11 @@ export default defineEventHandler((): SiteContent => {
 			venueLocation: "Dullstroom, Mpumalanga",
 			rsvpByLabel: "20 July 2026",
 		},
-		welcome: "Welcome to our wedding website! We are thrilled to celebrate our special day with the people who mean the most to us. Here, you will find all the details you need for the evening. We cannot wait to raise a glass and celebrate with you.",
+		welcome: [
+			"Welcome to our wedding website!",
+			"We are thrilled to celebrate our special day with the people who mean the most to us. Here, you will find all the details you need for the evening.",
+			"We cannot wait to raise a glass and celebrate with you.",
+		],
 		details: {
 			dateLabel: "9 - 11 October 2026",
 			locationLabel: "Dunkeld Equestrian Estate, Dullstroom, Mpumalanga",
@@ -63,12 +68,12 @@ export default defineEventHandler((): SiteContent => {
 			activities: [
 				{ title: "Horse Riding", image: "/img/activities/horse_riding.webp", description: "Take a guided ride through the estate's rolling hills.", link: "https://www.dunkeldestate.co.za/horse-riding/" },
 				{ title: "Fly Fishing", image: "/img/activities/fly_fishing.webp", description: "Cast a line in the estate's crystal-clear trout dams.", link: "https://www.dunkeldestate.co.za/fly-fishing/" },
-				{ title: "Archery", image: "", description: "Test your aim at the estate's archery range.", link: "https://www.dunkeldestate.co.za/archery-2/" },
+				{ title: "Archery", image: "/img/activities/archery.webp", description: "Test your aim at the estate's archery range.", link: "https://www.dunkeldestate.co.za/archery-2/" },
 				{ title: "Paintball", image: "/img/activities/paintball.webp", description: "Gather a team for a friendly paintball skirmish.", link: "https://www.dunkeldestate.co.za/paintball-2/" },
-				{ title: "Spa", image: "", description: "Unwind with a treatment at the estate spa.", link: "" },
+				{ title: "Spa", image: "/img/activities/spa.webp", description: "Unwind with a treatment at the estate spa.", link: "" },
 				{ title: "Four Wheeling", image: "/img/activities/quad_biking.webp", description: "Explore the countryside on a four-wheeler.", link: "https://www.dunkeldestate.co.za/quad-biking/" },
 				{ title: "Hiking & Running", image: "/img/activities/hiking_running.webp", description: "Follow the trails through pine forests and hills.", link: "https://www.dunkeldestate.co.za/hiking-running/" },
-				{ title: "Mini Golf", image: "", description: "A relaxed round of putt-putt on the estate.", link: "https://www.dunkeldestate.co.za/adventure-centre/" },
+				{ title: "Mini Golf", image: "/img/activities/mini_golf.webp", description: "A relaxed round of putt-putt on the estate.", link: "https://www.dunkeldestate.co.za/adventure-centre/" },
 				{ title: "Mountain Biking", image: "/img/activities/mountain_biking.webp", description: "Ride the estate's scenic mountain-bike trails.", link: "https://www.dunkeldestate.co.za/mountain-biking/" },
 				{ title: "Padel", image: "/img/activities/padel.webp", description: "Book a court for a social game of padel.", link: "https://www.dunkeldestate.co.za/activities/" },
 			],

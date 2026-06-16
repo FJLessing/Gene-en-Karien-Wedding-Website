@@ -5,6 +5,7 @@
 import EnvelopeGate from "~/components/app/layout/EnvelopeGate.vue";
 import AppFooter from "~/components/app/layout/AppFooter.vue";
 import HeroSection from "~/components/app/sections/HeroSection.vue";
+import CoupleImageSection from "~/components/app/sections/CoupleImageSection.vue";
 import CountdownTimer from "~/components/app/sections/CountdownTimer.vue";
 import WelcomeSection from "~/components/app/sections/WelcomeSection.vue";
 import DetailsSection from "~/components/app/sections/DetailsSection.vue";
@@ -32,6 +33,7 @@ SEOService.set({ title: "", description: "You are invited to celebrate with us."
 
 		<div v-else class="home">
 			<HeroSection />
+			<CoupleImageSection />
 			<CountdownTimer />
 			<WelcomeSection />
 			<DetailsSection />

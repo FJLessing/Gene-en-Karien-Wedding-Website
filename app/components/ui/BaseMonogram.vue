@@ -1,0 +1,148 @@
+<script lang="ts" setup>
+// Decorative "GK" monogram glyph (Figma node 32:659). Uses the designer's exact
+// neumorphic "Embossed" filter — two outer drop-shadows (white top-left highlight,
+// dark bottom-right) PLUS two inner shadows that carve the bevel into the glyph.
+// That inner-shadow pair is what makes it read as embossed rather than a flat shape
+// with a drop shadow, so the SVG <filter> is kept intact rather than reproduced in
+// CSS (CSS drop-shadow cannot do inner shadows on a glyph).
+//
+// The filter lives in the viewBox's coordinate space, so the whole emboss scales
+// proportionally with `size` — a larger mark gets a proportionally larger bevel,
+// which is the intended "scale with size" behaviour.
+//
+// The hardcoded export id `filter0_ddii_32_659` is replaced with a per-instance
+// `useId()` value, bound to both the <filter> and its url(#…) reference, so several
+// monograms on one page don't collide (duplicate ids would break later instances).
+//
+// Built-in animation is a scroll-reveal entrance (reuses useReveal, which already
+// respects prefers-reduced-motion). For custom motion, a parent can grab the
+// exposed `root` element and drive its own GSAP tweens, e.g.:
+//
+//   const mono = ref<InstanceType<typeof BaseMonogram> | null>(null);
+//   const { gsap, withCleanup } = useGsap();
+//   onMounted(() => withCleanup(() => {
+//     gsap.to(mono.value!.root, { y: -6, repeat: -1, yoyo: true, duration: 2, ease: "sine.inOut" });
+//   }));
+import type { RevealDirection } from "~/composables/use-reveal";
+
+const props = withDefaults(
+	defineProps<{
+		size?: number; // rendered width in px; height scales via the 107×70 viewBox
+		animate?: boolean; // run the built-in scroll-reveal entrance
+		revealDirection?: RevealDirection;
+		delay?: number; // reveal delay in seconds
+	}>(),
+	{
+		size: 107,
+		animate: true,
+		revealDirection: "up",
+		delay: 0,
+	},
+);
+
+// SSR-stable, unique per instance — keeps the emboss filter from colliding when
+// the monogram is rendered more than once on a page.
+const uid = useId();
+const filterId = `monogram-emboss-${uid}`;
+
+const root = ref<HTMLElement | null>(null);
+
+if (props.animate) {
+	useReveal(root, { direction: props.revealDirection, delay: props.delay });
+}
+
+defineExpose({ root });
+</script>
+
+<template>
+	<span ref="root" class="base-monogram">
+		<svg
+			:width="props.size"
+			viewBox="0 0 107 70"
+			fill="none"
+			xmlns="http://www.w3.org/2000/svg"
+			aria-hidden="true"
+		>
+			<g :filter="`url(#${filterId})`">
+				<path
+					d="M40.0605 3C43.1081 3.00002 46.0909 3.29145 49.0088 3.875C50.0901 4.09127 51.1002 4.34801 52.0391 4.64453C53.3948 4.67408 54.7949 4.69043 56.2393 4.69043C58.5738 4.69043 60.6819 4.6586 62.5625 4.59375C64.5078 4.46407 66.2264 4.39941 67.7178 4.39941C67.9121 4.39955 68.0097 4.59365 68.0098 4.98242C68.0098 5.37136 67.9122 5.56627 67.7178 5.56641C65.3833 5.56641 63.6321 5.76131 62.4648 6.15039C61.2978 6.53946 60.4871 7.21985 60.0332 8.19238C59.6441 9.16509 59.4492 10.5921 59.4492 12.4727V33.0137L80.2656 12.2783C82.6646 9.81452 83.6698 8.09584 83.2812 7.12305C82.957 6.08549 81.1084 5.56641 77.7363 5.56641C77.6067 5.56627 77.542 5.37137 77.542 4.98242C77.542 4.59365 77.6068 4.39955 77.7363 4.39941C79.3574 4.39941 80.9786 4.46408 82.5996 4.59375C84.2207 4.65859 86.361 4.69043 89.0195 4.69043C91.5486 4.69043 93.5593 4.6586 95.0508 4.59375C96.5422 4.46406 97.9693 4.39941 99.3311 4.39941C99.5253 4.39972 99.622 4.59381 99.6221 4.98242C99.6221 5.3712 99.5253 5.5661 99.3311 5.56641C96.9966 5.56641 94.3047 6.11732 91.2568 7.21973C88.2092 8.25727 85.2912 10.1379 82.5029 12.8613L67.1064 27.9561L81.1406 45.8369C84.0586 49.6627 86.523 52.7427 88.5332 55.0771C90.6082 57.4115 92.3267 59.2275 93.6885 60.5244C95.0503 61.7565 96.2505 62.6316 97.2881 63.1504C98.3904 63.6043 99.4277 63.8638 100.4 63.9287C101.373 63.9936 102.476 64.0264 103.708 64.0264C103.902 64.0265 104 64.2207 104 64.6094C104 64.9983 103.902 65.1932 103.708 65.1934H89.7012C88.988 65.1934 88.4041 65.0312 87.9502 64.707C87.4963 64.318 86.9125 63.6695 86.1992 62.7617C85.4859 61.789 84.4477 60.362 83.0859 58.4814C81.789 56.6009 79.9412 54.1365 77.542 51.0889L62.6357 32.3389L59.4492 35.4639V41.0166C59.458 41.0163 59.4668 41.0169 59.4756 41.0166V44.0371C59.4663 44.0605 59.4582 44.0845 59.4492 44.1084V57.3145C59.4492 59.195 59.6441 60.622 60.0332 61.5947C60.4223 62.5671 61.2003 63.2158 62.3672 63.54C63.5993 63.8643 65.3833 64.0264 67.7178 64.0264C67.9121 64.0265 68.0097 64.2207 68.0098 64.6094C68.0098 64.9983 67.9122 65.1932 67.7178 65.1934C66.1615 65.1934 64.443 65.1605 62.5625 65.0957C60.6819 65.0309 58.5738 64.999 56.2393 64.999C54.0996 64.999 52.0247 65.0309 50.0146 65.0957C49.5813 65.1101 49.1572 65.1226 48.7432 65.1338C48.4761 65.1736 48.2083 65.2145 47.9395 65.2529C44.373 65.7717 40.936 66.0312 37.6289 66.0312C30.366 66.0312 24.1399 64.6699 18.9521 61.9463C13.7644 59.1579 9.80853 55.4287 7.08496 50.7598C4.36145 46.0908 3 40.9028 3 35.1963C3.00002 30.3976 3.90793 26.0529 5.72363 22.1621C7.6042 18.2064 10.1977 14.8015 13.5049 11.9482C16.8769 9.09497 20.8009 6.89032 25.2754 5.33398C29.8146 3.77774 34.7432 3 40.0605 3ZM35.8779 5.13965C27.6423 5.13965 21.287 7.53919 16.8125 12.3379C12.403 17.0717 10.1983 23.5238 10.1982 31.6943C10.1982 38.1141 11.4951 43.7885 14.0889 48.7168C16.6828 53.5803 20.2169 57.4069 24.6914 60.1953C29.1658 62.9837 34.2564 64.3779 39.9629 64.3779C41.7215 64.3779 43.2813 64.2873 44.6426 64.1084C44.673 64.0534 44.713 64.0264 44.7617 64.0264C44.9239 64.0264 45.0834 64.023 45.2402 64.0215C46.0958 63.8863 46.8658 63.7142 47.5498 63.502C49.4304 62.9183 50.7927 61.7837 51.6357 60.0977C52.4786 58.4117 52.9003 55.9152 52.9004 52.6084C52.9004 49.4957 52.7055 47.2255 52.3164 45.7988C51.9273 44.3075 50.9546 43.3348 49.3984 42.8809C47.8422 42.4269 35.2491 42.2451 31.8115 42.2451C31.4224 42.2451 31.2275 41.9856 31.2275 41.4668C31.2276 40.9481 31.3896 40.6885 31.7139 40.6885C35.7993 40.9479 49.6247 41.065 52.9971 41.1299C53.0403 41.1299 53.0836 41.1289 53.127 41.1289V12.2783C53.127 12.1509 53.1239 12.0253 53.1221 11.9023C52.1143 10.7767 50.9705 9.78702 49.6904 8.93359C45.9942 6.40461 41.3898 5.1397 35.8779 5.13965Z"
+					fill="#EFEFEF"
+				/>
+			</g>
+			<defs>
+				<filter
+					:id="filterId"
+					x="0"
+					y="0"
+					width="107"
+					height="69.0312"
+					filterUnits="userSpaceOnUse"
+					color-interpolation-filters="sRGB"
+				>
+					<feFlood flood-opacity="0" result="BackgroundImageFix" />
+					<feColorMatrix
+						in="SourceAlpha"
+						type="matrix"
+						values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+						result="hardAlpha"
+					/>
+					<feOffset dx="1" dy="1" />
+					<feGaussianBlur stdDeviation="1" />
+					<feComposite in2="hardAlpha" operator="out" />
+					<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.08 0" />
+					<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_32_659" />
+					<feColorMatrix
+						in="SourceAlpha"
+						type="matrix"
+						values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+						result="hardAlpha"
+					/>
+					<feOffset dx="-1" dy="-1" />
+					<feGaussianBlur stdDeviation="1" />
+					<feComposite in2="hardAlpha" operator="out" />
+					<feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.8 0" />
+					<feBlend mode="normal" in2="effect1_dropShadow_32_659" result="effect2_dropShadow_32_659" />
+					<feBlend mode="normal" in="SourceGraphic" in2="effect2_dropShadow_32_659" result="shape" />
+					<feColorMatrix
+						in="SourceAlpha"
+						type="matrix"
+						values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+						result="hardAlpha"
+					/>
+					<feOffset dx="-1" dy="-1" />
+					<feGaussianBlur stdDeviation="1" />
+					<feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1" />
+					<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.04 0" />
+					<feBlend mode="normal" in2="shape" result="effect3_innerShadow_32_659" />
+					<feColorMatrix
+						in="SourceAlpha"
+						type="matrix"
+						values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+						result="hardAlpha"
+					/>
+					<feOffset dx="1" dy="1" />
+					<feGaussianBlur stdDeviation="1" />
+					<feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1" />
+					<feColorMatrix
+						type="matrix"
+						values="0 0 0 0 0.742695 0 0 0 0 0.742695 0 0 0 0 0.742695 0 0 0 0.5 0"
+					/>
+					<feBlend mode="normal" in2="effect3_innerShadow_32_659" result="effect4_innerShadow_32_659" />
+				</filter>
+			</defs>
+		</svg>
+	</span>
+</template>
+
+<style scoped lang="scss">
+.base-monogram {
+	display: inline-flex;
+	line-height: 0; // strip inline-element descender gap
+
+	svg {
+		width: 100%;
+		height: auto;
+		display: block;
+	}
+}
+</style>

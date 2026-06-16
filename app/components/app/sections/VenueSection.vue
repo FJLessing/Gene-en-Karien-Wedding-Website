@@ -16,7 +16,7 @@ const accommodationOpen = ref(false);
 
 		<BaseButton variant="secondary" @click="accommodationOpen = true">Book your accommodation</BaseButton>
 
-		<BaseAccordion title="Venue activities">
+		<BaseAccordion title="Venue activities" :open="true">
 			<ul class="venue__activities">
 				<li v-for="activity in content.venue.activities" :key="activity.title">
 					<component

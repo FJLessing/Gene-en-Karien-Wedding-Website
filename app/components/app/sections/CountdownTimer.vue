@@ -78,13 +78,13 @@ function rollDigit(unitIndex: number, digitIndex: number, cell: DigitCell): void
 			// transforms swap back, so the change is never visible.
 			cell.shown = cell.incoming;
 			nextTick(() => {
-				gsap.set(current, { y: "0%" });
-				gsap.set(next, { y: "100%" });
+				gsap.set(current, { y: "0%", opacity: 1 });
+				gsap.set(next, { y: "100%", opacity: 1 });
 			});
 		},
 	})
-		.to(current, { y: "-100%", duration: 0.45, ease: "power2.in" }, 0)
-		.to(next, { y: "0%", duration: 0.45, ease: "power2.out" }, 0);
+	.to(current, { y: "-100%", opacity: 0, duration: 1, ease: "power2.out" }, 0)
+	.to(next, { y: "0%", opacity: 1, duration: 1, ease: "power2.out" }, 0);
 }
 
 watch(
@@ -148,7 +148,7 @@ onBeforeUnmount(() => {
 
 <style scoped lang="scss">
 .countdown {
-	padding-block: $space-xl;
+	padding-block: $space-4xl;
 }
 
 .countdown__row {
@@ -159,10 +159,25 @@ onBeforeUnmount(() => {
 }
 
 .countdown__unit {
+	position: relative;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	gap: $space-3xs;
+
+	&:not(:last-child) {
+		&::after {
+			content: " ";
+			background: $color-black;
+			position: absolute;
+			right: - $space-md * 0.5;
+			top: $font-size-2xl * 0.5;
+			transform: translateY(-50%);
+			height: 40%;
+			border: .75px solid $color-border;
+			width: .5px;
+		}
+	}
 }
 
 .countdown__digits {

@@ -82,7 +82,8 @@ export interface SiteContent {
 	couple: {
 		nameOne: string;
 		nameTwo: string;
-		invitationLine: string;
+		invitationLine1: string;
+		invitationLine2: string;
 	};
 	event: {
 		dateLabel: string;
@@ -91,7 +92,7 @@ export interface SiteContent {
 		venueLocation: string;
 		rsvpByLabel: string;
 	};
-	welcome: string;
+	welcome: string[];
 	details: { dateLabel: string; locationLabel: string; rsvpByLabel: string };
 	program: ProgramDay[];
 	dressCode: string;
