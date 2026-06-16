@@ -4,6 +4,8 @@
 import BaseAccordion from "~/components/ui/BaseAccordion.vue";
 import BaseModal from "~/components/ui/BaseModal.vue";
 import BaseButton from "~/components/ui/BaseButton.vue";
+import ActivityCard from "~/components/ui/ActivityCard.vue";
+import { ActivityCardVariant } from "#shared/types/types";
 
 const { content } = useContent();
 const accommodationOpen = ref(false);
@@ -19,24 +21,12 @@ const accommodationOpen = ref(false);
 		<BaseAccordion :title="content.ui.venue.activitiesTitle" :open="true">
 			<ul class="venue__activities">
 				<li v-for="activity in content.venue.activities" :key="activity.title">
-					<component
-						:is="activity.link ? 'a' : 'div'"
-						:href="activity.link || undefined"
-						:target="activity.link ? '_blank' : undefined"
-						:rel="activity.link ? 'noopener' : undefined"
-						class="venue__activity"
-					>
-						<img
-							v-if="activity.image"
-							:src="activity.image"
-							:alt="activity.title"
-							class="venue__activity-image"
-							loading="lazy"
-							width="270"
-							height="217"
-						/>
-						<span class="venue__activity-title">{{ activity.title }}</span>
-					</component>
+					<ActivityCard
+						:title="activity.title"
+						:image="activity.image"
+						:link="activity.link"
+						:variant="ActivityCardVariant.Grid"
+					/>
 				</li>
 			</ul>
 		</BaseAccordion>
@@ -86,38 +76,6 @@ const accommodationOpen = ref(false);
 		display: grid;
 		grid-template-columns: repeat(2, 1fr);
 		gap: $space-2xs;
-	}
-
-	&__activity {
-		display: flex;
-		flex-direction: column;
-		border-radius: $radius-md;
-		overflow: hidden;
-		background-color: $color-light-gold-1;
-		font-size: $font-size-sm;
-		text-align: center;
-		transition: transform $duration-fast $ease-standard, box-shadow $duration-fast $ease-standard;
-
-		&:hover {
-			transform: translateY(-2px);
-			box-shadow: $shadow-soft;
-		}
-
-		@include reduced-motion {
-			&:hover {
-				transform: none;
-			}
-		}
-	}
-
-	&__activity-image {
-		width: 100%;
-		aspect-ratio: 270 / 217;
-		object-fit: cover;
-	}
-
-	&__activity-title {
-		padding: $space-2xs;
 	}
 
 	&__map {

@@ -14,6 +14,15 @@ export enum Locale {
 	Af = "af",
 }
 
+// ── Activity cards (Story 2) ─────────────────────────────────────────────────
+// Layout variants for the shared ActivityCard tile.
+//   Grid   → portrait tile in a 2-up grid (venue activities)
+//   Banner → full-width landscape banner (area activities)
+export enum ActivityCardVariant {
+	Grid = "grid",
+	Banner = "banner",
+}
+
 // ── RSVP (Story 3) ───────────────────────────────────────────────────────────
 export enum RsvpStep {
 	Search = "search",

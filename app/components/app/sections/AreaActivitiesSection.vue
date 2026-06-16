@@ -3,7 +3,8 @@
 // with details and a link. Closes via button or backdrop.
 import BaseAccordion from "~/components/ui/BaseAccordion.vue";
 import BaseModal from "~/components/ui/BaseModal.vue";
-import type { ActivityItem } from "#shared/types/types";
+import ActivityCard from "~/components/ui/ActivityCard.vue";
+import { ActivityCardVariant, type ActivityItem } from "#shared/types/types";
 
 const { content } = useContent();
 const selected = ref<ActivityItem | null>(null);
@@ -22,7 +23,12 @@ function close(): void {
 		<BaseAccordion :title="content.ui.areaActivities.heading">
 			<ul class="area__list">
 				<li v-for="activity in content.areaActivities" :key="activity.title">
-					<button class="area__item" @click="open(activity)">{{ activity.title }}</button>
+					<ActivityCard
+						:title="activity.title"
+						:image="activity.image"
+						:variant="ActivityCardVariant.Banner"
+						@click="open(activity)"
+					/>
 				</li>
 			</ul>
 		</BaseAccordion>
@@ -41,18 +47,9 @@ function close(): void {
 	padding-block: $space-lg;
 
 	&__list {
-		display: grid;
-		grid-template-columns: repeat(2, 1fr);
+		display: flex;
+		flex-direction: column;
 		gap: $space-2xs;
-	}
-
-	&__item {
-		width: 100%;
-		padding: $space-2xs;
-		border-radius: $radius-md;
-		background-color: $color-light-gold-1;
-		font-size: $font-size-sm;
-		text-align: center;
 	}
 
 	&__link {
