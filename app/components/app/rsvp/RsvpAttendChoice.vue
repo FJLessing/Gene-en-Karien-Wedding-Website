@@ -44,39 +44,39 @@ function choose(choice: AttendanceChoice): void {
 	display: flex;
 	flex-direction: column;
 	gap: $space-sm;
-}
 
-.attend-choice__title {
-	font-size: $font-size-base;
-	font-weight: $font-weight-regular;
-	color: $color-text;
-}
-
-.attend-choice__options {
-	display: flex;
-	flex-direction: column;
-	gap: $space-2xs;
-}
-
-.attend-choice__option {
-	width: 100%;
-	min-height: 2.6875rem;
-	padding: $space-3xs $space-md;
-	border: 1px solid $color-field-border;
-	border-radius: $radius-sm;
-	background-color: $color-field-subtle;
-	font-size: $font-size-sm;
-	color: $color-text;
-	text-align: left;
-	transition: background-color $duration-fast $ease-standard, border-color $duration-fast $ease-standard;
-
-	&:hover {
-		border-color: $color-gold;
+	&__title {
+		font-size: $font-size-base;
+		font-weight: $font-weight-regular;
+		color: $color-text;
 	}
-}
 
-.attend-choice__option--selected {
-	background-color: $color-field;
-	border-color: $color-gold;
+	&__options {
+		display: flex;
+		flex-direction: column;
+		gap: $space-2xs;
+	}
+
+	&__option {
+		width: 100%;
+		min-height: 2.6875rem;
+		padding: $space-3xs $space-md;
+		border: 1px solid $color-field-border;
+		border-radius: $radius-sm;
+		background-color: $color-field-subtle;
+		font-size: $font-size-sm;
+		color: $color-text;
+		text-align: left;
+		transition: background-color $duration-fast $ease-standard, border-color $duration-fast $ease-standard;
+
+		&:hover {
+			border-color: $color-gold;
+		}
+
+		&--selected {
+			background-color: $color-field;
+			border-color: $color-gold;
+		}
+	}
 }
 </style>

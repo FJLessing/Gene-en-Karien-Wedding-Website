@@ -269,6 +269,27 @@ All discrete string values must be enums defined in `shared/types/types.ts`. Do 
 
 No `px` units. Use `rem`, `em`, `%`, `vh`, `dvh`. No Tailwind.
 
+**Nest one block per widget.** Don't write flat sibling selectors — fold children, modifiers, and states into a single block using the `&` parent selector, ordered to match the template's class order (top-to-bottom). [CountdownTimer.vue](app/components/app/sections/CountdownTimer.vue) is the reference.
+
+```scss
+// ✗ avoid — flat
+.details {}
+.details__heading {}
+
+// ✓ nested — one block, & for children/modifiers/states
+.details {
+	padding-block: $space-xl;
+
+	&__heading { font-size: $font-size-xl; }
+
+	&__item {
+		dt { color: $color-text-muted; }   // child element selectors nest too
+	}
+}
+```
+
+Base declarations come before nested modifiers/states so the cascade is preserved. Keep `@keyframes`, Vue `<Transition>` classes (`*-enter-active`, `*-leave-to`), and local SCSS variables (e.g. EnvelopeGate's `$paper-*`) at **top level** — they aren't part of the BEM tree.
+
 ### 7. Translations — EN/AF
 
 The site is bilingual (English + Afrikaans) using a lightweight, content-driven approach — **no `@nuxtjs/i18n`**. The moving parts:

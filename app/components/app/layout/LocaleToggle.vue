@@ -40,25 +40,25 @@ function select(locale: Locale): void {
 	gap: $space-2xs;
 	font-size: $font-size-xs;
 	letter-spacing: 0.08em;
-}
 
-.locale-toggle__option {
-	padding: $space-3xs;
-	color: $color-text-muted;
-	text-transform: uppercase;
-	transition: color $duration-fast $ease-standard;
-
-	&:hover {
-		color: $color-text;
+	&__divider {
+		color: $color-text-muted;
 	}
 
-	&--active {
-		color: $color-text;
-		border-bottom: 1px solid $color-gold;
-	}
-}
+	&__option {
+		padding: $space-3xs;
+		color: $color-text-muted;
+		text-transform: uppercase;
+		transition: color $duration-fast $ease-standard;
 
-.locale-toggle__divider {
-	color: $color-text-muted;
+		&:hover {
+			color: $color-text;
+		}
+
+		&--active {
+			color: $color-text;
+			border-bottom: 1px solid $color-gold;
+		}
+	}
 }
 </style>

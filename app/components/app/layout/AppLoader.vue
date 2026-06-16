@@ -25,12 +25,12 @@ const { content } = useContent();
 	display: grid;
 	place-items: center;
 	background-color: $color-bg;
-}
 
-.app-loader__logo {
-	width: 5rem;
-	height: auto;
-	animation: loader-pulse 1.4s $ease-standard infinite;
+	&__logo {
+		width: 5rem;
+		height: auto;
+		animation: loader-pulse 1.4s $ease-standard infinite;
+	}
 }
 
 @keyframes loader-pulse {

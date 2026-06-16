@@ -70,70 +70,70 @@ const accommodationOpen = ref(false);
 	flex-direction: column;
 	gap: $space-md;
 	padding-block: $space-xl;
-}
 
-.venue__heading {
-	font-size: $font-size-xl;
-	text-align: center;
-}
-
-.venue__about {
-	font-size: $font-size-sm;
-	line-height: $line-height-loose;
-	color: $color-text-muted;
-}
-
-.venue__activities {
-	display: grid;
-	grid-template-columns: repeat(2, 1fr);
-	gap: $space-2xs;
-}
-
-.venue__activity {
-	display: flex;
-	flex-direction: column;
-	border-radius: $radius-md;
-	overflow: hidden;
-	background-color: $color-light-gold-1;
-	font-size: $font-size-sm;
-	text-align: center;
-	transition: transform $duration-fast $ease-standard, box-shadow $duration-fast $ease-standard;
-
-	&:hover {
-		transform: translateY(-2px);
-		box-shadow: $shadow-soft;
+	&__heading {
+		font-size: $font-size-xl;
+		text-align: center;
 	}
 
-	@include reduced-motion {
+	&__about {
+		font-size: $font-size-sm;
+		line-height: $line-height-loose;
+		color: $color-text-muted;
+	}
+
+	&__activities {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: $space-2xs;
+	}
+
+	&__activity {
+		display: flex;
+		flex-direction: column;
+		border-radius: $radius-md;
+		overflow: hidden;
+		background-color: $color-light-gold-1;
+		font-size: $font-size-sm;
+		text-align: center;
+		transition: transform $duration-fast $ease-standard, box-shadow $duration-fast $ease-standard;
+
 		&:hover {
-			transform: none;
+			transform: translateY(-2px);
+			box-shadow: $shadow-soft;
+		}
+
+		@include reduced-motion {
+			&:hover {
+				transform: none;
+			}
 		}
 	}
-}
 
-.venue__activity-image {
-	width: 100%;
-	aspect-ratio: 270 / 217;
-	object-fit: cover;
-}
+	&__activity-image {
+		width: 100%;
+		aspect-ratio: 270 / 217;
+		object-fit: cover;
+	}
 
-.venue__activity-title {
-	padding: $space-2xs;
-}
+	&__activity-title {
+		padding: $space-2xs;
+	}
 
-.venue__map {
-	font-size: $font-size-sm;
-	text-decoration: underline;
-	text-align: center;
-}
+	&__map {
+		font-size: $font-size-sm;
+		text-decoration: underline;
+		text-align: center;
+	}
 
-.venue__contact {
-	font-size: $font-size-sm;
-	color: $color-text-muted;
-	text-align: center;
-}
+	&__contact {
+		font-size: $font-size-sm;
+		color: $color-text-muted;
+		text-align: center;
+	}
 
-.venue__modal-cta {
-	margin-top: $space-md;
+	&__modal-cta {
+		margin-top: $space-md;
+	}
 }
 </style>

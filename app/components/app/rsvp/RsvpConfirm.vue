@@ -37,25 +37,25 @@ function goHome(): void {
 	align-items: center;
 	gap: $space-md;
 	text-align: center;
-}
 
-.rsvp-confirm__logo {
-	width: 6.3125rem;
-	height: auto;
-	opacity: 0.5;
-}
+	&__logo {
+		width: 6.3125rem;
+		height: auto;
+		opacity: 0.5;
+	}
 
-.rsvp-confirm__title {
-	font-size: $font-size-lg; // 20px Bagien
-}
+	&__title {
+		font-size: $font-size-lg; // 20px Bagien
+	}
 
-.rsvp-confirm__message {
-	max-width: 12rem;
-	font-size: $font-size-sm;
-	color: $color-text;
-}
+	&__message {
+		max-width: 12rem;
+		font-size: $font-size-sm;
+		color: $color-text;
+	}
 
-.rsvp-confirm__upload {
-	width: 100%;
+	&__upload {
+		width: 100%;
+	}
 }
 </style>

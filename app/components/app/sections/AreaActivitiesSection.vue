@@ -39,26 +39,26 @@ function close(): void {
 <style scoped lang="scss">
 .area {
 	padding-block: $space-lg;
-}
 
-.area__list {
-	display: grid;
-	grid-template-columns: repeat(2, 1fr);
-	gap: $space-2xs;
-}
+	&__list {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: $space-2xs;
+	}
 
-.area__item {
-	width: 100%;
-	padding: $space-2xs;
-	border-radius: $radius-md;
-	background-color: $color-light-gold-1;
-	font-size: $font-size-sm;
-	text-align: center;
-}
+	&__item {
+		width: 100%;
+		padding: $space-2xs;
+		border-radius: $radius-md;
+		background-color: $color-light-gold-1;
+		font-size: $font-size-sm;
+		text-align: center;
+	}
 
-.area__link {
-	display: inline-block;
-	margin-top: $space-md;
-	text-decoration: underline;
+	&__link {
+		display: inline-block;
+		margin-top: $space-md;
+		text-decoration: underline;
+	}
 }
 </style>

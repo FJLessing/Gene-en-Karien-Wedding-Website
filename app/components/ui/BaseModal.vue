@@ -52,32 +52,32 @@ onBeforeUnmount(() => {
 	place-items: center;
 	padding: $space-md;
 	background-color: rgba(#000000, 0.4);
-}
 
-.base-modal__panel {
-	position: relative;
-	width: 100%;
-	max-width: $content-max-width;
-	max-height: 85dvh;
-	overflow-y: auto;
-	padding: $space-lg;
-	border-radius: $radius-lg;
-	background-color: $color-bg;
-	box-shadow: $shadow-soft;
-}
+	&__panel {
+		position: relative;
+		width: 100%;
+		max-width: $content-max-width;
+		max-height: 85dvh;
+		overflow-y: auto;
+		padding: $space-lg;
+		border-radius: $radius-lg;
+		background-color: $color-bg;
+		box-shadow: $shadow-soft;
+	}
 
-.base-modal__close {
-	position: absolute;
-	top: $space-sm;
-	right: $space-sm;
-	font-size: $font-size-lg;
-	line-height: 1;
-	color: $color-text-muted;
-}
+	&__close {
+		position: absolute;
+		top: $space-sm;
+		right: $space-sm;
+		font-size: $font-size-lg;
+		line-height: 1;
+		color: $color-text-muted;
+	}
 
-.base-modal__title {
-	margin-bottom: $space-sm;
-	font-size: $font-size-xl;
+	&__title {
+		margin-bottom: $space-sm;
+		font-size: $font-size-xl;
+	}
 }
 
 .modal-fade-enter-active,

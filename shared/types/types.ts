@@ -138,14 +138,15 @@ export interface SiteContent {
 		invitationLine2: string;
 	};
 	event: {
-		dateLabel: string;
+		dates: string;
+		year: string;
 		startsAt: string; // ISO — drives the countdown
 		venueName: string;
 		venueLocation: string;
-		rsvpByLabel: string;
+		rsvpBy: string;
 	};
 	welcome: string[];
-	details: { dateLabel: string; locationLabel: string; rsvpByLabel: string };
+	details: { dates: string; year: string; location: string[]; rsvpBy: string };
 	program: ProgramDay[];
 	dressCode: string;
 	venue: {

@@ -50,49 +50,49 @@ const model = defineModel<string>();
 	display: flex;
 	flex-direction: column;
 	gap: $space-3xs;
-}
 
-.form-field__label {
-	font-size: $font-size-sm;
-	font-weight: $font-weight-medium;
-}
-
-.form-field__required {
-	color: $color-error;
-}
-
-.form-field__input {
-	width: 100%;
-	min-height: 2.6875rem;
-	padding: $space-3xs $space-md;
-	border: 1px solid $color-field-border;
-	border-radius: $radius-sm;
-	font-size: $font-size-sm;
-	color: $color-text;
-
-	&::placeholder {
-		color: $color-text-muted;
+	&__label {
+		font-size: $font-size-sm;
+		font-weight: $font-weight-medium;
 	}
 
-	&:focus-visible {
-		border-color: $color-gold;
+	&__required {
+		color: $color-error;
 	}
 
-	&[readonly] {
-		cursor: default;
+	&__input {
+		width: 100%;
+		min-height: 2.6875rem;
+		padding: $space-3xs $space-md;
+		border: 1px solid $color-field-border;
+		border-radius: $radius-sm;
+		font-size: $font-size-sm;
+		color: $color-text;
+
+		&::placeholder {
+			color: $color-text-muted;
+		}
+
+		&:focus-visible {
+			border-color: $color-gold;
+		}
+
+		&[readonly] {
+			cursor: default;
+		}
+
+		&--default {
+			background-color: $color-field;
+		}
+
+		&--subtle {
+			background-color: $color-field-subtle;
+		}
 	}
-}
 
-.form-field__input--default {
-	background-color: $color-field;
-}
-
-.form-field__input--subtle {
-	background-color: $color-field-subtle;
-}
-
-.form-field__error {
-	font-size: $font-size-sm;
-	color: $color-error;
+	&__error {
+		font-size: $font-size-sm;
+		color: $color-error;
+	}
 }
 </style>

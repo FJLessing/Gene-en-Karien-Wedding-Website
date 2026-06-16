@@ -1,6 +1,7 @@
 <script lang="ts" setup>
-// Dress code (Story 2). Includes a swatch strip placeholder for the colour scheme.
+// Dress code (Story 2). Includes a swatch strip for the colour palette.
 const { content } = useContent();
+const swatches = ["#121212", "#343434", "#f7f5f0", "#d8c3a5", "#3a404e"];
 const root = ref<HTMLElement | null>(null);
 useReveal(root, { direction: "up" });
 </script>
@@ -10,7 +11,7 @@ useReveal(root, { direction: "up" });
 		<h2 class="dress-code__heading u-heading">{{ content?.ui.dressCode.heading }}</h2>
 		<p v-if="content" class="dress-code__text">{{ content.dressCode }}</p>
 		<div class="dress-code__swatches" aria-hidden="true">
-			<span v-for="n in 5" :key="n" class="dress-code__swatch" />
+			<span v-for="colour in swatches" :key="colour" class="dress-code__swatch" :style="{ backgroundColor: colour }" />
 		</div>
 	</section>
 </template>
@@ -19,28 +20,32 @@ useReveal(root, { direction: "up" });
 .dress-code {
 	padding-block: $space-xl;
 	text-align: center;
-}
 
-.dress-code__heading {
-	margin-bottom: $space-sm;
-	font-size: $font-size-xl;
-}
+	&__heading {
+		margin-bottom: $space-sm;
+		font-size: $font-size-xl;
+	}
 
-.dress-code__text {
-	margin-bottom: $space-md;
-	font-size: $font-size-base;
-}
+	&__text {
+		margin-bottom: $space-md;
+		font-size: $font-size-base;
+	}
 
-.dress-code__swatches {
-	display: flex;
-	justify-content: center;
-	gap: $space-2xs;
-}
+	&__swatches {
+		display: flex;
+		justify-content: center;
+		margin-top: $space-3xl;
+	}
 
-.dress-code__swatch {
-	width: 3.5rem;
-	height: 1.125rem;
-	border-radius: $radius-sm;
-	background-color: $color-light-gold-1;
+	&__swatch {
+		width: 3.5rem;
+		height: 1.125rem;
+		transition: transform .3s cubic-bezier(0.4, 0, 0.2, 1);
+		transform-origin: bottom center;
+
+		&:hover {
+			transform: scaleY(300%)
+		}
+	}
 }
 </style>

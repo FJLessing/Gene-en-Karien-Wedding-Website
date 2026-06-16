@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import BaseMonogram from '~/components/ui/BaseMonogram.vue';
-import BaseScrollIndicator from '~/components/ui/BaseScrollIndicator.vue';
+import DecoratorLine from '~/components/ui/DecoratorLine.vue';
 
 // Hero (Story 2): venue image, couple image, invitation line, names, scroll cue.
 // Content-driven — no copy hardcoded.
@@ -30,7 +30,7 @@ useReveal(root, { direction: "fade", duration: 1 });
 			<img src="/img/dunkeld_estate_illustration.webp" alt="Dunkeld Estate illustration" />
 		</div>
 		<div class="hero__scroll" aria-hidden="true">
-			<BaseScrollIndicator />
+			<DecoratorLine />
 			<span>{{ content?.ui.nav.scroll }}</span>
 		</div>
 	</section>
@@ -53,30 +53,29 @@ useReveal(root, { direction: "fade", duration: 1 });
 	}
 
 	&__invite {
-			display: flex;
-			flex-direction: column;
-			gap: $space-3xs;
-			font-size: $font-size-base;
-			color: $color-text-muted;
+		display: flex;
+		flex-direction: column;
+		gap: $space-3xs;
+		font-size: $font-size-base;
+		color: $color-text-muted;
 	}
 
 	&__names {
-			display: flex;
-			flex-direction: column;
-			margin-top: $space-lg;
-			gap: $space-2xs;
-			font-size: $font-size-2xl;
-			font-family: $font-display;
+		display: flex;
+		flex-direction: column;
+		margin-top: $space-lg;
+		gap: $space-2xs;
+		font-size: $font-size-2xl;
+		font-family: $font-display;
 	}
 
 	&__amp {
-			font-size: $font-size-lg;
+		font-size: $font-size-lg;
 	}
 
 	&__illustration {
 		max-width: 80vw;
 	}
-
 
 	&__scroll {
 		display: flex;

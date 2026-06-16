@@ -53,30 +53,30 @@ SEOService.set({ title: () => content.value?.ui.rsvp.metaTitle });
 	display: flex;
 	flex-direction: column;
 	gap: $space-md;
-}
 
-.rsvp-page__logo {
-	width: 6.3125rem; // ~101px monogram from the design
-	height: auto;
-	margin-inline: auto;
-	opacity: 0.5; // softly embossed look
-}
+	&__logo {
+		width: 6.3125rem; // ~101px monogram from the design
+		height: auto;
+		margin-inline: auto;
+		opacity: 0.5; // softly embossed look
+	}
 
-.rsvp-page__back {
-	display: inline-flex;
-	align-items: center;
-	gap: $space-2xs;
-	align-self: flex-start;
-	padding: $space-2xs 0;
-	font-size: $font-size-base;
-	color: $color-text-muted;
-}
+	&__back {
+		display: inline-flex;
+		align-items: center;
+		gap: $space-2xs;
+		align-self: flex-start;
+		padding: $space-2xs 0;
+		font-size: $font-size-base;
+		color: $color-text-muted;
+	}
 
-.rsvp-page__back-caret {
-	width: 0.625rem;
-	height: 0.625rem;
-	border-left: 1.5px solid currentcolor;
-	border-bottom: 1.5px solid currentcolor;
-	transform: rotate(45deg);
+	&__back-caret {
+		width: 0.625rem;
+		height: 0.625rem;
+		border-left: 1.5px solid currentcolor;
+		border-bottom: 1.5px solid currentcolor;
+		transform: rotate(45deg);
+	}
 }
 </style>

@@ -2,7 +2,7 @@
 const { content } = useContent();
 const { gsap, ScrollTrigger, withCleanup } = useGsap();
 
-const activeIndex = ref(0);
+const activeIndex = ref(1);
 
 const days = computed(() => content.value?.program ?? []);
 const activeDay = computed(() => days.value[activeIndex.value] ?? null);
@@ -33,7 +33,7 @@ function revealItems(): void {
 			{
 				opacity: 1,
 				x: "0rem",
-				duration: 0.6,
+				duration: 1.6,
 				ease: "power2.out",
 				scrollTrigger: {
 					trigger: item,
@@ -85,8 +85,10 @@ onMounted(() => {
 		<ol v-if="activeDay" ref="listRef" class="program__timeline">
 			<li v-for="(item, i) in activeDay.items" :key="i" class="program__item">
 				<span class="program__time">{{ item.time }}</span>
-				<span class="program__icon" aria-hidden="true" />
-				<p class="program__desc">{{ item.description }}</p>
+				<div class="program__icon" aria-hidden="true">
+					<img :src="'/img/icons/' + item.icon + '.svg'" :alt="item.icon" />
+				</div>
+				<span class="program__desc">{{ item.description }}</span>
 			</li>
 		</ol>
 	</section>
@@ -95,60 +97,106 @@ onMounted(() => {
 <style scoped lang="scss">
 .program {
 	padding-block: $space-xl;
-}
 
-.program__heading {
-	margin-bottom: $space-md;
-	font-size: $font-size-xl;
-	text-align: center;
-}
-
-.program__tabs {
-	display: flex;
-	justify-content: center;
-	gap: $space-md;
-	margin-bottom: $space-lg;
-}
-
-.program__tab {
-	padding-bottom: $space-3xs;
-	font-size: $font-size-base;
-	color: $color-text-muted;
-	border-bottom: 2px solid transparent;
-
-	&--active {
-		color: $color-text;
-		border-bottom-color: $color-gold;
+	&__heading {
+		font-family: $font-body;
+		margin-bottom: $space-lg;
+		text-align: center;
+		text-transform: uppercase;
 	}
-}
 
-.program__timeline {
-	display: flex;
-	flex-direction: column;
-	gap: $space-lg;
-}
+	&__tabs {
+		display: flex;
+		justify-content: stretch;
+		gap: $space-3xs;
+		margin-bottom: $space-lg;
+	}
 
-.program__item {
-	display: grid;
-	grid-template-columns: auto 1.5rem 1fr;
-	align-items: center;
-	gap: $space-sm;
-}
+	&__tab {
+		flex: 1 1 33%;
+		padding-bottom: $space-3xs;
+		font-size: $font-size-lg;
+		font-family: $font-display;
+		color: $color-text-muted;
+		border-bottom: 2px solid transparent;
 
-.program__time {
-	font-family: $font-display;
-	font-size: $font-size-lg;
-}
+		transition: color .2s, border .2s ease-out;
 
-.program__icon {
-	width: 1.5rem;
-	height: 1.5rem;
-	border-radius: 50%;
-	background-color: $color-gold;
-}
+		&--active {
+			color: $color-text;
+			border-bottom-color: $color-gold;
+		}
 
-.program__desc {
-	font-size: $font-size-sm;
-	color: $color-text-muted;
+		&:hover {
+			color: $color-text;
+			border-bottom-color: $color-light-gold-1;
+		}
+	}
+
+	&__timeline {
+		display: flex;
+		flex-direction: column;
+		gap: $space-2xl;
+	}
+
+	&__item {
+		position: relative;
+		display: flex;
+		justify-content: space-evenly;
+		align-items: center;
+		gap: 0;
+		margin-bottom: $space-xl;
+
+		&:first-child {
+			margin-top: $space-sm;
+		}
+
+		&:nth-child(odd) {
+			flex-direction: row-reverse;
+
+			.program__desc {
+				text-align: right;
+			}
+		}
+
+		&:nth-child(even) {
+			.program__time {
+				text-align: right;
+			}
+		}
+
+		&:not(:last-child)::after {
+			content: ' ';
+			position: absolute;
+			height: $space-lg;
+			width: 1px;
+			background: $color-light-gold-1;
+			top: calc(100% + $space-md);
+		}
+	}
+
+	&__time {
+		font-family: $font-display;
+		font-size: $font-size-2xl;
+		flex: 0 0 38%;
+	}
+
+	&__icon {
+		flex: 0 0 24%;
+
+		img {
+			display: block;
+			margin: auto;
+			max-width: 100%;
+			max-height: 100%;
+			object-fit: contain;
+		}
+	}
+
+	&__desc {
+		font-size: $font-size-sm;
+		color: $color-text-muted;
+		flex: 0 0 38%;
+	}
 }
 </style>

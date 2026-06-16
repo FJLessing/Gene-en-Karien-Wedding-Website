@@ -89,43 +89,43 @@ async function submit(): Promise<void> {
 	display: flex;
 	flex-direction: column;
 	gap: $space-sm;
-}
 
-.rsvp-form__title {
-	font-size: $font-size-base;
-	font-weight: $font-weight-regular;
-	color: $color-text;
-}
+	&__title {
+		font-size: $font-size-base;
+		font-weight: $font-weight-regular;
+		color: $color-text;
+	}
 
-.rsvp-form__added {
-	display: flex;
-	flex-direction: column;
-	gap: $space-3xs;
-	font-size: $font-size-sm;
-	color: $color-text-muted;
-}
+	&__added {
+		display: flex;
+		flex-direction: column;
+		gap: $space-3xs;
+		font-size: $font-size-sm;
+		color: $color-text-muted;
+	}
 
-.rsvp-form__add {
-	display: inline-flex;
-	align-items: center;
-	gap: $space-2xs;
-	align-self: flex-start;
-	padding: $space-2xs;
-	color: $color-text;
-}
+	&__add {
+		display: inline-flex;
+		align-items: center;
+		gap: $space-2xs;
+		align-self: flex-start;
+		padding: $space-2xs;
+		color: $color-text;
+	}
 
-.rsvp-form__add-icon {
-	font-size: $font-size-lg;
-	line-height: 1;
-}
+	&__add-icon {
+		font-size: $font-size-lg;
+		line-height: 1;
+	}
 
-.rsvp-form__add-text {
-	font-size: $font-size-sm;
-	text-decoration: underline;
-}
+	&__add-text {
+		font-size: $font-size-sm;
+		text-decoration: underline;
+	}
 
-.rsvp-form__error {
-	font-size: $font-size-sm;
-	color: $color-error;
+	&__error {
+		font-size: $font-size-sm;
+		color: $color-error;
+	}
 }
 </style>

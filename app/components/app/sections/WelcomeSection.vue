@@ -39,14 +39,14 @@ useReveal(root, { direction: "up" });
 	}
 
 	&__text {
-			font-size: $font-size-base;
-			line-height: $line-height-loose;
-			color: $color-text;
-			margin-bottom: $font-size-base;
+		font-size: $font-size-base;
+		line-height: $line-height-loose;
+		color: $color-text;
+		margin-bottom: $font-size-base;
 
-			&:first-child {
-				font-family: $font-display;
-			}
+		&:first-child {
+			font-family: $font-display;
+		}
 	}
 }
 </style>

@@ -41,20 +41,20 @@ SEOService.set({ title: () => content.value?.ui.gallery.metaTitle });
 	flex-direction: column;
 	gap: $space-lg;
 	text-align: center;
-}
 
-.gallery-page__title {
-	font-size: $font-size-xl;
-}
+	&__title {
+		font-size: $font-size-xl;
+	}
 
-.gallery-page__grid {
-	display: grid;
-	grid-template-columns: repeat(2, 1fr);
-	gap: $space-2xs;
-}
+	&__grid {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: $space-2xs;
+	}
 
-.gallery-page__locked {
-	font-size: $font-size-base;
-	color: $color-text-muted;
+	&__locked {
+		font-size: $font-size-base;
+		color: $color-text-muted;
+	}
 }
 </style>

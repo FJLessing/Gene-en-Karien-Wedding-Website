@@ -12,11 +12,12 @@ const en: SiteContent = {
 		invitationLine2: "formally invited to the nuptials of",
 	},
 	event: {
-		dateLabel: "9 - 11 October 2026",
+		dates: "9 - 11 October 2026",
+		year: "2026",
 		startsAt: "2026-10-10T15:00:00+02:00", // ceremony at the chapel, Saturday 15:00
 		venueName: "Dunkeld Equestrian Estate",
 		venueLocation: "Dullstroom, Mpumalanga",
-		rsvpByLabel: "20 July 2026",
+		rsvpBy: "20 July 2026",
 	},
 	welcome: [
 		"Welcome to our wedding website!",
@@ -24,9 +25,10 @@ const en: SiteContent = {
 		"We cannot wait to raise a glass and celebrate with you.",
 	],
 	details: {
-		dateLabel: "9 - 11 October 2026",
-		locationLabel: "Dunkeld Equestrian Estate, Dullstroom, Mpumalanga",
-		rsvpByLabel: "RSVP by 20 July 2026",
+		dates: "9 - 11 October 2026",
+		year: "2026",
+		location: ["Dunkeld Equestrian Estate,", " Dullstroom, Mpumalanga"],
+		rsvpBy: "20 July 2026",
 	},
 	program: [
 		{
@@ -42,7 +44,6 @@ const en: SiteContent = {
 				{ time: "15:00", icon: "ceremony", description: "ceremony at the chapel" },
 				{ time: "17:00", icon: "drinks", description: "drinks and canapés on the lawn" },
 				{ time: "18:00", icon: "reception", description: "the reception begins!" },
-				{ time: "23:00", icon: "last-rounds", description: "last rounds" },
 			],
 		},
 		{

@@ -43,6 +43,7 @@ shared/     Types + Result class — imported by both app and server, no Vue dep
 - **GSAP**: `const { gsap, withCleanup } = useGsap()`. Wrap all tweens in `withCleanup()` to prevent leaks. Never import `gsap` directly.
 - **Stores**: Pinia Options Store pattern with `isLoading: boolean`, `error: string | null`, and `acceptHMRUpdate` at the bottom.
 - **SCSS**: `_tokens.scss` and `_mixins.scss` are auto-injected — do not `@use` them manually. No `px`, no Tailwind.
+- **SCSS structure**: one nested block per widget — reference children/modifiers/states with `&` (`&__child`, `&--modifier`, `&:hover`), never flat sibling selectors. Order nested selectors to match template source order; base declarations before modifiers. `@keyframes`, framework transition classes (`*-enter-active`, etc.), and local SCSS variables stay at top level. See [CountdownTimer.vue](app/components/app/sections/CountdownTimer.vue) for the reference shape.
 - **Types**: enums over string literals. Add to `shared/types/types.ts`.
 - **`runtimeConfig`**: use `useRuntimeConfig()`, never `process.env`. Server secrets at top level; client-safe values under `public`.
 - **Auto-imports**: composables, store factories, Vue APIs, and Nuxt composables are auto-imported. Types and `ApiService` need explicit imports.

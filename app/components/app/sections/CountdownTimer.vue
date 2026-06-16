@@ -154,71 +154,70 @@ onBeforeUnmount(() => {
 <style scoped lang="scss">
 .countdown {
 	padding-block: $space-4xl;
-}
+	&__row {
+		display: flex;
+		align-items: flex-start;
+		justify-content: center;
+		gap: $space-md;
+	}
 
-.countdown__row {
-	display: flex;
-	align-items: flex-start;
-	justify-content: center;
-	gap: $space-md;
-}
+	&__unit {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: $space-3xs;
 
-.countdown__unit {
-	position: relative;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: $space-3xs;
-
-	&:not(:last-child) {
-		&::after {
-			content: " ";
-			background: $color-black;
-			position: absolute;
-			right: - $space-md * 0.5;
-			top: $font-size-2xl * 0.5;
-			transform: translateY(-50%);
-			height: 40%;
-			border: .75px solid $color-border;
-			width: .5px;
+		&:not(:last-child) {
+			&::after {
+				content: " ";
+				background: $color-black;
+				position: absolute;
+				right: -$space-md * 0.5;
+				top: $font-size-2xl * 0.5;
+				transform: translateY(-50%);
+				height: 40%;
+				border: 0.75px solid $color-border;
+				width: 0.5px;
+			}
 		}
 	}
-}
 
-.countdown__digits {
-	display: flex;
-	font-family: $font-display;
-	font-size: $font-size-2xl;
-	font-variant-numeric: tabular-nums;
-	line-height: 1;
-}
-
-// The mask: sized in the digits' own font-size so nothing gets clipped.
-.countdown__digit-track {
-	position: relative;
-	overflow: hidden;
-	width: 1ch;
-	height: 1em;
-	text-align: center;
-}
-
-.countdown__digit {
-	display: block;
-	height: 100%;
-
-	&--next {
-		position: absolute;
-		inset-block-start: 0;
-		inset-inline-start: 0;
-		width: 100%;
-		transform: translateY(100%);
+	&__digits {
+		display: flex;
+		font-family: $font-display;
+		font-size: $font-size-2xl;
+		font-variant-numeric: tabular-nums;
+		line-height: 1;
 	}
-}
 
-.countdown__label {
-	font-size: $font-size-xs;
-	letter-spacing: 0.08em;
-	text-transform: uppercase;
-	color: $color-text-muted;
+	// The mask: sized in the digits' own font-size so nothing gets clipped.
+	&__digit-track {
+		position: relative;
+		overflow: hidden;
+		width: 1ch;
+		height: 1em;
+		text-align: center;
+	}
+
+	&__digit {
+		display: block;
+		height: 100%;
+
+		&--next {
+			position: absolute;
+			inset-block-start: 0;
+			inset-inline-start: 0;
+			width: 100%;
+			transform: translateY(100%);
+		}
+	}
+
+	&__label {
+		font-size: $font-size-xs;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: $color-text-muted;
+	}
 }
 </style>

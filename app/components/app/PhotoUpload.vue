@@ -49,29 +49,29 @@ async function upload(): Promise<void> {
 	flex-direction: column;
 	gap: $space-2xs;
 	width: 100%;
-}
 
-.photo-upload__label {
-	display: inline-flex;
-	justify-content: center;
-	padding: $space-2xs;
-	border: 1px dashed $color-border;
-	border-radius: $radius-md;
-	font-size: $font-size-sm;
-	cursor: pointer;
-}
+	&__label {
+		display: inline-flex;
+		justify-content: center;
+		padding: $space-2xs;
+		border: 1px dashed $color-border;
+		border-radius: $radius-md;
+		font-size: $font-size-sm;
+		cursor: pointer;
+	}
 
-.photo-upload__input {
-	display: none;
-}
+	&__input {
+		display: none;
+	}
 
-.photo-upload__count {
-	font-size: $font-size-xs;
-	color: $color-text-muted;
-}
+	&__count {
+		font-size: $font-size-xs;
+		color: $color-text-muted;
+	}
 
-.photo-upload__message {
-	font-size: $font-size-sm;
-	color: $color-text-muted;
+	&__message {
+		font-size: $font-size-sm;
+		color: $color-text-muted;
+	}
 }
 </style>

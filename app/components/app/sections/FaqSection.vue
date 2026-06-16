@@ -17,10 +17,10 @@ const { content } = useContent();
 <style scoped lang="scss">
 .faq {
 	padding-block: $space-xl;
-}
 
-.faq__heading {
-	margin-bottom: $space-md;
-	font-size: $font-size-xl;
+	&__heading {
+		margin-bottom: $space-md;
+		font-size: $font-size-xl;
+	}
 }
 </style>

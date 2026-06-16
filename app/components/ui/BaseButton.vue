@@ -78,50 +78,50 @@ const emit = defineEmits<{ click: [event: MouseEvent]; }>();
 			transform: none;
 		}
 	}
-}
 
-// ── Primary: gold fill, dark text ──────────────────────────────────────────────
-.base-button--primary {
-	background-color: $color-gold;
-	color: $color-text;
-
-	&:not(:disabled):active {
-		background-color: $color-light-gold-1;
-	}
-}
-
-// ── Secondary: dark fill, white text ───────────────────────────────────────────
-.base-button--secondary {
-	background-color: $color-black;
-	color: $color-white;
-
-	&:not(:disabled):active {
-		background-color: $color-grey;
-	}
-}
-
-// ── Ghost / tertiary: outlined ─────────────────────────────────────────────────
-.base-button--ghost {
-	background-color: transparent;
-	border-color: $color-black;
-	color: $color-text;
-
-	&:not(:disabled):hover {
-		background-color: $color-light-gold-1;
-	}
-
-	&:not(:disabled):active {
+	// ── Primary: gold fill, dark text ──────────────────────────────────────────────
+	&--primary {
 		background-color: $color-gold;
-	}
-}
+		color: $color-text;
 
-.base-button__spinner {
-	width: 1rem;
-	height: 1rem;
-	border: 2px solid currentcolor;
-	border-top-color: transparent;
-	border-radius: 50%;
-	animation: spin 0.6s linear infinite;
+		&:not(:disabled):active {
+			background-color: $color-light-gold-1;
+		}
+	}
+
+	// ── Secondary: dark fill, white text ───────────────────────────────────────────
+	&--secondary {
+		background-color: $color-black;
+		color: $color-white;
+
+		&:not(:disabled):active {
+			background-color: $color-grey;
+		}
+	}
+
+	// ── Ghost / tertiary: outlined ─────────────────────────────────────────────────
+	&--ghost {
+		background-color: transparent;
+		border-color: $color-black;
+		color: $color-text;
+
+		&:not(:disabled):hover {
+			background-color: $color-light-gold-1;
+		}
+
+		&:not(:disabled):active {
+			background-color: $color-gold;
+		}
+	}
+
+	&__spinner {
+		width: 1rem;
+		height: 1rem;
+		border: 2px solid currentcolor;
+		border-top-color: transparent;
+		border-radius: 50%;
+		animation: spin 0.6s linear infinite;
+	}
 }
 
 @keyframes spin {

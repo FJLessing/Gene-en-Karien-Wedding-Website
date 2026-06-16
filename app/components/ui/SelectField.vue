@@ -50,53 +50,53 @@ const model = defineModel<string>();
 	display: flex;
 	flex-direction: column;
 	gap: $space-3xs;
-}
 
-.form-field__label {
-	font-size: $font-size-sm;
-	font-weight: $font-weight-medium;
-}
-
-.form-field__required {
-	color: $color-error;
-}
-
-.form-field__select-wrap {
-	position: relative;
-}
-
-.form-field__input {
-	width: 100%;
-	min-height: 2.6875rem; // 43px
-	padding: $space-3xs $space-md;
-	border: 1px solid $color-field-border;
-	border-radius: $radius-sm;
-	background-color: $color-field;
-	font-size: $font-size-sm;
-	color: $color-text;
-
-	&:focus-visible {
-		border-color: $color-gold;
+	&__label {
+		font-size: $font-size-sm;
+		font-weight: $font-weight-medium;
 	}
-}
 
-.form-field__select {
-	appearance: none;
-	// Caret chevron (matches the design's CaretDown), tinted with the body colour.
-	padding-right: $space-xl;
-	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%234a4a4a' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
-	background-repeat: no-repeat;
-	background-position: right $space-md center;
-	cursor: pointer;
-}
+	&__required {
+		color: $color-error;
+	}
 
-// Grey out the placeholder text while no real option is selected.
-.form-field__select--empty {
-	color: $color-text-muted;
-}
+	&__select-wrap {
+		position: relative;
+	}
 
-.form-field__error {
-	font-size: $font-size-sm;
-	color: $color-error;
+	&__input {
+		width: 100%;
+		min-height: 2.6875rem; // 43px
+		padding: $space-3xs $space-md;
+		border: 1px solid $color-field-border;
+		border-radius: $radius-sm;
+		background-color: $color-field;
+		font-size: $font-size-sm;
+		color: $color-text;
+
+		&:focus-visible {
+			border-color: $color-gold;
+		}
+	}
+
+	&__select {
+		appearance: none;
+		// Caret chevron (matches the design's CaretDown), tinted with the body colour.
+		padding-right: $space-xl;
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%234a4a4a' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+		background-repeat: no-repeat;
+		background-position: right $space-md center;
+		cursor: pointer;
+
+		// Grey out the placeholder text while no real option is selected.
+		&--empty {
+			color: $color-text-muted;
+		}
+	}
+
+	&__error {
+		font-size: $font-size-sm;
+		color: $color-error;
+	}
 }
 </style>

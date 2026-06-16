@@ -119,145 +119,143 @@ $apex: 46%; // where the four flaps meet (down from the top edge)
 	justify-content: center;
 	padding: $space-lg;
 	background-color: $color-white;
-}
 
-.gate__envelope {
-	position: relative;
-	width: min(86vw, 23rem);
-	aspect-ratio: 357 / 221;
-	perspective: 110rem;
-	filter: drop-shadow(0 1.25rem 1.5rem rgba(#000000, 0.12));
-}
-
-// Inside face, sits behind everything; seen through the open flap.
-.gate__base {
-	position: absolute;
-	inset: 0;
-	border-radius: $radius-sm;
-	background: linear-gradient(180deg, $paper-inside, $paper-dim);
-	z-index: 1;
-}
-
-// Inside throat — the shaded triangle seen through the opened flap.
-.gate__throat {
-	position: absolute;
-	inset: 0;
-	clip-path: polygon(0 0, 100% 0, 50% #{$apex});
-	background: linear-gradient(180deg, $paper-dim, #d8d4ce);
-	box-shadow: inset 0 0.0625rem 0.1875rem rgba(#000000, 0.06);
-	z-index: 2;
-}
-
-// The three front pocket faces (clipped triangles meeting at the centre apex).
-.gate__face {
-	position: absolute;
-	inset: 0;
-	z-index: 2;
-}
-
-.gate__face--left {
-	clip-path: polygon(0 0, 0 100%, 50% #{$apex});
-	background: linear-gradient(95deg, $paper-dim, $paper);
-}
-
-.gate__face--right {
-	clip-path: polygon(100% 0, 100% 100%, 50% #{$apex});
-	background: linear-gradient(265deg, $paper-dim, $paper);
-}
-
-.gate__face--bottom {
-	clip-path: polygon(0 100%, 100% 100%, 50% #{$apex});
-	background: linear-gradient(0deg, $paper-light, $paper);
-	z-index: 3;
-}
-
-// ── Password form ──────────────────────────────────────────────────────────────
-.gate__form {
-	position: absolute;
-	top: 24%;
-	left: 50%;
-	transform: translateX(-50%);
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: $space-2xs;
-	width: 62%;
-	z-index: 4;
-	opacity: 0; // revealed by the opening timeline; avoids a first-paint flash
-}
-
-.gate__input {
-	width: 100%;
-	min-height: 2.5rem;
-	padding: $space-2xs $space-sm;
-	border: 1px solid $color-field-border;
-	border-radius: $radius-sm;
-	background-color: $color-white;
-	font-size: $font-size-sm;
-	color: $color-text;
-	text-align: center;
-	box-shadow: $shadow-soft;
-
-	&::placeholder {
-		color: $color-text-muted;
+	&__envelope {
+		position: relative;
+		width: min(86vw, 23rem);
+		aspect-ratio: 357 / 221;
+		perspective: 110rem;
+		filter: drop-shadow(0 1.25rem 1.5rem rgba(#000000, 0.12));
 	}
 
-	&:focus-visible {
-		border-color: $color-gold;
+	// Inside face, sits behind everything; seen through the open flap.
+	&__base {
+		position: absolute;
+		inset: 0;
+		border-radius: $radius-sm;
+		background: linear-gradient(180deg, $paper-inside, $paper-dim);
+		z-index: 1;
 	}
-}
 
-.gate__error {
-	font-size: $font-size-xs;
-	color: $color-error;
-	text-align: center;
-}
+	// Inside throat — the shaded triangle seen through the opened flap.
+	&__throat {
+		position: absolute;
+		inset: 0;
+		clip-path: polygon(0 0, 100% 0, 50% #{$apex});
+		background: linear-gradient(180deg, $paper-dim, #d8d4ce);
+		box-shadow: inset 0 0.0625rem 0.1875rem rgba(#000000, 0.06);
+		z-index: 2;
+	}
 
-// ── Hinged flap ──────────────────────────────────────────────────────────────
-.gate__flap {
-	position: absolute;
-	inset: 0;
-	transform-origin: top center;
-	transform-style: preserve-3d;
-	z-index: 5;
-	will-change: transform;
-}
+	// The three front pocket faces (clipped triangles meeting at the centre apex).
+	&__face {
+		position: absolute;
+		inset: 0;
+		z-index: 2;
 
-.gate__flap-face {
-	position: absolute;
-	inset: 0;
-	clip-path: polygon(0 0, 100% 0, 50% #{$apex});
-	backface-visibility: hidden;
-}
+		&--left {
+			clip-path: polygon(0 0, 0 100%, 50% #{$apex});
+			background: linear-gradient(95deg, $paper-dim, $paper);
+		}
 
-.gate__flap-face--front {
-	background: linear-gradient(180deg, $paper-light, $paper);
-	// Soft crease along the flap's lower edges.
-	box-shadow: inset 0 -0.0625rem 0.125rem rgba(#000000, 0.04);
-}
+		&--right {
+			clip-path: polygon(100% 0, 100% 100%, 50% #{$apex});
+			background: linear-gradient(265deg, $paper-dim, $paper);
+		}
 
-.gate__flap-face--back {
-	background: linear-gradient(180deg, $paper-inside, $paper-dim);
-	transform: rotateX(180deg);
-}
+		&--bottom {
+			clip-path: polygon(0 100%, 100% 100%, 50% #{$apex});
+			background: linear-gradient(0deg, $paper-light, $paper);
+			z-index: 3;
+		}
+	}
 
-// Embossed GK seal on the closed flap.
-.gate__mono {
-	position: absolute;
-	top: 16%;
-	left: 50%;
-	transform: translateX(-50%);
-	font-family: $font-display;
-	font-size: 2.75rem;
-	line-height: 1;
-	color: $paper;
-	text-shadow: 0.0625rem 0.0625rem 0.0625rem rgba(#ffffff, 0.9),
-		-0.0625rem -0.0625rem 0.0625rem rgba(#000000, 0.12);
-}
+	// ── Password form ──────────────────────────────────────────────────────────────
+	&__form {
+		position: absolute;
+		top: 24%;
+		left: 50%;
+		transform: translateX(-50%);
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: $space-2xs;
+		width: 62%;
+		z-index: 4;
+		opacity: 0; // revealed by the opening timeline; avoids a first-paint flash
+	}
 
-@include reduced-motion {
-	.gate__flap {
-		transition: none;
+	&__input {
+		width: 100%;
+		min-height: 2.5rem;
+		padding: $space-2xs $space-sm;
+		border: 1px solid $color-field-border;
+		border-radius: $radius-sm;
+		background-color: $color-white;
+		font-size: $font-size-sm;
+		color: $color-text;
+		text-align: center;
+		box-shadow: $shadow-soft;
+
+		&::placeholder {
+			color: $color-text-muted;
+		}
+
+		&:focus-visible {
+			border-color: $color-gold;
+		}
+	}
+
+	&__error {
+		font-size: $font-size-xs;
+		color: $color-error;
+		text-align: center;
+	}
+
+	// ── Hinged flap ──────────────────────────────────────────────────────────────
+	&__flap {
+		position: absolute;
+		inset: 0;
+		transform-origin: top center;
+		transform-style: preserve-3d;
+		z-index: 5;
+		will-change: transform;
+
+		@include reduced-motion {
+			transition: none;
+		}
+	}
+
+	&__flap-face {
+		position: absolute;
+		inset: 0;
+		clip-path: polygon(0 0, 100% 0, 50% #{$apex});
+		backface-visibility: hidden;
+
+		&--front {
+			background: linear-gradient(180deg, $paper-light, $paper);
+			// Soft crease along the flap's lower edges.
+			box-shadow: inset 0 -0.0625rem 0.125rem rgba(#000000, 0.04);
+		}
+
+		&--back {
+			background: linear-gradient(180deg, $paper-inside, $paper-dim);
+			transform: rotateX(180deg);
+		}
+	}
+
+	// Embossed GK seal on the closed flap.
+	&__mono {
+		position: absolute;
+		top: 16%;
+		left: 50%;
+		transform: translateX(-50%);
+		font-family: $font-display;
+		font-size: 2.75rem;
+		line-height: 1;
+		color: $paper;
+		text-shadow: 0.0625rem 0.0625rem 0.0625rem rgba(#ffffff, 0.9),
+			-0.0625rem -0.0625rem 0.0625rem rgba(#000000, 0.12);
 	}
 }
 </style>
