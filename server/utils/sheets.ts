@@ -1,11 +1,18 @@
 import type { RsvpSubmission, RsvpEntry, Guest } from "#shared/types/types";
 
+function normalizePhone(phone: string): string {
+	if (!phone.trim()) return "";
+	const hasPlus = phone.trimStart().startsWith("+");
+	const digits = phone.replace(/\D/g, "");
+	return hasPlus ? `+${digits}` : digits;
+}
+
 function mapEntryToRow(e: RsvpEntry, timestamp: string): string[] {
 	return [
 		e.guestId ?? "",
 		e.name,
 		e.email,
-		e.phone,
+		normalizePhone(e.phone),
 		e.mealPreference,
 		e.dietaryRequirement,
 		e.arrivalDay ?? "",

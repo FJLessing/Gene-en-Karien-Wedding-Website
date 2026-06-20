@@ -58,5 +58,9 @@ function goHome(): void {
 	&__upload {
 		width: 100%;
 	}
+
+	&__confirm__upload {
+		margin-top: $space-xl;
+	}
 }
 </style>

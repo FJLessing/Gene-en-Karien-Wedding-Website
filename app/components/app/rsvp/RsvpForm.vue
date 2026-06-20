@@ -5,11 +5,13 @@
 // invited partner chosen via search. Layout follows the "RSVP 2" design.
 import TextField from "~/components/ui/TextField.vue";
 import SelectField from "~/components/ui/SelectField.vue";
+import PhoneInput from "~/components/ui/PhoneInput.vue";
 import BaseButton from "~/components/ui/BaseButton.vue";
 import { useContent } from "~/composables/use-content";
 import { useRsvpStore } from "~/stores/rsvp-store";
 import { AttendanceChoice } from "#shared/types/types";
 import type { Guest, RsvpEntry } from "#shared/types/types";
+import TrashButton from "~/components/ui/TrashButton.vue";
 
 const store = useRsvpStore();
 const { content } = useContent();
@@ -44,6 +46,7 @@ const extraIsPartner = computed(() => extra.value?.guestId != null);
 const arrivalOptions = computed(() => content.value?.ui.rsvp.arrivalOptions ?? []);
 const mealOptions = computed(() => content.value?.rsvp.mealOptions ?? []);
 const dietaryOptions = computed(() => content.value?.rsvp.dietaryOptions ?? []);
+const countryCodes = computed(() => content.value?.ui.rsvp.countryCodes ?? []);
 const ui = computed(() => content.value?.ui.rsvp);
 
 // ── Adding the second guest ──────────────────────────────────────────────────
@@ -90,7 +93,7 @@ async function submit(): Promise<void> {
 		<TextField :model-value="form.name" tone="subtle" readonly />
 
 		<TextField v-model="form.email" type="email" :placeholder="ui?.placeholders.email" required />
-		<TextField v-model="form.phone" type="tel" :placeholder="ui?.placeholders.phone" required />
+		<PhoneInput v-model="form.phone" :country-codes="countryCodes" :placeholder="ui?.placeholders.phone" required />
 		<SelectField v-model="form.mealPreference" :placeholder="ui?.placeholders.meal" :options="mealOptions" required />
 		<SelectField v-model="form.dietaryRequirement" :placeholder="ui?.placeholders.dietary" :options="dietaryOptions" />
 		<SelectField v-model="form.arrivalDay as string" :placeholder="ui?.placeholders.arrival" :options="arrivalOptions" required />
@@ -98,22 +101,26 @@ async function submit(): Promise<void> {
 
 		<!-- The additional guest's details, once added. -->
 		<fieldset v-if="extra" class="rsvp-form__extra">
-			<TextField
-				v-if="extraIsPartner"
-				:model-value="extra.name"
-				tone="subtle"
-				readonly
-			/>
-			<TextField v-else v-model="extra.name" :placeholder="ui?.placeholders.guestName" required />
+			<hr class="rsvp-form__divider" />
+			<div class="rsvp-form__extra-name">
+				<TextField
+					v-if="extraIsPartner"
+					:model-value="extra.name"
+					tone="subtle"
+					readonly
+				/>
+				<TextField v-else v-model="extra.name" :placeholder="ui?.placeholders.guestName" required />
+				<button type="button" class="rsvp-form__remove" @click="removeExtra" :title="ui?.removeGuest">
+					<TrashButton />
+				</button>
+			</div>
 
 			<TextField v-model="extra.email" type="email" :placeholder="ui?.placeholders.email" required />
-			<TextField v-model="extra.phone" type="tel" :placeholder="ui?.placeholders.phone" required />
+			<PhoneInput v-model="extra.phone" :country-codes="countryCodes" :placeholder="ui?.placeholders.phone" required />
 			<SelectField v-model="extra.mealPreference" :placeholder="ui?.placeholders.meal" :options="mealOptions" required />
 			<SelectField v-model="extra.dietaryRequirement" :placeholder="ui?.placeholders.dietary" :options="dietaryOptions" />
 			<SelectField v-model="extra.arrivalDay as string" :placeholder="ui?.placeholders.arrival" :options="arrivalOptions" required />
 			<TextField v-model="extra.songRequest" type="text" :placeholder="ui?.placeholders.song" />
-
-			<button type="button" class="rsvp-form__remove" @click="removeExtra">{{ ui?.removeGuest }}</button>
 		</fieldset>
 
 		<!-- Add affordance — only while no additional guest has been added. -->
@@ -166,14 +173,35 @@ async function submit(): Promise<void> {
 		gap: $space-sm;
 		padding: 0;
 		border: none;
+		min-width: 0;
+	}
+
+	&__divider {
+		width: 100%;
+		margin: 0;
+		border: none;
+		border-top: 1px solid $color-field-border;
+	}
+
+	&__extra-name {
+		display: flex;
+		position: relative;
+
+		> :first-child {
+			flex: 1;
+		}
 	}
 
 	&__remove {
-		align-self: flex-start;
-		padding: $space-2xs 0;
-		font-size: $font-size-sm;
-		color: $color-text-muted;
-		text-decoration: underline;
+		position: absolute;
+		top: 55%;
+		right: $space-xs;
+		transform: translateY(-50%);
+		padding: 0;
+		border: none;
+		background: none;
+		cursor: pointer;
+		z-index: 2;
 	}
 
 	&__add {

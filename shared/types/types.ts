@@ -128,7 +128,7 @@ export interface SiteUi {
 	gate: { passwordLabel: string; passwordPlaceholder: string; open: string; wrongPassword: string };
 	loader: { loading: string };
 	gallery: { metaTitle: string; heading: string; lockedMessage: string };
-	photoUpload: { choose: string; selectedSuffix: string; upload: string; success: string; failed: string };
+	photoUpload: { heading: string; metaTitle: string; choose: string; selectedSuffix: string; upload: string; success: string; failed: string };
 	rsvp: {
 		metaTitle: string;
 		rsvpingFor: string;
@@ -139,6 +139,7 @@ export interface SiteUi {
 		no: string;
 		arrivalOptions: SelectOption[];
 		placeholders: { guestName: string; email: string; phone: string; meal: string; dietary: string; arrival: string; song: string };
+		countryCodes: SelectOption[];
 		addedSuffix: string;
 		saveGuest: string;
 		addGuest: string;

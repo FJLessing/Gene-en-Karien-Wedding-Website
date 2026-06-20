@@ -6,6 +6,7 @@ import RsvpAttendChoice from "~/components/app/rsvp/RsvpAttendChoice.vue";
 import RsvpForm from "~/components/app/rsvp/RsvpForm.vue";
 import RsvpConfirm from "~/components/app/rsvp/RsvpConfirm.vue";
 import EnvelopeGate from "~/components/app/layout/EnvelopeGate.vue";
+import BaseMonogram from "~/components/ui/BaseMonogram.vue";
 import { useRsvpStore } from "~/stores/rsvp-store";
 import { RsvpStep } from "#shared/types/types";
 import { SEOService } from "~/services/seo-service";
@@ -42,7 +43,8 @@ SEOService.set({ title: () => content.value?.ui.rsvp.metaTitle });
 	<NuxtLayout v-else name="minimal">
 		<div class="rsvp-page">
 			<template v-if="showChrome">
-				<img src="/logo.svg" alt="" class="rsvp-page__logo" />
+				<BaseMonogram class="page-monogram" />
+
 				<button class="rsvp-page__back" type="button" @click="goBack">
 					<span class="rsvp-page__back-caret" aria-hidden="true" />
 					{{ content?.ui.nav.back }}
