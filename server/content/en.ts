@@ -59,9 +59,21 @@ const en: SiteContent = {
 		mapUrl: "",
 		contact: "Contact the events team at Dunkeld Equestrian Estate to book your activity before the day: 0112346448 or at dunkeld@gmail.co.za",
 		accommodation: {
-			heading: "Book your accommodation now",
-			body: "Kindly note all activities have to be booked with the venue in advance.",
-			bookingUrl: "",
+			heading: "Book your accommodation",
+			body: [
+				"Accommodation is reserved through Jennifer Sanderson at Touchdown Africa. Please email her and quote our booking reference ",
+				"242178.59",
+				"Use the button below to open a pre-filled email — Gene is cc'd so we can help keep track of bookings.",
+			],
+			booking: {
+				email: "jennifers@touchdown-africa.com",
+				cc: "ggsgene@gmail.com",
+				reference: "242178.59",
+				subject: "Accommodation booking — Gene & Karien's wedding (ref 242178.59)",
+				draft:
+					"Hi Jennifer,\n\nI would like to book accommodation for Gene & Karien's wedding at Dunkeld Equestrian Estate (9–11 October 2026).\n\nBooking reference: 242178.59\n\nMy details:\nName:\nNumber of guests:\nNights / dates:\nContact number:\n\nThank you!",
+				cta: "Email to book your stay",
+			},
 		},
 		// Images downloaded from dunkeldestate.co.za/activities (public/img/activities).
 		// Activities without a matching estate photo carry an empty image.
@@ -78,10 +90,41 @@ const en: SiteContent = {
 			{ title: "Padel", image: "/img/activities/padel.webp", description: "Book a court for a social game of padel.", link: "https://www.dunkeldestate.co.za/activities/" },
 		],
 	},
+	// Area activities supplied by the couple, grouped into three accordions. Images live in
+	// public/img/area-activities (filenames kept verbatim, incl. their original typos).
 	areaActivities: [
-		{ title: "Wild about Whiskey", image: "", description: "Sample South Africa's largest selection of whiskies in the heart of Dullstroom.", link: "" },
-		{ title: "Fly Fishing", image: "", description: "Dullstroom is the fly-fishing capital of South Africa — day permits are available at the village dams.", link: "" },
-		{ title: "Dullstroom Village", image: "", description: "Browse the village's country shops, pancake houses, and coffee roasteries.", link: "" },
+		{
+			heading: "Dullstroom activities",
+			items: [
+				{ title: "Wild About Whisky", image: "/img/area-activities/wild-about-whiskey.webp", description: "Sample South Africa's largest selection of whiskies in the heart of Dullstroom.", link: "https://wildaboutwhisky.com/" },
+				{ title: "Dullstroom Birds of Prey & Rehabilitation Centre", image: "/img/area-activities/birds-of-prey.webp", description: "Meet rescued eagles, owls and falcons at daily flight demonstrations.", link: "https://www.birdsofprey.co.za/" },
+				{ title: "Highland Gate Golf Estate", image: "/img/area-activities/highland-golf-estate.webp", description: "Play a round on the highland fairways or stop in for a meal with a view.", link: "https://highlandgate.co.za/" },
+			],
+		},
+		{
+			heading: "Restaurants & Bars",
+			items: [
+				{ title: "Mayfly Restaurant & Cocktail Lounge", image: "/img/area-activities/mayfly-restaurant.webp", description: "Modern country dining and cocktails in the village centre.", link: "https://www.mayfly.co.za/index.html" },
+				{ title: "CPirit Market Place", image: "/img/area-activities/cpirit-market-place.webp", description: "A deli and tasting room — charcuterie, cheeses, olive oil and chocolates — plus craft beer, burgers and gin tastings.", link: "https://cpirit.co.za/market-place/" },
+				{ title: "Baker Boys Eatery", image: "/img/area-activities/baker-boys-eatery.webp", description: "A local favourite for breakfast.", link: "" },
+				{ title: "Vine Restaurant & Wine Bar", image: "/img/area-activities/vine-restaurant-and-wine-bar.webp", description: "Relaxed plates paired with a thoughtful wine list.", link: "https://www.sohodullstroom.com/vine" },
+				{ title: "Hennie's Dullstroom", image: "/img/area-activities/hennies.webp", description: "A Dullstroom institution for hearty pub fare.", link: "https://www.therealhennies.co.za/branches/hennies-dullstroom" },
+				{ title: "Harrie's Pancakes", image: "/img/area-activities/harries.webp", description: "Sweet and savoury pancakes — a Dullstroom tradition.", link: "https://harriespancakes.co.za/dullstroom/" },
+				{ title: "The Dullstroom Inn Restaurant", image: "/img/area-activities/dullstroom-inn.webp", description: "Classic country-pub meals at the historic Dullstroom Inn.", link: "https://www.dullstroominn.co.za/" },
+				{ title: "Windpomp Bistro", image: "/img/area-activities/windpomp-bistro.webp", description: "Coffee, light meals and craft beer, with tastings on offer.", link: "https://www.dullstroombrewery.com/" },
+			],
+		},
+		{
+			heading: "Other",
+			items: [
+				{ title: "Dullstroom on Horseback", image: "/img/area-activities/dullstrooom-on-horseback.webp", description: "Guided horseback trails through the Dullstroom countryside.", link: "https://dullstroomonhorseback.co.za/" },
+				{ title: "Milly's Trout Stall", image: "/img/area-activities/millys.webp", description: "Fresh and smoked trout from a roadside Dullstroom institution.", link: "" },
+				{ title: "Dimitrov Art Gallery", image: "/img/area-activities/dimitrov-art-gallery.webp", description: "Original artworks on show in the village.", link: "" },
+				{ title: "Dullstroom Gin", image: "/img/area-activities/dullstroom-gin.webp", description: "Small-batch highland gin, with tastings available.", link: "https://dullstroomgin.com/" },
+				{ title: "Atelier Asteria", image: "/img/area-activities/attelier-asteria-art-gallery.webp", description: "A contemporary art gallery and studio space.", link: "https://asteriagallery.co.za/" },
+				{ title: "The Gables Centre", image: "/img/area-activities/the-gables-centre.webp", description: "A village shopping centre with shops and eateries.", link: "" },
+			],
+		},
 	],
 	faqs: [
 		{
@@ -154,8 +197,10 @@ const en: SiteContent = {
 			activitiesTitle: "Venue activities",
 			downloadMap: "Download the venue map",
 			bookNow: "Book now",
+			copyReference: "Copy reference number",
+			copied: "Copied!",
 		},
-		areaActivities: { heading: "Dullstroom activities", learnMore: "Learn more" },
+		areaActivities: { learnMore: "Learn more" },
 		faqs: { heading: "FAQs" },
 		gate: {
 			passwordLabel: "Password",
@@ -195,13 +240,20 @@ const en: SiteContent = {
 				meal: "Select menu option",
 				dietary: "Dietary restrictions",
 				arrival: "I'm coming on",
+				song: "Request a song",
 			},
 			addedSuffix: "— added",
 			saveGuest: "Save guest",
 			addGuest: "Add guest",
+			addPlusOne: "Add plus one",
+			partnerPlaceholder: "Search for your guest",
+			removeGuest: "Remove",
 			submit: "RSVP",
 			thankYou: "Thank you",
-			attendingMsg: "We can't wait to see you on our big day!",
+			attendingMsg: [
+				"We can't wait to see you on our big day!",
+				"Please share a nice photo of us if you have one."
+			],
 			declinedMsg: "Thank you for letting us know!",
 		},
 		meta: { homeDescription: "You are invited to celebrate with us." },

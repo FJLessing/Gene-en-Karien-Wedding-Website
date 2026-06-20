@@ -26,8 +26,15 @@ export class ApiService {
 			if (!isFileUpload) headers["Content-Type"] = "application/json";
 			if (ApiService.authToken) headers.Authorization = `Bearer ${ApiService.authToken}`;
 
+			// Nuxt augments the global `$fetch` to match the request URL against the
+			// union of app route literals and infer the response type from it. A
+			// generic `string` endpoint forces TS to recurse through that route-scoring
+			// machinery and trips TS2321 ("excessive stack depth"). This wrapper is
+			// intentionally route-agnostic — callers get their typing from `Result<T>` —
+			// so we call through a minimally-typed alias to bypass the route inference.
 			// $fetch parses JSON automatically and throws on non-2xx responses.
-			const data = (await $fetch(endpoint, {
+			const fetchRaw = $fetch as (url: string, opts: Record<string, unknown>) => Promise<unknown>;
+			const data = (await fetchRaw(endpoint, {
 				method,
 				params,
 				body: body as Record<string, unknown> | FormData | undefined,

@@ -42,9 +42,12 @@ export enum ArrivalDay {
 }
 
 // A guest as returned by the guest-list endpoint (used for fuzzy search).
+// `canBringPlusOne` mirrors the Guests-sheet "Plus One" column: true → may add a
+// custom (free-text) plus-one; false → must search the invited list for a partner.
 export interface Guest {
 	id: string;
 	name: string;
+	canBringPlusOne: boolean;
 }
 
 // Option for a <SelectField> (meal preference, dietary requirement, etc.).
@@ -61,7 +64,7 @@ export interface RsvpEntry {
 	phone: string;
 	mealPreference: string;
 	dietaryRequirement: string;
-	arrivalDay: ArrivalDay | null;
+	arrivalDay: ArrivalDay | string;
 	songRequest: string;
 	attendance: AttendanceChoice;
 }
@@ -90,6 +93,13 @@ export interface ActivityItem {
 	link: string;
 }
 
+// A titled group of area activities (e.g. "Restaurants & Bars"). Each group renders
+// as its own collapsible accordion in AreaActivitiesSection.
+export interface ActivityCategory {
+	heading: string;
+	items: ActivityItem[];
+}
+
 export interface FaqItem {
 	question: string;
 	answer: string;
@@ -110,8 +120,10 @@ export interface SiteUi {
 		activitiesTitle: string;
 		downloadMap: string;
 		bookNow: string;
+		copyReference: string;
+		copied: string;
 	};
-	areaActivities: { heading: string; learnMore: string };
+	areaActivities: { learnMore: string };
 	faqs: { heading: string };
 	gate: { passwordLabel: string; passwordPlaceholder: string; open: string; wrongPassword: string };
 	loader: { loading: string };
@@ -126,13 +138,16 @@ export interface SiteUi {
 		yes: string;
 		no: string;
 		arrivalOptions: SelectOption[];
-		placeholders: { guestName: string; email: string; phone: string; meal: string; dietary: string; arrival: string };
+		placeholders: { guestName: string; email: string; phone: string; meal: string; dietary: string; arrival: string; song: string };
 		addedSuffix: string;
 		saveGuest: string;
 		addGuest: string;
+		addPlusOne: string;
+		partnerPlaceholder: string;
+		removeGuest: string;
 		submit: string;
 		thankYou: string;
-		attendingMsg: string;
+		attendingMsg: string[];
 		declinedMsg: string;
 	};
 	meta: { homeDescription: string };
@@ -162,10 +177,21 @@ export interface SiteContent {
 		about: string;
 		mapUrl: string;
 		contact: string;
-		accommodation: { heading: string; body: string; bookingUrl: string };
+		accommodation: {
+			heading: string;
+			body: string[];
+			booking: {
+				email: string; // stable — not translated
+				cc: string; // stable — not translated
+				reference: string; // stable — "242178.59"
+				subject: string; // translatable
+				draft: string; // translatable email body (use \n for line breaks)
+				cta: string; // translatable button label
+			};
+		};
 		activities: ActivityItem[];
 	};
-	areaActivities: ActivityItem[];
+	areaActivities: ActivityCategory[];
 	faqs: FaqItem[];
 	rsvp: {
 		mealOptions: SelectOption[];

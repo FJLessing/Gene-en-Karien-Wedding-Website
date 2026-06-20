@@ -1,14 +1,15 @@
 <script lang="ts" setup>
 // RSVP step 3 (Story 3): attendee detail form. The primary guest's name is locked
-// from the search; additional guests get an editable name field. Layout follows
-// the "RSVP 2" design (placeholder-driven fields, Save guest / Add guest / RSVP).
+// from the search. A single optional additional guest can be added — how depends on
+// the primary's "Plus One" flag: TRUE → a custom (free-text) plus-one; FALSE → an
+// invited partner chosen via search. Layout follows the "RSVP 2" design.
 import TextField from "~/components/ui/TextField.vue";
 import SelectField from "~/components/ui/SelectField.vue";
 import BaseButton from "~/components/ui/BaseButton.vue";
 import { useContent } from "~/composables/use-content";
 import { useRsvpStore } from "~/stores/rsvp-store";
 import { AttendanceChoice } from "#shared/types/types";
-import type { RsvpEntry } from "#shared/types/types";
+import type { Guest, RsvpEntry } from "#shared/types/types";
 
 const store = useRsvpStore();
 const { content } = useContent();
@@ -22,36 +23,63 @@ function blankEntry(fromSearch: boolean): RsvpEntry {
 		phone: "",
 		mealPreference: "",
 		dietaryRequirement: "",
-		arrivalDay: null,
+		arrivalDay: "",
 		songRequest: "",
-		attendance: AttendanceChoice.Attending,
+		attendance: store.attendance ?? AttendanceChoice.Attending,
 	};
 }
 
 const form = ref<RsvpEntry>(blankEntry(true));
 
-// The primary guest's name is fixed; subsequent guests type their own.
-const isPrimaryGuest = computed(() => form.value.guestId !== null);
+// The single optional additional guest (plus-one or searched partner). Null until added.
+const extra = ref<RsvpEntry | null>(null);
+
+// Whether the primary guest may add a custom (free-text) plus-one. Otherwise they
+// must search the invited list for their partner.
+const canBringPlusOne = computed(() => store.selectedGuest?.canBringPlusOne ?? false);
+
+// True once the searched partner's identity is locked (guestId set).
+const extraIsPartner = computed(() => extra.value?.guestId != null);
 
 const arrivalOptions = computed(() => content.value?.ui.rsvp.arrivalOptions ?? []);
 const mealOptions = computed(() => content.value?.rsvp.mealOptions ?? []);
 const dietaryOptions = computed(() => content.value?.rsvp.dietaryOptions ?? []);
 const ui = computed(() => content.value?.ui.rsvp);
 
-// Commit the current form into the saved-guests list and start a fresh, editable
-// entry so another guest can be added.
-function saveGuest(): void {
-	if (!form.value.name.trim()) return;
-	store.addEntry({ ...form.value });
-	form.value = blankEntry(false);
+// ── Adding the second guest ──────────────────────────────────────────────────
+const showPartnerSearch = ref(false);
+const partnerQuery = ref("");
+
+watch(partnerQuery, (value) => store.searchPartners(value));
+
+const showPartnerEmpty = computed(
+	() => partnerQuery.value.trim().length >= 2 && !store.hasPartnerResults,
+);
+
+// Plus-one path: reveal a blank, editable additional entry.
+function addPlusOne(): void {
+	extra.value = blankEntry(false);
+}
+
+// Partner path: open the search.
+function openPartnerSearch(): void {
+	showPartnerSearch.value = true;
+}
+
+// Partner path: lock the chosen invited guest as the additional entry.
+function choosePartner(guest: Guest): void {
+	extra.value = { ...blankEntry(false), guestId: guest.id, name: guest.name };
+	showPartnerSearch.value = false;
+	partnerQuery.value = "";
+	store.partnerResults = [];
+}
+
+function removeExtra(): void {
+	extra.value = null;
 }
 
 async function submit(): Promise<void> {
-	// Fold any in-progress entry in before submitting.
-	if (form.value.name.trim()) {
-		store.addEntry({ ...form.value });
-		form.value = blankEntry(false);
-	}
+	store.entries = [{ ...form.value }, ...(extra.value ? [{ ...extra.value }] : [])];
 	await store.submit();
 }
 </script>
@@ -59,25 +87,61 @@ async function submit(): Promise<void> {
 <template>
 	<form class="rsvp-form" @submit.prevent="submit">
 		<h2 class="rsvp-form__title">{{ ui?.rsvpingFor }}</h2>
-		<TextField v-if="isPrimaryGuest" :model-value="form.name" tone="subtle" readonly />
-		<TextField v-else v-model="form.name" :placeholder="ui?.placeholders.guestName" required />
+		<TextField :model-value="form.name" tone="subtle" readonly />
 
 		<TextField v-model="form.email" type="email" :placeholder="ui?.placeholders.email" required />
-		<TextField v-model="form.phone" type="tel" :placeholder="ui?.placeholders.phone" />
-		<SelectField v-model="form.mealPreference" :placeholder="ui?.placeholders.meal" :options="mealOptions" />
+		<TextField v-model="form.phone" type="tel" :placeholder="ui?.placeholders.phone" required />
+		<SelectField v-model="form.mealPreference" :placeholder="ui?.placeholders.meal" :options="mealOptions" required />
 		<SelectField v-model="form.dietaryRequirement" :placeholder="ui?.placeholders.dietary" :options="dietaryOptions" />
-		<SelectField v-model="form.arrivalDay as string" :placeholder="ui?.placeholders.arrival" :options="arrivalOptions" />
+		<SelectField v-model="form.arrivalDay as string" :placeholder="ui?.placeholders.arrival" :options="arrivalOptions" required />
+		<TextField v-model="form.songRequest" type="text" :placeholder="ui?.placeholders.song" />
 
-		<ul v-if="store.entries.length" class="rsvp-form__added">
-			<li v-for="(entry, i) in store.entries" :key="i">{{ entry.name }} {{ ui?.addedSuffix }}</li>
-		</ul>
+		<!-- The additional guest's details, once added. -->
+		<fieldset v-if="extra" class="rsvp-form__extra">
+			<TextField
+				v-if="extraIsPartner"
+				:model-value="extra.name"
+				tone="subtle"
+				readonly
+			/>
+			<TextField v-else v-model="extra.name" :placeholder="ui?.placeholders.guestName" required />
 
-		<BaseButton variant="primary" type="button" @click="saveGuest">{{ ui?.saveGuest }}</BaseButton>
+			<TextField v-model="extra.email" type="email" :placeholder="ui?.placeholders.email" required />
+			<TextField v-model="extra.phone" type="tel" :placeholder="ui?.placeholders.phone" required />
+			<SelectField v-model="extra.mealPreference" :placeholder="ui?.placeholders.meal" :options="mealOptions" required />
+			<SelectField v-model="extra.dietaryRequirement" :placeholder="ui?.placeholders.dietary" :options="dietaryOptions" />
+			<SelectField v-model="extra.arrivalDay as string" :placeholder="ui?.placeholders.arrival" :options="arrivalOptions" required />
+			<TextField v-model="extra.songRequest" type="text" :placeholder="ui?.placeholders.song" />
 
-		<button type="button" class="rsvp-form__add" @click="saveGuest">
-			<span class="rsvp-form__add-icon" aria-hidden="true">+</span>
-			<span class="rsvp-form__add-text">{{ ui?.addGuest }}</span>
-		</button>
+			<button type="button" class="rsvp-form__remove" @click="removeExtra">{{ ui?.removeGuest }}</button>
+		</fieldset>
+
+		<!-- Add affordance — only while no additional guest has been added. -->
+		<template v-else>
+			<!-- Plus-one path: free-text custom guest. -->
+			<button v-if="canBringPlusOne" type="button" class="rsvp-form__add" @click="addPlusOne">
+				<span class="rsvp-form__add-icon" aria-hidden="true">+</span>
+				<span class="rsvp-form__add-text">{{ ui?.addPlusOne }}</span>
+			</button>
+
+			<!-- Partner path: search the invited list. -->
+			<template v-else>
+				<button v-if="!showPartnerSearch" type="button" class="rsvp-form__add" @click="openPartnerSearch">
+					<span class="rsvp-form__add-icon" aria-hidden="true">+</span>
+					<span class="rsvp-form__add-text">{{ ui?.addGuest }}</span>
+				</button>
+
+				<div v-else class="rsvp-form__partner">
+					<TextField v-model="partnerQuery" :placeholder="ui?.partnerPlaceholder" type="text" tone="subtle" />
+					<ul v-if="store.hasPartnerResults" class="rsvp-form__results">
+						<li v-for="guest in store.partnerResults" :key="guest.id">
+							<button type="button" class="rsvp-form__result" @click="choosePartner(guest)">{{ guest.name }}</button>
+						</li>
+					</ul>
+					<p v-else-if="showPartnerEmpty" class="rsvp-form__empty">{{ ui?.notFound }}</p>
+				</div>
+			</template>
+		</template>
 
 		<BaseButton variant="secondary" type="submit" :loading="store.isSubmitting">{{ ui?.submit }}</BaseButton>
 		<p v-if="store.error" class="rsvp-form__error">{{ store.error }}</p>
@@ -96,12 +160,20 @@ async function submit(): Promise<void> {
 		color: $color-text;
 	}
 
-	&__added {
+	&__extra {
 		display: flex;
 		flex-direction: column;
-		gap: $space-3xs;
+		gap: $space-sm;
+		padding: 0;
+		border: none;
+	}
+
+	&__remove {
+		align-self: flex-start;
+		padding: $space-2xs 0;
 		font-size: $font-size-sm;
 		color: $color-text-muted;
+		text-decoration: underline;
 	}
 
 	&__add {
@@ -121,6 +193,41 @@ async function submit(): Promise<void> {
 	&__add-text {
 		font-size: $font-size-sm;
 		text-decoration: underline;
+	}
+
+	&__partner {
+		display: flex;
+		flex-direction: column;
+		gap: $space-sm;
+	}
+
+	&__results {
+		display: flex;
+		flex-direction: column;
+		gap: $space-3xs;
+	}
+
+	&__result {
+		width: 100%;
+		min-height: 2.6875rem;
+		padding: $space-3xs $space-md;
+		border: 1px solid $color-field-border;
+		border-radius: $radius-sm;
+		background-color: $color-field-subtle;
+		font-size: $font-size-sm;
+		color: $color-text;
+		text-align: left;
+		transition: background-color $duration-fast $ease-standard, border-color $duration-fast $ease-standard;
+
+		&:hover {
+			background-color: $color-field;
+			border-color: $color-gold;
+		}
+	}
+
+	&__empty {
+		font-size: $font-size-sm;
+		color: $color-error;
 	}
 
 	&__error {

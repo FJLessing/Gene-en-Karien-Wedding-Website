@@ -38,6 +38,7 @@ const model = defineModel<string>();
 			:type="props.type"
 			:placeholder="props.placeholder"
 			:readonly="props.readonly"
+			:required="props.required"
 			:class="['form-field__input', `form-field__input--${props.tone}`]"
 			v-bind="$attrs"
 		/>

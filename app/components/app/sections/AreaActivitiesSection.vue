@@ -20,9 +20,15 @@ function close(): void {
 
 <template>
 	<section v-if="content" class="area u-content">
-		<BaseAccordion :title="content.ui.areaActivities.heading">
+		<BaseAccordion
+			v-for="category, c in content.areaActivities"
+			:key="category.heading"
+			:title="category.heading"
+			gold-style
+			:open="c === 0"
+		>
 			<ul class="area__list">
-				<li v-for="activity in content.areaActivities" :key="activity.title">
+				<li v-for="activity in category.items" :key="activity.title">
 					<ActivityCard
 						:title="activity.title"
 						:image="activity.image"

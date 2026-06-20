@@ -11,6 +11,8 @@ export function useAccess() {
 
 	function unlock(): void {
 		state.value = AccessState.Unlocked;
+		// Persist so hard navigations / new tabs stay unlocked.
+		useCookie("access-granted", { maxAge: 60 * 60 * 24 * 30, sameSite: "lax", path: "/" }).value = "1";
 	}
 
 	function lock(): void {

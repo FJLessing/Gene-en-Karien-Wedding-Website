@@ -5,7 +5,7 @@
 import EnvelopeGate from "~/components/app/layout/EnvelopeGate.vue";
 import AppFooter from "~/components/app/layout/AppFooter.vue";
 import HeroSection from "~/components/app/sections/HeroSection.vue";
-import CoupleImageSection from "~/components/app/sections/CoupleImageSection.vue";
+import ImageSection from "~/components/app/sections/ImageSection.vue";
 import CountdownTimer from "~/components/app/sections/CountdownTimer.vue";
 import WelcomeSection from "~/components/app/sections/WelcomeSection.vue";
 import DetailsSection from "~/components/app/sections/DetailsSection.vue";
@@ -16,6 +16,7 @@ import AreaActivitiesSection from "~/components/app/sections/AreaActivitiesSecti
 import FaqSection from "~/components/app/sections/FaqSection.vue";
 import RsvpCta from "~/components/app/sections/RsvpCta.vue";
 import { SEOService } from "~/services/seo-service";
+import VenueIntroSection from "~/components/app/sections/VenueIntroSection.vue";
 
 definePageMeta({ layout: false });
 
@@ -33,13 +34,15 @@ SEOService.set({ description: () => content.value?.ui.meta.homeDescription });
 
 		<div v-else class="home">
 			<HeroSection />
-			<CoupleImageSection />
+			<ImageSection src="/img/the_happy_couple.webp" src-desktop="/img/the_happy_couple_full.webp" alt="The happy couple" />
 			<CountdownTimer />
 			<WelcomeSection />
 			<DetailsSection />
 			<RsvpCta />
 			<ProgramSection />
 			<DressCodeSection />
+			<VenueIntroSection />
+			<ImageSection src="/img/dunkeld_estate_wide_view.webp" src-desktop="/img/dunkeld_estate_wide_view_full.webp" alt="Dunkeld Estate" />
 			<VenueSection />
 			<AreaActivitiesSection />
 			<FaqSection />

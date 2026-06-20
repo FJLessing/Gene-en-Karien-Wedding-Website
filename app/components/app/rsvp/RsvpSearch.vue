@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 // RSVP step 1 (Story 3): search for your name. Fuzzy search runs after 3 chars.
 import TextField from "~/components/ui/TextField.vue";
-import { useRsvpStore } from "~/stores/rsvp-store";
+import { useRsvpStore, SEARCH_MIN_CHARS } from "~/stores/rsvp-store";
 import type { Guest } from "#shared/types/types";
 
 const store = useRsvpStore();
@@ -16,7 +16,7 @@ function choose(guest: Guest): void {
 	store.selectGuest(guest);
 }
 
-const showNoResults = computed(() => query.value.trim().length >= 3 && !store.hasResults && !store.isSearching);
+const showNoResults = computed(() => query.value.trim().length >= SEARCH_MIN_CHARS && !store.hasResults && !store.isSearching);
 </script>
 
 <template>

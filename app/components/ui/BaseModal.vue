@@ -52,6 +52,7 @@ onBeforeUnmount(() => {
 	place-items: center;
 	padding: $space-md;
 	background-color: rgba(#000000, 0.4);
+	text-align: center;
 
 	&__panel {
 		position: relative;

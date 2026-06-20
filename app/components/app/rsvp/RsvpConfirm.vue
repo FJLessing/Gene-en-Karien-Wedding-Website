@@ -22,7 +22,8 @@ function goHome(): void {
 	<div class="rsvp-confirm">
 		<img src="/logo.svg" alt="" class="rsvp-confirm__logo" />
 		<h2 class="rsvp-confirm__title u-heading">{{ content?.ui.rsvp.thankYou }}</h2>
-		<p class="rsvp-confirm__message">{{ message }}</p>
+		<p v-if="Array.isArray(message)" v-for="(msg, index) in message" :key="index">{{ msg }}</p>
+		<p v-else class="rsvp-confirm__message">{{ message }}</p>
 
 		<PhotoUpload class="rsvp-confirm__upload" />
 

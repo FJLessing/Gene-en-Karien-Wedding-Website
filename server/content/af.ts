@@ -59,9 +59,21 @@ const af: SiteContent = {
 		mapUrl: "",
 		contact: "Kontak die geleenthede-span by Dunkeld Equestrian Estate om jou aktiwiteit voor die dag te bespreek: 0112346448 of by dunkeld@gmail.co.za",
 		accommodation: {
-			heading: "Bespreek nou jou verblyf",
-			body: "Neem asseblief kennis dat alle aktiwiteite vooraf by die venue bespreek moet word.",
-			bookingUrl: "",
+			heading: "Bespreek jou verblyf",
+			body: [
+				"Verblyf word deur Jennifer Sanderson by Touchdown Africa bespreek. Stuur asseblief vir haar ’n e-pos en meld ons besprekingsverwysing",
+				"242178.59",
+				"Gebruik die knoppie hieronder om ’n vooraf-ingevulde e-pos oop te maak — Gene word ge-cc sodat ons kan help om besprekings by te hou."
+			],
+			booking: {
+				email: "jennifers@touchdown-africa.com",
+				cc: "ggsgene@gmail.com",
+				reference: "242178.59",
+				subject: "Verblyfbespreking — Gene & Karien se troue (verw 242178.59)",
+				draft:
+					"Hallo Jennifer,\n\nEk wil graag verblyf bespreek vir Gene & Karien se troue by Dunkeld Equestrian Estate (9–11 Oktober 2026).\n\nBesprekingsverwysing: 242178.59\n\nMy besonderhede:\nNaam:\nAantal gaste:\nNagte / datums:\nKontaknommer:\n\nBaie dankie!",
+				cta: "Stuur e-pos om te bespreek",
+			},
 		},
 		activities: [
 			{ title: "Perdry", image: "/img/activities/horse_riding.webp", description: "Geniet ’n begeleide rit deur die landgoed se glooiende heuwels.", link: "https://www.dunkeldestate.co.za/horse-riding/" },
@@ -76,10 +88,41 @@ const af: SiteContent = {
 			{ title: "Padel", image: "/img/activities/padel.webp", description: "Bespreek ’n baan vir ’n sosiale potjie padel.", link: "https://www.dunkeldestate.co.za/activities/" },
 		],
 	},
+	// Area-aktiwiteite deur die paartjie verskaf, in drie akkordeons gegroepeer. Titels,
+	// beelde en skakels bly identies aan en.ts; opskrifte en beskrywings is vertaal.
 	areaActivities: [
-		{ title: "Mal oor Whiskey", image: "", description: "Proe Suid-Afrika se grootste keuse whiskies in die hart van Dullstroom.", link: "" },
-		{ title: "Vlieghengel", image: "", description: "Dullstroom is die vlieghengel-hoofstad van Suid-Afrika — dagpermitte is by die dorp se damme beskikbaar.", link: "" },
-		{ title: "Dullstroom-dorpie", image: "", description: "Snuffel deur die dorp se plattelandse winkels, pannekoekhuise en koffiebranderye.", link: "" },
+		{
+			heading: "Dullstroom-aktiwiteite",
+			items: [
+				{ title: "Wild About Whisky", image: "/img/area-activities/wild-about-whiskey.webp", description: "Proe Suid-Afrika se grootste keuse whiskies in die hart van Dullstroom.", link: "https://wildaboutwhisky.com/" },
+				{ title: "Dullstroom Birds of Prey & Rehabilitation Centre", image: "/img/area-activities/birds-of-prey.webp", description: "Ontmoet geredde arende, uile en valke by daaglikse vlugdemonstrasies.", link: "https://www.birdsofprey.co.za/" },
+				{ title: "Highland Gate Golf Estate", image: "/img/area-activities/highland-golf-estate.webp", description: "Speel ’n rondte op die hooglandbane of kuier vir ’n ete met ’n uitsig.", link: "https://highlandgate.co.za/" },
+			],
+		},
+		{
+			heading: "Restaurante & Kroeë",
+			items: [
+				{ title: "Mayfly Restaurant & Cocktail Lounge", image: "/img/area-activities/mayfly-restaurant.webp", description: "Moderne plattelandse eetplek en mengeldrankies in die dorpsentrum.", link: "https://www.mayfly.co.za/index.html" },
+				{ title: "CPirit Market Place", image: "/img/area-activities/cpirit-market-place.webp", description: "’n Deli en proelokaal — vleisware, kase, olyfolie en sjokolade — plus ambagsbier, burgers en jenewerproe.", link: "https://cpirit.co.za/market-place/" },
+				{ title: "Baker Boys Eatery", image: "/img/area-activities/baker-boys-eatery.webp", description: "’n Plaaslike gunsteling vir ontbyt.", link: "" },
+				{ title: "Vine Restaurant & Wine Bar", image: "/img/area-activities/vine-restaurant-and-wine-bar.webp", description: "Ontspanne geregte saam met ’n deurdagte wynlys.", link: "https://www.sohodullstroom.com/vine" },
+				{ title: "Hennie's Dullstroom", image: "/img/area-activities/hennies.webp", description: "’n Dullstroom-instelling vir stewige kroegkos.", link: "https://www.therealhennies.co.za/branches/hennies-dullstroom" },
+				{ title: "Harrie's Pancakes", image: "/img/area-activities/harries.webp", description: "Soet en hartige pannekoek — ’n Dullstroom-tradisie.", link: "https://harriespancakes.co.za/dullstroom/" },
+				{ title: "The Dullstroom Inn Restaurant", image: "/img/area-activities/dullstroom-inn.webp", description: "Klassieke kroegkos by die historiese Dullstroom Inn.", link: "https://www.dullstroominn.co.za/" },
+				{ title: "Windpomp Bistro", image: "/img/area-activities/windpomp-bistro.webp", description: "Koffie, ligte etes en ambagsbier, met proegeleenthede.", link: "https://www.dullstroombrewery.com/" },
+			],
+		},
+		{
+			heading: "Ander",
+			items: [
+				{ title: "Dullstroom on Horseback", image: "/img/area-activities/dullstrooom-on-horseback.webp", description: "Begeleide perdroetes deur die Dullstroom-platteland.", link: "https://dullstroomonhorseback.co.za/" },
+				{ title: "Milly's Trout Stall", image: "/img/area-activities/millys.webp", description: "Vars en gerookte forel by ’n bekende padstal in Dullstroom.", link: "" },
+				{ title: "Dimitrov Art Gallery", image: "/img/area-activities/dimitrov-art-gallery.webp", description: "Oorspronklike kunswerke op uitstalling in die dorp.", link: "" },
+				{ title: "Dullstroom Gin", image: "/img/area-activities/dullstroom-gin.webp", description: "Kleinmaat-hooglandjenewer, met proegeleenthede beskikbaar.", link: "https://dullstroomgin.com/" },
+				{ title: "Atelier Asteria", image: "/img/area-activities/attelier-asteria-art-gallery.webp", description: "’n Eietydse kunsgalery en ateljee-ruimte.", link: "https://asteriagallery.co.za/" },
+				{ title: "The Gables Centre", image: "/img/area-activities/the-gables-centre.webp", description: "’n Dorpswinkelsentrum met winkels en eetplekke.", link: "" },
+			],
+		},
 	],
 	faqs: [
 		{
@@ -152,8 +195,10 @@ const af: SiteContent = {
 			activitiesTitle: "Venue-aktiwiteite",
 			downloadMap: "Laai die venue-kaart af",
 			bookNow: "Bespreek nou",
+			copyReference: "Kopieer verwysingsnommer",
+			copied: "Gekopieer!",
 		},
-		areaActivities: { heading: "Dullstroom-aktiwiteite", learnMore: "Lees meer" },
+		areaActivities: { learnMore: "Lees meer" },
 		faqs: { heading: "Algemene vrae" },
 		gate: {
 			passwordLabel: "Wagwoord",
@@ -193,13 +238,20 @@ const af: SiteContent = {
 				meal: "Kies spyskaart-opsie",
 				dietary: "Dieetvereistes",
 				arrival: "Ek kom op",
+				song: "Versoek 'n liedjie",
 			},
 			addedSuffix: "— bygevoeg",
 			saveGuest: "Stoor gas",
 			addGuest: "Voeg gas by",
+			addPlusOne: "Voeg plus een by",
+			partnerPlaceholder: "Soek vir jou gas",
+			removeGuest: "Verwyder",
 			submit: "RSVP",
 			thankYou: "Dankie",
-			attendingMsg: "Ons kan nie wag om jou op ons groot dag te sien nie!",
+			attendingMsg:[
+				"Ons kan nie wag om jou op ons groot dag te sien nie!",
+				"Deel assblief 'n mooi foto van ons twee as jy een het."
+			],
 			declinedMsg: "Dankie dat jy ons laat weet het!",
 		},
 		meta: { homeDescription: "Jy is uitgenooi om saam met ons te vier." },

@@ -48,6 +48,18 @@ shared/     Types + Result class — imported by both app and server, no Vue dep
 - **`runtimeConfig`**: use `useRuntimeConfig()`, never `process.env`. Server secrets at top level; client-safe values under `public`.
 - **Auto-imports**: composables, store factories, Vue APIs, and Nuxt composables are auto-imported. Types and `ApiService` need explicit imports.
 
+## Access gate (Story 1)
+
+The whole site sits behind a soft access gate. **To view any page in local dev / preview, append the invite URL param** — e.g. `http://localhost:3000/?invite=preview`. The value can be anything truthy; the param name is `runtimeConfig.public.accessParam` (default `"invite"`).
+
+How it works:
+
+- `app/middleware/auth-gate.global.ts` runs on every navigation (server + client). It does **not** redirect — if the invite param is present it sets the shared `access-state` to `Unlocked`; otherwise the state stays `Locked` and pages render the envelope/password layout inline.
+- State lives in `useState("access-state")`, surfaced by `app/composables/use-access.ts` (`isUnlocked`, `unlock`, `lock`, `verifyPassword`). Pages read `useAccess().isUnlocked` to choose envelope vs content.
+- **Password path** (no invite param): `verifyPassword()` → `POST /api/auth` (`server/api/auth.post.ts`) compares the submitted password against `runtimeConfig.sitePassword` (env `NUXT_SITE_PASSWORD`). The password is never sent to the client. An empty/unset password always rejects. Local `.env` ships `NUXT_SITE_PASSWORD=TEST`.
+
+For automated/preview verification, the `?invite=` param is the reliable bypass — don't try to type the password into the gate form.
+
 ## Sections (landing page order)
 
 `HeroSection` → `CountdownTimer` → `WelcomeSection` → `DetailsSection` → `ProgramSection` → `DressCodeSection` → `VenueSection` → `AreaActivitiesSection` → `FaqSection` → `RsvpCta`

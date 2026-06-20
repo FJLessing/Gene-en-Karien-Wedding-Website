@@ -10,6 +10,7 @@ interface RsvpState {
 	guests: Guest[];
 	query: string;
 	searchResults: Guest[];
+	partnerResults: Guest[];
 	selectedGuest: Guest | null;
 	attendance: AttendanceChoice | null;
 	entries: RsvpEntry[];
@@ -19,8 +20,10 @@ interface RsvpState {
 	error: string | null;
 }
 
-// Minimum characters before the fuzzy search runs (Story 3).
-const SEARCH_MIN_CHARS = 3;
+// Minimum characters before the fuzzy search runs (Story 3). 2 so initials like
+// "FJ" match; 1 would match nearly every guest. Exported so the search component
+// gates its "not found" message on the same value.
+export const SEARCH_MIN_CHARS = 2;
 
 export const useRsvpStore = defineStore("rsvp", {
 	state: (): RsvpState => ({
@@ -28,6 +31,7 @@ export const useRsvpStore = defineStore("rsvp", {
 		guests: [],
 		query: "",
 		searchResults: [],
+		partnerResults: [],
 		selectedGuest: null,
 		attendance: null,
 		entries: [],
@@ -39,6 +43,9 @@ export const useRsvpStore = defineStore("rsvp", {
 	getters: {
 		hasResults(): boolean {
 			return this.searchResults.length > 0;
+		},
+		hasPartnerResults(): boolean {
+			return this.partnerResults.length > 0;
 		},
 		isAttending(): boolean {
 			return this.attendance === AttendanceChoice.Attending;
@@ -74,9 +81,27 @@ export const useRsvpStore = defineStore("rsvp", {
 			}
 
 			this.isSearching = true;
-			const fuse = new Fuse(this.guests, { keys: ["name"], threshold: 0.4 });
+			const fuse = new Fuse(this.guests, { keys: ["name"], threshold: 0.4, ignoreLocation: true });
 			this.searchResults = fuse.search(query).map((r) => r.item);
 			this.isSearching = false;
+		},
+
+		// Search for an additional invited guest (a partner) when the primary guest
+		// is not allowed a custom plus-one. Excludes the primary guest and anyone
+		// already added to the submission.
+		searchPartners(query: string) {
+			if (query.trim().length < SEARCH_MIN_CHARS) {
+				this.partnerResults = [];
+				return;
+			}
+
+			const excluded = new Set<string>([
+				...(this.selectedGuest ? [this.selectedGuest.id] : []),
+				...this.entries.map((e) => e.guestId).filter((id): id is string => Boolean(id)),
+			]);
+			const pool = this.guests.filter((g) => !excluded.has(g.id));
+			const fuse = new Fuse(pool, { keys: ["name"], threshold: 0.4, ignoreLocation: true });
+			this.partnerResults = fuse.search(query).map((r) => r.item);
 		},
 
 		selectGuest(guest: Guest) {
@@ -86,7 +111,32 @@ export const useRsvpStore = defineStore("rsvp", {
 
 		setAttendance(choice: AttendanceChoice) {
 			this.attendance = choice;
-			this.step = choice === AttendanceChoice.Attending ? RsvpStep.Details : RsvpStep.Confirm;
+
+			if (choice === AttendanceChoice.Attending) {
+				this.step = RsvpStep.Details;
+				return;
+			}
+
+			// Declined: there are no further details to collect, so record a single
+			// declined entry for the primary guest (so they're logged and removed from
+			// the search) and show the confirmation. The write-back is best-effort.
+			this.step = RsvpStep.Confirm;
+			if (this.selectedGuest) {
+				this.entries = [
+					{
+						guestId: this.selectedGuest.id,
+						name: this.selectedGuest.name,
+						email: "",
+						phone: "",
+						mealPreference: "",
+						dietaryRequirement: "",
+						arrivalDay: "",
+						songRequest: "",
+						attendance: AttendanceChoice.Declined,
+					},
+				];
+				void this.submit();
+			}
 		},
 
 		addEntry(entry: RsvpEntry) {
@@ -101,6 +151,10 @@ export const useRsvpStore = defineStore("rsvp", {
 			this.step = RsvpStep.Search;
 			this.query = "";
 			this.searchResults = [];
+			this.partnerResults = [];
+			// Drop the cached guest list so a fresh visit re-fetches it (excluding
+			// anyone who just RSVP'd). loadGuests() short-circuits while it's populated.
+			this.guests = [];
 			this.selectedGuest = null;
 			this.attendance = null;
 			this.entries = [];

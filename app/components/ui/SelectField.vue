@@ -32,6 +32,7 @@ const model = defineModel<string>();
 		<div class="form-field__select-wrap">
 			<select
 				v-model="model"
+				:required="props.required"
 				:class="['form-field__input', 'form-field__select', { 'form-field__select--empty': !model }]"
 				v-bind="$attrs"
 			>

@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 // Single collapsible item. Used for the venue/area sections and FAQ list (Story 2).
-const props = withDefaults(defineProps<{ title: string; open?: boolean; }>(), {
+const props = withDefaults(defineProps<{ title: string; subTitle?: string; open?: boolean; goldStyle?: boolean }>(), {
 	open: false,
+	goldStyle: false,
 });
 
 const isOpen = ref(props.open);
@@ -13,7 +14,7 @@ function toggle(): void {
 
 <template>
 	<div class="base-accordion" :class="{ 'base-accordion--open': isOpen }">
-		<button class="base-accordion__header" :aria-expanded="isOpen" @click="toggle">
+		<button class="base-accordion__header" :class="{ 'base-accordion__header--gold': props.goldStyle }" :aria-expanded="isOpen" @click="toggle">
 			<span class="base-accordion__title">{{ props.title }}</span>
 			<span class="base-accordion__caret" aria-hidden="true">
 				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -21,6 +22,7 @@ function toggle(): void {
 				</svg>
 			</span>
 		</button>
+		<p v-if="props.subTitle" class="base-accordion__sub-title">{{ props.subTitle }}</p>
 		<Transition name="accordion">
 			<div v-show="isOpen" class="base-accordion__body">
 				<slot />
@@ -31,7 +33,6 @@ function toggle(): void {
 
 <style scoped lang="scss">
 .base-accordion {
-	border-bottom: 1px solid $color-border;
 
 	&__header {
 		display: flex;
@@ -42,6 +43,21 @@ function toggle(): void {
 		text-align: left;
 		font-size: $font-size-base;
 		color: $color-text;
+	}
+
+	&__header--gold {
+		background-color: $color-light-gold-2;
+		padding: $space-xs;
+		margin-bottom: $space-sm;
+		border-radius: $radius-sm;
+	}
+
+	&__header:not(&__header--gold) {
+		border-bottom: 1px solid $color-border;
+	}
+
+	&__sub-title {
+		margin: $space-xl $space-lg;
 	}
 
 	&__caret {

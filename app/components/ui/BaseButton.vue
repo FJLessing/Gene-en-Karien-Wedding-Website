@@ -3,8 +3,9 @@
 //   primary   → gold fill, dark text          (main CTAs, "Save guest")
 //   secondary → dark fill, white text          (submit, "Book accommodation")
 //   ghost     → outlined, transparent fill     (tertiary actions)
+//   grey      → light-grey fill, dark text      (utility actions, e.g. "copy")
 // Each variant has default / hover / on-click states. Hover adds a subtle lift.
-type ButtonVariant = "primary" | "secondary" | "ghost";
+type ButtonVariant = "primary" | "secondary" | "ghost" | "grey";
 
 const props = withDefaults(
 	defineProps<{
@@ -93,6 +94,16 @@ const emit = defineEmits<{ click: [event: MouseEvent]; }>();
 	&--secondary {
 		background-color: $color-black;
 		color: $color-white;
+
+		&:not(:disabled):active {
+			background-color: $color-grey;
+		}
+	}
+
+	// ── Grey: light-grey fill, dark text ───────────────────────────────────────────
+	&--grey {
+		background-color: $color-light-grey;
+		color: $color-text;
 
 		&:not(:disabled):active {
 			background-color: $color-grey;
