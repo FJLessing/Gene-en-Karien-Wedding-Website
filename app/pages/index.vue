@@ -5,7 +5,8 @@
 import EnvelopeGate from "~/components/app/layout/EnvelopeGate.vue";
 import AppFooter from "~/components/app/layout/AppFooter.vue";
 import HeroSection from "~/components/app/sections/HeroSection.vue";
-import ImageSection from "~/components/app/sections/ImageSection.vue";
+import ImageCarousel from "~/components/app/sections/ImageCarousel.vue";
+import type { CarouselImage } from "#shared/types/types";
 import CountdownTimer from "~/components/app/sections/CountdownTimer.vue";
 import WelcomeSection from "~/components/app/sections/WelcomeSection.vue";
 import DetailsSection from "~/components/app/sections/DetailsSection.vue";
@@ -25,6 +26,24 @@ const { isUnlocked, unlock } = useAccess();
 // Hydrate content up front so sections have data on first paint.
 const { content } = useContent();
 
+// ── Image carousels ───────────────────────────────────────────────────────────
+
+const galleryImages: CarouselImage[] = Array.from({ length: 36 }, (_, i) => {
+	const num = String(i).padStart(2, "0");
+	return {
+		src: `/img/gallery/Foto${num}.webp`,
+		alt: `Gallery photo ${i + 1}`,
+	};
+});
+
+const venueImages: CarouselImage[] = Array.from({ length: 10 }, (_, i) => {
+	const num = String(i + 1).padStart(2, "0");
+	return {
+		src: `/img/venue-gallery/venue${num}.webp`,
+		alt: `Venue photo ${i + 1}`,
+	};
+});
+
 SEOService.set({ description: () => content.value?.ui.meta.homeDescription });
 </script>
 
@@ -34,7 +53,7 @@ SEOService.set({ description: () => content.value?.ui.meta.homeDescription });
 
 		<div v-else class="home">
 			<HeroSection />
-			<ImageSection src="/img/the_happy_couple.webp" src-desktop="/img/the_happy_couple_full.webp" alt="The happy couple" />
+			<ImageCarousel :images="galleryImages" />
 			<CountdownTimer />
 			<WelcomeSection />
 			<DetailsSection />
@@ -42,7 +61,7 @@ SEOService.set({ description: () => content.value?.ui.meta.homeDescription });
 			<ProgramSection />
 			<DressCodeSection />
 			<VenueIntroSection />
-			<ImageSection src="/img/dunkeld_estate_wide_view.webp" src-desktop="/img/dunkeld_estate_wide_view_full.webp" alt="Dunkeld Estate" />
+			<ImageCarousel :images="venueImages" />
 			<VenueSection />
 			<AreaActivitiesSection />
 			<FaqSection />

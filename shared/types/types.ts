@@ -1,5 +1,15 @@
 // Shared types and enums. Enums are preferred over string literals (fj-vue).
 
+// ── Image carousel ────────────────────────────────────────────────────────────
+export interface CarouselImage {
+	src: string;
+	/** Full-resolution desktop image. Listed in srcset at 2× the mobile width so the browser favours it on larger viewports. */
+	srcDesktop?: string;
+	alt: string;
+	width?: number;
+	height?: number;
+}
+
 // ── Access / auth gate (Story 1) ─────────────────────────────────────────────
 export enum AccessState {
 	Locked = "locked",

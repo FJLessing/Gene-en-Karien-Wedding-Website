@@ -6,9 +6,6 @@ import BaseModal from "~/components/ui/BaseModal.vue";
 import BaseButton from "~/components/ui/BaseButton.vue";
 import ActivityCard from "~/components/ui/ActivityCard.vue";
 import { ActivityCardVariant } from "#shared/types/types";
-import ImageSection from "~/components/app/sections/ImageSection.vue";
-
-
 const { content } = useContent();
 const accommodationOpen = ref(false);
 
