@@ -13,17 +13,34 @@ export class SEOService {
 	static fallbackTitle: string = "Gene & Karien";
 
 	static set(attrs: SEOAttributes): void {
+		const requestUrl = useRequestURL();
+
 		const resolveTitle = (): string => {
 			const title = toValue(attrs.title);
 			return title ? `${title} | ${SEOService.fallbackTitle}` : SEOService.fallbackTitle;
 		};
 
+		// OG image URLs must be absolute — resolve relative paths against the request origin.
+		const resolveAbsoluteImage = (): string | undefined => {
+			const img = toValue(attrs.image);
+			if (!img) return undefined;
+			return img.startsWith("http") ? img : new URL(img, requestUrl.origin).href;
+		};
+
 		useSeoMeta({
 			title: resolveTitle,
 			ogTitle: resolveTitle,
+			ogSiteName: SEOService.fallbackTitle,
+			ogType: "website",
+			ogUrl: () => requestUrl.href,
 			description: () => toValue(attrs.description),
 			ogDescription: () => toValue(attrs.description),
-			ogImage: () => toValue(attrs.image),
+			ogImage: resolveAbsoluteImage,
+			ogImageAlt: resolveTitle,
+			twitterCard: "summary_large_image",
+			twitterTitle: resolveTitle,
+			twitterDescription: () => toValue(attrs.description),
+			twitterImage: resolveAbsoluteImage,
 		});
 	}
 }

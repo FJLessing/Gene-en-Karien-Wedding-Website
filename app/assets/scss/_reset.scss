@@ -15,6 +15,10 @@
 html {
 	-webkit-text-size-adjust: 100%;
 	text-size-adjust: 100%;
+	// Page-level horizontal guard. `clip` doesn't create a scroll container (so it
+	// won't break `position: sticky`); `overscroll-behavior-x` kills iOS rubber-band.
+	overflow-x: clip;
+	overscroll-behavior-x: none;
 }
 
 body {

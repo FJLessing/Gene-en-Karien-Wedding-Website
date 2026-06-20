@@ -269,7 +269,7 @@ const af: SiteContent = {
 			],
 			declinedMsg: "Dankie dat jy ons laat weet het!",
 		},
-		meta: { homeDescription: "Jy is uitgenooi om saam met ons te vier." },
+		meta: { homeDescription: "Jy word hiermee formeel uitgenooi na die troue van Gene Stoltz & Karien de Kock" },
 		errors: {
 			content: "Inhoud kon nie laai nie",
 			guests: "Gastelys kon nie laai nie",

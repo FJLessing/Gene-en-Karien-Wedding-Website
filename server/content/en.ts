@@ -271,7 +271,7 @@ const en: SiteContent = {
 			],
 			declinedMsg: "Thank you for letting us know!",
 		},
-		meta: { homeDescription: "You are invited to celebrate with us." },
+		meta: { homeDescription: "You are hereby formally invited to the nuptials of Gene Stoltz & Karien de Kock" },
 		errors: {
 			content: "Failed to load content",
 			guests: "Failed to load guest list",

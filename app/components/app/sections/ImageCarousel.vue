@@ -58,7 +58,9 @@ function imgSrcset(image: CarouselImage): string | undefined {
 
 <style scoped lang="scss">
 .image-carousel {
-	overflow: hidden;
+	// `clip` (not `hidden`) so iOS Safari can't pan/rubber-band the off-screen
+	// Swiper loop clones — `hidden` leaves a pannable scroll surface on iOS.
+	overflow: clip;
 
 	&__img {
 		display: block;

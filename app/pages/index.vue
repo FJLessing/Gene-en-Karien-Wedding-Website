@@ -44,7 +44,10 @@ const venueImages: CarouselImage[] = Array.from({ length: 10 }, (_, i) => {
 	};
 });
 
-SEOService.set({ description: () => content.value?.ui.meta.homeDescription });
+SEOService.set({
+	description: () => content.value?.ui.meta.homeDescription,
+	image: "/img/the_happy_couple.webp",
+});
 </script>
 
 <template>
