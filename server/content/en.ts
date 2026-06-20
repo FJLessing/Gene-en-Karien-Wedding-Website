@@ -34,8 +34,8 @@ const en: SiteContent = {
 		{
 			label: "Friday",
 			items: [
-				{ time: "15:00", icon: "arrival", description: "arrival and check-in at the estate" },
-				{ time: "18:00", icon: "drinks", description: "welcome drinks" },
+				{ time: "14:00", icon: "keys", description: "Check in starts at 14:00. (get keys at main reception)" },
+				{ time: "18:00", icon: "jazz-drinks", description: "drinks in the jazz bar at Dunkeld Equestrian Estate" },
 			],
 		},
 		{
@@ -49,7 +49,8 @@ const en: SiteContent = {
 		{
 			label: "Sunday",
 			items: [
-				{ time: "10:00", icon: "farewell", description: "farewell breakfast and check-out" },
+				{ time: "9:00", icon: "breakfast", description: "join us for an optional breakfast at 1883 Restaurant" },
+				{ time: "10:00", icon: "keys", description: "check out" },
 			],
 		},
 	],

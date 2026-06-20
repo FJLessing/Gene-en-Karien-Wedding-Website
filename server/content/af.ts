@@ -34,8 +34,8 @@ const af: SiteContent = {
 		{
 			label: "Vrydag",
 			items: [
-				{ time: "15:00", icon: "arrival", description: "aankoms en inklok by die landgoed" },
-				{ time: "18:00", icon: "drinks", description: "verwelkomingsdrankies" },
+				{ time: "14:00", icon: "keys", description: "Inklok begin om 14:00. (sleutels haalbaar by ontvangs)" },
+				{ time: "18:00", icon: "jazz-drinks", description: "drankies by die jazz kroeg in Dunkeld Equestrian Estate" },
 			],
 		},
 		{
@@ -49,7 +49,8 @@ const af: SiteContent = {
 		{
 			label: "Sondag",
 			items: [
-				{ time: "10:00", icon: "farewell", description: "afskeidsontbyt en uitklok" },
+				{ time: "9:00", icon: "breakfast", description: "deel saam ons in ontbyt by 1883 Restaurant" },
+				{ time: "10:00", icon: "keys", description: "uitklok" },
 			],
 		},
 	],
