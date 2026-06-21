@@ -35,13 +35,13 @@ const af: SiteContent = {
 			label: "Vrydag",
 			items: [
 				{ time: "14:00", icon: "keys", description: "Inklok begin om 14:00. (sleutels haalbaar by ontvangs)" },
-				{ time: "18:00", icon: "jazz-drinks", description: "drankies by die jazz kroeg in Dunkeld Equestrian Estate" },
+				{ time: "18:00", icon: "jazz-drinks", description: "kos by die Teetuin en drankies by die jazz kroeg - in Dunkeld Equestrian Estate" },
 			],
 		},
 		{
 			label: "Saterdag",
 			items: [
-				{ time: "15:00", icon: "ceremony", description: "seremonie by die kapel" },
+				{ time: "15:00", icon: "ceremony", description: "seremonie by NG Kerk Dullstroom" },
 				{ time: "17:00", icon: "drinks", description: "drankies en happies op die grasperk" },
 				{ time: "18:00", icon: "reception", description: "die onthaal begin!" },
 			],
@@ -169,18 +169,15 @@ const af: SiteContent = {
 	],
 	rsvp: {
 		mealOptions: [
-			{ label: "Beesvleis", value: "beef" },
-			{ label: "Hoender", value: "chicken" },
+			{ label: "Lambs Skour", value: "lamb-shank" },
+			{ label: "Bees Fillet", value: "beef-fillet" },
 			{ label: "Vegetaries", value: "vegetarian" },
-			{ label: "Vis", value: "fish" },
 		],
 		dietaryOptions: [
 			{ label: "Geen", value: "none" },
-			{ label: "Vegetaries", value: "vegetarian" },
-			{ label: "Veganies", value: "vegan" },
+			{ label: "Neut Allergie", value: "nuts" },
 			{ label: "Glutenvry", value: "gluten-free" },
-			{ label: "Halaal", value: "halal" },
-			{ label: "Kosher", value: "kosher" },
+			{ label: "Ander", value: "other" },
 		],
 	},
 	footer: { tagline: "Ons kan nie wag om jou daar te sien nie!" },
@@ -240,6 +237,7 @@ const af: SiteContent = {
 				phone: "Voer jou telefoonnommer in",
 				meal: "Kies spyskaart-opsie",
 				dietary: "Dieetvereistes",
+				dietaryOther: "Spesifiseer asseblief enige allergieë of dieetvereistes",
 				arrival: "Ek kom op",
 				song: "Versoek 'n liedjie",
 			},

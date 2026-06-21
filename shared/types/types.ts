@@ -74,6 +74,7 @@ export interface RsvpEntry {
 	phone: string;
 	mealPreference: string;
 	dietaryRequirement: string;
+	dietaryOther: string;
 	arrivalDay: ArrivalDay | string;
 	songRequest: string;
 	attendance: AttendanceChoice;
@@ -148,7 +149,7 @@ export interface SiteUi {
 		yes: string;
 		no: string;
 		arrivalOptions: SelectOption[];
-		placeholders: { guestName: string; email: string; phone: string; meal: string; dietary: string; arrival: string; song: string };
+		placeholders: { guestName: string; email: string; phone: string; meal: string; dietary: string; dietaryOther: string; arrival: string; song: string };
 		countryCodes: SelectOption[];
 		addedSuffix: string;
 		saveGuest: string;

@@ -26,6 +26,14 @@ const emit = defineEmits<{ click: [event: MouseEvent]; }>();
 
 const imageSrc = computed(() => props.image || FALLBACK_IMAGE);
 const tag = computed(() => (props.link ? "a" : "button"));
+const isImageLoaded = ref(false);
+const imgRef = ref<HTMLImageElement | null>(null);
+
+onMounted(() => {
+	if (imgRef.value?.complete) {
+		isImageLoaded.value = true;
+	}
+});
 </script>
 
 <template>
@@ -38,12 +46,26 @@ const tag = computed(() => (props.link ? "a" : "button"));
 		:class="['activity-card', `activity-card--${props.variant}`]"
 		@click="emit('click', $event)"
 	>
-		<img class="activity-card__image" :src="imageSrc" :alt="props.title" loading="lazy" />
+		<div v-if="!isImageLoaded" class="activity-card__skeleton" aria-hidden="true" />
+		<img
+			ref="imgRef"
+			class="activity-card__image"
+			:class="{ 'activity-card__image--loaded': isImageLoaded }"
+			:src="imageSrc"
+			:alt="props.title"
+			loading="lazy"
+			@load="isImageLoaded = true"
+		/>
 		<span class="activity-card__title">{{ props.title }}</span>
 	</component>
 </template>
 
 <style scoped lang="scss">
+@keyframes skeleton-pulse {
+	0%, 100% { background-color: $color-light-gold-1; }
+	50% { background-color: $color-light-gold-2; }
+}
+
 .activity-card {
 	position: relative;
 	display: block;
@@ -86,12 +108,24 @@ const tag = computed(() => (props.link ? "a" : "button"));
 		aspect-ratio: 328 / 125;
 	}
 
+	&__skeleton {
+		position: absolute;
+		inset: 0;
+		animation: skeleton-pulse 1.5s ease-in-out infinite;
+	}
+
 	&__image {
 		position: absolute;
 		inset: 0;
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
+		opacity: 0;
+		transition: opacity $duration-base $ease-standard;
+
+		&--loaded {
+			opacity: 1;
+		}
 	}
 
 	&__title {

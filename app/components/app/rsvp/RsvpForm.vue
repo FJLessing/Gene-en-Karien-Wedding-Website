@@ -25,6 +25,7 @@ function blankEntry(fromSearch: boolean): RsvpEntry {
 		phone: "",
 		mealPreference: "",
 		dietaryRequirement: "",
+		dietaryOther: "",
 		arrivalDay: "",
 		songRequest: "",
 		attendance: store.attendance ?? AttendanceChoice.Attending,
@@ -81,8 +82,14 @@ function removeExtra(): void {
 	extra.value = null;
 }
 
+function resolveDietary(entry: RsvpEntry): string {
+	return entry.dietaryRequirement === "other" ? entry.dietaryOther : entry.dietaryRequirement;
+}
+
 async function submit(): Promise<void> {
-	store.entries = [{ ...form.value }, ...(extra.value ? [{ ...extra.value }] : [])];
+	const primary: RsvpEntry = { ...form.value, dietaryRequirement: resolveDietary(form.value) };
+	const secondary = extra.value ? { ...extra.value, dietaryRequirement: resolveDietary(extra.value) } : null;
+	store.entries = [primary, ...(secondary ? [secondary] : [])];
 	await store.submit();
 }
 </script>
@@ -96,6 +103,13 @@ async function submit(): Promise<void> {
 		<PhoneInput v-model="form.phone" :country-codes="countryCodes" :placeholder="ui?.placeholders.phone" required />
 		<SelectField v-model="form.mealPreference" :placeholder="ui?.placeholders.meal" :options="mealOptions" required />
 		<SelectField v-model="form.dietaryRequirement" :placeholder="ui?.placeholders.dietary" :options="dietaryOptions" />
+		<TextField
+			v-if="form.dietaryRequirement === 'other'"
+			v-model="form.dietaryOther"
+			type="text"
+			:placeholder="ui?.placeholders.dietaryOther"
+			required
+		/>
 		<SelectField v-model="form.arrivalDay as string" :placeholder="ui?.placeholders.arrival" :options="arrivalOptions" required />
 		<TextField v-model="form.songRequest" type="text" :placeholder="ui?.placeholders.song" />
 
@@ -119,6 +133,13 @@ async function submit(): Promise<void> {
 			<PhoneInput v-model="extra.phone" :country-codes="countryCodes" :placeholder="ui?.placeholders.phone" required />
 			<SelectField v-model="extra.mealPreference" :placeholder="ui?.placeholders.meal" :options="mealOptions" required />
 			<SelectField v-model="extra.dietaryRequirement" :placeholder="ui?.placeholders.dietary" :options="dietaryOptions" />
+			<TextField
+				v-if="extra.dietaryRequirement === 'other'"
+				v-model="extra.dietaryOther"
+				type="text"
+				:placeholder="ui?.placeholders.dietaryOther"
+				required
+			/>
 			<SelectField v-model="extra.arrivalDay as string" :placeholder="ui?.placeholders.arrival" :options="arrivalOptions" required />
 			<TextField v-model="extra.songRequest" type="text" :placeholder="ui?.placeholders.song" />
 		</fieldset>

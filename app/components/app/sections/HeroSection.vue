@@ -80,9 +80,9 @@ useReveal(root, { direction: "fade", duration: 1 });
 	&__scroll {
 		display: flex;
 		flex-direction: column;
-		gap: $space-xs;
+		gap: $space-md;
 		align-items: center;
-		margin-bottom: $space-lg;
+		margin-bottom: $space-md;
 		margin-top: auto;
 		font-size: $font-size-xs;
 		letter-spacing: 0.1em;

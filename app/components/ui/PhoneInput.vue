@@ -256,7 +256,7 @@ function scrollHighlightedIntoView() {
 		display: inline-flex;
 		align-items: center;
 		gap: $space-3xs;
-		padding: $space-3xs $space-sm;
+		padding: $space-xs $space-2xs;
 		margin: 0;
 		border: none;
 		border-right: 1px solid $color-field-border;
@@ -296,7 +296,7 @@ function scrollHighlightedIntoView() {
 	&__number {
 		flex: 1;
 		min-width: 0;
-		padding: $space-3xs $space-md;
+		padding: $space-3xs $space-3xs;
 		border: none;
 		background: none;
 		font-family: $font-body;

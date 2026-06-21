@@ -130,6 +130,7 @@ export const useRsvpStore = defineStore("rsvp", {
 						phone: "",
 						mealPreference: "",
 						dietaryRequirement: "",
+						dietaryOther: "",
 						arrivalDay: "",
 						songRequest: "",
 						attendance: AttendanceChoice.Declined,

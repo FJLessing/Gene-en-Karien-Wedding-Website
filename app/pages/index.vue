@@ -22,9 +22,20 @@ import VenueIntroSection from "~/components/app/sections/VenueIntroSection.vue";
 definePageMeta({ layout: false });
 
 const { isUnlocked, unlock } = useAccess();
+const { ScrollTrigger } = useGsap();
 
 // Hydrate content up front so sections have data on first paint.
 const { content } = useContent();
+
+// Gate → content is a `v-if` swap, not a route change, so nothing resets scroll
+// when the (tall) content mounts. Force the top and recompute reveal triggers
+// against the final layout once it's in the DOM.
+watch(isUnlocked, async (unlocked) => {
+	if (!unlocked) return;
+	await nextTick();
+	window.scrollTo(0, 0);
+	ScrollTrigger.refresh();
+});
 
 // ── Image carousels ───────────────────────────────────────────────────────────
 
@@ -37,7 +48,7 @@ const galleryImages: CarouselImage[] = Array.from({ length: 36 }, (_, i) => {
 });
 
 const venueImages: CarouselImage[] = Array.from({ length: 10 }, (_, i) => {
-	const num = String(i + 1).padStart(2, "0");
+	const num = String(i).padStart(2, "0");
 	return {
 		src: `/img/venue-gallery/venue${num}.webp`,
 		alt: `Venue photo ${i + 1}`,

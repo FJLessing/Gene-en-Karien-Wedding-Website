@@ -35,13 +35,13 @@ const en: SiteContent = {
 			label: "Friday",
 			items: [
 				{ time: "14:00", icon: "keys", description: "Check in starts at 14:00. (get keys at main reception)" },
-				{ time: "18:00", icon: "jazz-drinks", description: "drinks in the jazz bar at Dunkeld Equestrian Estate" },
+				{ time: "18:00", icon: "jazz-drinks", description: "food at the Tea Garden and drinks in the Jazz Bar - at Dunkeld Equestrian Estate" },
 			],
 		},
 		{
 			label: "Saturday",
 			items: [
-				{ time: "15:00", icon: "ceremony", description: "ceremony at the chapel" },
+				{ time: "15:00", icon: "ceremony", description: "ceremony at NG Kerk Dullstroom" },
 				{ time: "17:00", icon: "drinks", description: "drinks and canapés on the lawn" },
 				{ time: "18:00", icon: "reception", description: "the reception begins!" },
 			],
@@ -171,18 +171,15 @@ const en: SiteContent = {
 	],
 	rsvp: {
 		mealOptions: [
-			{ label: "Beef", value: "beef" },
-			{ label: "Chicken", value: "chicken" },
+			{ label: "Lamb shank", value: "lamb-shank" },
+			{ label: "Beef Fillet", value: "beef-fillet" },
 			{ label: "Vegetarian", value: "vegetarian" },
-			{ label: "Fish", value: "fish" },
 		],
 		dietaryOptions: [
 			{ label: "None", value: "none" },
-			{ label: "Vegetarian", value: "vegetarian" },
-			{ label: "Vegan", value: "vegan" },
+			{ label: "Nut Allergy", value: "nuts" },
 			{ label: "Gluten-free", value: "gluten-free" },
-			{ label: "Halal", value: "halal" },
-			{ label: "Kosher", value: "kosher" },
+			{ label: "Other", value: "other" },
 		],
 	},
 	footer: { tagline: "We can’t wait to see you there!" },
@@ -242,6 +239,7 @@ const en: SiteContent = {
 				phone: "Enter your phone number",
 				meal: "Select menu option",
 				dietary: "Dietary restrictions",
+				dietaryOther: "Please specify any allergies or dietary requirements",
 				arrival: "I'm coming on",
 				song: "Request a song",
 			},

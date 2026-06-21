@@ -6,9 +6,64 @@ const props = withDefaults(defineProps<{ title: string; subTitle?: string; open?
 });
 
 const isOpen = ref(props.open);
+const bodyRef = ref<HTMLElement | null>(null);
+const { gsap } = useGsap();
+
+const prefersReducedMotion = ref(false);
+
+onMounted(() => {
+	prefersReducedMotion.value = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+	const el = bodyRef.value;
+	if (!el) return;
+
+	if (props.open) {
+		gsap.set(el, { height: 'auto', opacity: 1 });
+	} else {
+		gsap.set(el, { height: 0, opacity: 0 });
+	}
+});
 
 function toggle(): void {
-	isOpen.value = !isOpen.value;
+	if (prefersReducedMotion.value) {
+		isOpen.value = !isOpen.value;
+		return;
+	}
+
+	const el = bodyRef.value;
+	if (!el) return;
+
+	gsap.killTweensOf(el);
+
+	if (isOpen.value) {
+		gsap.to(el, {
+			height: 0,
+			opacity: 0,
+			duration: 0.4,
+			ease: 'power2.out',
+			onComplete: () => {
+				isOpen.value = false;
+			},
+		});
+	} else {
+		isOpen.value = true;
+		nextTick(() => {
+			const scrollHeight = el.scrollHeight;
+			gsap.fromTo(
+				el,
+				{ height: 0, opacity: 0 },
+				{
+					height: scrollHeight,
+					opacity: 1,
+					duration: 0.4,
+					ease: 'power2.out',
+					onComplete: () => {
+						gsap.set(el, { height: '', opacity: '' });
+					},
+				}
+			);
+		});
+	}
 }
 </script>
 
@@ -22,12 +77,10 @@ function toggle(): void {
 				</svg>
 			</span>
 		</button>
-		<p v-if="props.subTitle" class="base-accordion__sub-title">{{ props.subTitle }}</p>
-		<Transition name="accordion">
-			<div v-show="isOpen" class="base-accordion__body">
-				<slot />
-			</div>
-		</Transition>
+		<div ref="bodyRef" class="base-accordion__body">
+			<p v-if="props.subTitle" class="base-accordion__sub-title">{{ props.subTitle }}</p>
+			<slot />
+		</div>
 	</div>
 </template>
 
@@ -57,7 +110,7 @@ function toggle(): void {
 	}
 
 	&__sub-title {
-		margin: $space-xl $space-lg;
+		margin: $space-sm $space-lg $space-lg;
 	}
 
 	&__caret {
@@ -69,6 +122,7 @@ function toggle(): void {
 	}
 
 	&__body {
+		overflow: hidden;
 		padding-bottom: $space-sm;
 		color: $color-text-muted;
 		font-size: $font-size-sm;
