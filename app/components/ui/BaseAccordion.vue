@@ -79,6 +79,7 @@ function toggle(): void {
 		</button>
 		<div ref="bodyRef" class="base-accordion__body">
 			<p v-if="props.subTitle" class="base-accordion__sub-title">{{ props.subTitle }}</p>
+			<br v-else/>
 			<slot />
 		</div>
 	</div>

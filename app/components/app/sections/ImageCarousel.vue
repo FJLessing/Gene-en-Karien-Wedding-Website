@@ -60,7 +60,7 @@ onMounted(() => {
 		<Swiper
 			v-if="images.length > 0"
 			:modules="modules"
-			:slides-per-view="1"
+			:slides-per-view="'auto'"
 			:space-between="0"
 			:loop="images.length > 1"
 			:grab-cursor="true"
@@ -100,12 +100,21 @@ onMounted(() => {
 	width: 100%;
 	max-width: 100%;
 
-	&__skeleton {
-		position: absolute;
-		inset: 0;
-		z-index: 0;
-		animation: skeleton-pulse 1.5s ease-in-out infinite;
-		transition: opacity $duration-base $ease-standard;
+	:deep(.swiper) {
+		@include up($bp-md) {
+			height: 30rem;
+		}
+	}
+
+	:deep(.swiper-slide) {
+		position: relative;
+		width: 100%;
+		height: auto;
+
+		@include up($bp-md) {
+			width: auto;
+			height: 100%;
+		}
 	}
 
 	&__img {
@@ -120,12 +129,26 @@ onMounted(() => {
 
 		&--loaded {
 			opacity: 1;
+
+			~ .image-carousel__skeleton {
+				animation: none;
+				opacity: 0;
+			}
+		}
+
+		@include up($bp-md) {
+			width: auto;
+			height: 100%;
+			max-width: none;
 		}
 	}
 
-	&__img--loaded ~ .image-carousel__skeleton {
-		animation: none;
-		opacity: 0;
+	&__skeleton {
+		position: absolute;
+		inset: 0;
+		z-index: 0;
+		animation: skeleton-pulse 1.5s ease-in-out infinite;
+		transition: opacity $duration-base $ease-standard;
 	}
 
 	// Pagination dots sit below the image area, centred.
