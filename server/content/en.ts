@@ -69,7 +69,7 @@ const en: SiteContent = {
 			],
 			booking: {
 				email: "jennifers@touchdown-africa.com",
-				cc: "ggsgene@gmail.com",
+				cc: "ggsgene@gmail.com,kariendk@gmail.com",
 				reference: "242178.59",
 				subject: "Accommodation booking — Gene & Karien's wedding (ref 242178.59)",
 				draft:

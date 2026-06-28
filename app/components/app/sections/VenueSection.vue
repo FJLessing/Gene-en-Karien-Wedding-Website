@@ -25,7 +25,7 @@ const aboutParts = computed(() => {
 // Pre-filled draft email to Touchdown Africa's reservations consultant, cc'ing
 // the couple. Params are encoded with encodeURIComponent (spaces → %20) rather
 // than URLSearchParams (spaces → +), since mailto clients render a literal "+".
-const mailtoHref = computed(() => {
+	const mailtoHref = computed(() => {
 	const b = content.value?.venue.accommodation.booking;
 	if (!b) return "";
 	const query = `cc=${encodeURIComponent(b.cc)}&subject=${encodeURIComponent(b.subject)}&body=${encodeURIComponent(b.draft)}`;

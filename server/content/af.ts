@@ -69,7 +69,7 @@ const af: SiteContent = {
 			],
 			booking: {
 				email: "jennifers@touchdown-africa.com",
-				cc: "ggsgene@gmail.com",
+				cc: "ggsgene@gmail.com,kariendk@gmail.com",
 				reference: "242178.59",
 				subject: "Verblyfbespreking — Gene & Karien se troue (verw 242178.59)",
 				draft:
