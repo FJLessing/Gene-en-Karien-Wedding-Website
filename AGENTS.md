@@ -72,4 +72,4 @@ Tokens: Black `#4A4A4A`, Grey `#8A8A8A`, Gold `#C5B39A`, Light Gold `#E8DED0`/`#
 
 ## Status
 
-All architecture, pages, components, and API routes are in place. English + Afrikaans translation is wired end-to-end (per-locale content files, auto-detect, footer toggle). Pending: content sign-off (incl. Afrikaans proofread), real Sheets/GCS credentials, hero imagery, gallery grid.
+All architecture, pages, components, and API routes are in place. English + Afrikaans translation is wired end-to-end (per-locale content files, auto-detect, footer toggle). Pending: content sign-off, real Sheets/GCS credentials, hero imagery, gallery grid.

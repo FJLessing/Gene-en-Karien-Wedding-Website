@@ -9,9 +9,12 @@ import "swiper/css/pagination";
 
 interface ImageCarouselProps {
 	images: CarouselImage[];
+	autoplay?: boolean;
 }
 
-const props = defineProps<ImageCarouselProps>();
+const props = withDefaults(defineProps<ImageCarouselProps>(), {
+	autoplay: true,
+});
 
 const root = ref<HTMLElement | null>(null);
 useReveal(root, { direction: "fade", duration: 1 });
@@ -64,7 +67,7 @@ onMounted(() => {
 			:space-between="0"
 			:loop="images.length > 1"
 			:grab-cursor="true"
-			:autoplay="{ delay: 5000, disableOnInteraction: true }"
+			:autoplay="props.autoplay ? { delay: 5000, disableOnInteraction: true } : false"
 			:pagination="{ el: `#${paginationId}`, clickable: true }"
 		>
 			<SwiperSlide v-for="image in images" :key="image.src">

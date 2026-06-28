@@ -12,7 +12,7 @@ const en: SiteContent = {
 		invitationLine2: "formally invited to the nuptials of",
 	},
 	event: {
-		dates: "9 - 11 October 2026",
+		dates: "9 - 11 October",
 		year: "2026",
 		startsAt: "2026-10-10T15:00:00+02:00", // ceremony at the chapel, Saturday 15:00
 		venueName: "Dunkeld Equestrian Estate",
@@ -25,7 +25,7 @@ const en: SiteContent = {
 		"We cannot wait to raise a glass and celebrate with you.",
 	],
 	details: {
-		dates: "9 - 11 October 2026",
+		dates: "9 - 11 October",
 		year: "2026",
 		location: ["Dunkeld Equestrian Estate,", " Dullstroom, Mpumalanga"],
 		rsvpBy: "20 July 2026",
@@ -57,7 +57,8 @@ const en: SiteContent = {
 	dressCode: "The dress code for the festivities is strictly black tie.",
 	venue: {
 		about: "Our celebration will take place at the beautiful Dunkeld Country & Equestrian Estate in Dullstroom. Surrounded by whispering pine forests, rolling hills, and crystal-clear lakes, the estate perfectly balances rustic tranquility with modern elegance. We are thrilled to host you in this serene, unforgettable countryside setting.",
-		mapUrl: "",
+		note: "Kindly note the villas are booked per room for the wedding. If you’d like to insure that you are staying with a specific group, please indicate that on the email when making your booking and let Jennifer know as well.",
+
 		contact: "Contact the events team at Dunkeld Equestrian Estate to book your activity before the day: 0112346448 or at dunkeld@gmail.co.za",
 		accommodation: {
 			heading: "Book your accommodation",
@@ -191,8 +192,10 @@ const en: SiteContent = {
 		dressCode: { heading: "Dress code" },
 		venue: {
 			heading: "About the venue",
+			subHeading: "& Dullstroom",
 			bookAccommodation: "Book your accommodation",
 			activitiesTitle: "Venue activities",
+			activitiesSubTitle: "Kindly note all activities have to be booked with the venue in advance.",
 			downloadMap: "Download the venue map",
 			bookNow: "Book now",
 			copyReference: "Copy reference number",
@@ -205,6 +208,7 @@ const en: SiteContent = {
 			passwordPlaceholder: "enter password",
 			open: "Open",
 			wrongPassword: "That password didn't match. Please try again.",
+			hint: "Tap or click the envelope to get started",
 		},
 		loader: { loading: "Loading" },
 		gallery: {

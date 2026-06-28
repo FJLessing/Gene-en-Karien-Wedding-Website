@@ -4,6 +4,9 @@
 // Closed / Open" frames — soft white paper, embossed GK seal on the closed flap.
 const emit = defineEmits<{ unlock: []; }>();
 
+// How long the gate sits idle before nudging the visitor to tap the envelope.
+const HINT_DELAY_MS = 30_000;
+
 const { isUnlocked, verifyPassword } = useAccess();
 const { content } = useContent();
 const { gsap, withCleanup } = useGsap();
@@ -21,6 +24,10 @@ const error = ref("");
 const isChecking = ref(false);
 const isOpen = ref(false);
 
+// Idle hint: appears after HINT_DELAY_MS, removed the moment the envelope is tapped.
+const showHint = ref(false);
+let hintTimer: ReturnType<typeof setTimeout> | undefined;
+
 async function onSubmit(): Promise<void> {
 	error.value = "";
 	isChecking.value = true;
@@ -34,6 +41,10 @@ async function onSubmit(): Promise<void> {
 }
 
 function openEnvelope(): void {
+	// Dismiss the idle hint and cancel a not-yet-fired timer so it can't pop up later.
+	showHint.value = false;
+	clearTimeout(hintTimer);
+
 	if (isOpen.value) return;
 	isOpen.value = true;
 
@@ -76,7 +87,14 @@ onMounted(() => {
 		gsap.set(lidEl.value, { autoAlpha: 0 });
 		gsap.set(formEl.value, { autoAlpha: 0, y: 12 });
 	}, root.value);
+
+	// Arm the idle nudge — only reached when the gate is genuinely locked.
+	hintTimer = setTimeout(() => {
+		showHint.value = true;
+	}, HINT_DELAY_MS);
 });
+
+onBeforeUnmount(() => clearTimeout(hintTimer));
 </script>
 
 <template>
@@ -203,6 +221,10 @@ onMounted(() => {
 				</div>
 			</div>
 		</div>
+
+		<Transition name="gate-hint-fade">
+			<p v-if="showHint" class="gate__hint">{{ content?.ui.gate.hint }}</p>
+		</Transition>
 	</div>
 </template>
 
@@ -210,8 +232,9 @@ onMounted(() => {
 .gate {
 	min-height: 100dvh;
 	display: flex;
-	align-items: flex-start;
-	justify-content: center;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
 	padding: max(15vh, 5rem) $space-lg $space-lg;
 	background-color: $color-white;
 	// The 3D flap (perspective + preserve-3d + rotateX) can project beyond the
@@ -242,6 +265,16 @@ onMounted(() => {
 		@include reduced-motion {
 			transition: none;
 		}
+	}
+
+	// Idle nudge shown below the envelope after a delay; fades in/out via the
+	// gate-hint-fade transition. Display font echoes the invitation lettering.
+	&__hint {
+		margin-top: $space-md;
+		font-family: $font-display;
+		font-size: $font-size-lg;
+		color: $color-text-muted;
+		text-align: center;
 	}
 
 	// Each layer is an inline SVG filling the envelope box. `overflow: visible` lets
@@ -344,5 +377,21 @@ onMounted(() => {
 		width: 22%;
 		z-index: 1;
 	}
+}
+
+// Idle hint fade — kept at top level per the SCSS convention (framework
+// transition classes live outside the BEM block).
+.gate-hint-fade-enter-active,
+.gate-hint-fade-leave-active {
+	transition: opacity $duration-base $ease-standard;
+
+	@include reduced-motion {
+		transition: none;
+	}
+}
+
+.gate-hint-fade-enter-from,
+.gate-hint-fade-leave-to {
+	opacity: 0;
 }
 </style>

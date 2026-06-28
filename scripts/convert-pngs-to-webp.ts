@@ -1,4 +1,4 @@
-import { readdir } from 'node:fs/promises';
+import { readdir, stat } from 'node:fs/promises';
 import { extname, join } from 'node:path';
 import { execFile } from 'node:child_process';
 
@@ -53,15 +53,32 @@ async function main() {
 
 	console.log(`Found ${pngs.length} PNG file(s) in ${IMAGE_DIR}`);
 
+	let skipped = 0, converted = 0, created = 0;
+
 	for (const png of pngs) {
 		const webp = png.replace(/\.png$/i, '.webp');
+
+		const pngStat = await stat(png);
+		const webpStat = await stat(webp).catch(() => null);
+
+		if (webpStat && webpStat.mtimeMs >= pngStat.mtimeMs) {
+			console.log(`– ${png} (up to date, skipping)`);
+			skipped++;
+			continue;
+		}
+
+		const isNew = !webpStat;
+
 		try {
 			await convert(command, png, webp);
 			console.log(`✓ ${png} → ${webp}`);
+			isNew ? created++ : converted++;
 		} catch (error) {
 			console.error(`✗ Failed to convert ${png}:`, error);
 		}
 	}
+
+	console.log(`\nDone — ${created} new, ${converted} converted, ${skipped} skipped.`);
 }
 
 main();

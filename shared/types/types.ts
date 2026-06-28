@@ -127,8 +127,10 @@ export interface SiteUi {
 	dressCode: { heading: string };
 	venue: {
 		heading: string;
+		subHeading: string;
 		bookAccommodation: string;
 		activitiesTitle: string;
+		activitiesSubTitle: string;
 		downloadMap: string;
 		bookNow: string;
 		copyReference: string;
@@ -136,7 +138,7 @@ export interface SiteUi {
 	};
 	areaActivities: { learnMore: string };
 	faqs: { heading: string };
-	gate: { passwordLabel: string; passwordPlaceholder: string; open: string; wrongPassword: string };
+	gate: { passwordLabel: string; passwordPlaceholder: string; open: string; wrongPassword: string; hint: string };
 	loader: { loading: string };
 	gallery: { metaTitle: string; heading: string; lockedMessage: string };
 	photoUpload: { heading: string; metaTitle: string; choose: string; selectedSuffix: string; upload: string; success: string; failed: string };
@@ -187,7 +189,8 @@ export interface SiteContent {
 	dressCode: string;
 	venue: {
 		about: string;
-		mapUrl: string;
+		note: string;
+
 		contact: string;
 		accommodation: {
 			heading: string;

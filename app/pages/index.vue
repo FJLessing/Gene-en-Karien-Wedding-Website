@@ -13,11 +13,10 @@ import DetailsSection from "~/components/app/sections/DetailsSection.vue";
 import ProgramSection from "~/components/app/sections/ProgramSection.vue";
 import DressCodeSection from "~/components/app/sections/DressCodeSection.vue";
 import VenueSection from "~/components/app/sections/VenueSection.vue";
-import AreaActivitiesSection from "~/components/app/sections/AreaActivitiesSection.vue";
+import ActivitiesSection from "~/components/app/sections/ActivitiesSection.vue";
 import FaqSection from "~/components/app/sections/FaqSection.vue";
 import RsvpCta from "~/components/app/sections/RsvpCta.vue";
 import { SEOService } from "~/services/seo-service";
-import VenueIntroSection from "~/components/app/sections/VenueIntroSection.vue";
 
 definePageMeta({ layout: false });
 
@@ -39,21 +38,26 @@ watch(isUnlocked, async (unlocked) => {
 
 // ── Image carousels ───────────────────────────────────────────────────────────
 
-const galleryImages: CarouselImage[] = Array.from({ length: 36 }, (_, i) => {
-	const num = String(i).padStart(2, "0");
-	return {
-		src: `/img/gallery/Foto${num}.webp`,
-		alt: `Gallery photo ${i + 1}`,
-	};
-});
+// Build a numbered carousel image set, e.g. /img/gallery/Foto00.webp … Foto35.webp.
+function buildCarouselImages(
+	count: number,
+	dir: string,
+	prefix: string,
+	altLabel: string,
+	offset: number = 0
+): CarouselImage[] {
+	return Array.from({ length: count }, (_, i) => {
+		const num = String(i + offset).padStart(2, "0");
+		return {
+			src: `/img/${dir}/${prefix}${num}.webp`,
+			alt: `${altLabel} ${i + 1}`,
+		};
+	});
+}
 
-const venueImages: CarouselImage[] = Array.from({ length: 10 }, (_, i) => {
-	const num = String(i).padStart(2, "0");
-	return {
-		src: `/img/venue-gallery/venue${num}.webp`,
-		alt: `Venue photo ${i + 1}`,
-	};
-});
+const galleryImages = buildCarouselImages(36, "gallery", "Foto", "Gallery photo", 1);
+const venueImages = buildCarouselImages(10, "venue-gallery", "venue", "Venue photo");
+const mapImages = buildCarouselImages(3, "maps", "map", "Map photo");
 
 SEOService.set({
 	description: () => content.value?.ui.meta.homeDescription,
@@ -74,10 +78,9 @@ SEOService.set({
 			<RsvpCta />
 			<ProgramSection />
 			<DressCodeSection />
-			<VenueIntroSection />
 			<ImageCarousel :images="venueImages" />
-			<VenueSection />
-			<AreaActivitiesSection />
+			<VenueSection :mapImages="mapImages" />
+			<ActivitiesSection />
 			<FaqSection />
 			<RsvpCta />
 			<AppFooter />

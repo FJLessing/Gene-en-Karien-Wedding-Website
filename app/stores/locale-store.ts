@@ -9,11 +9,11 @@ function isLocale(value: unknown): value is Locale {
 }
 
 // Current UI language. Resolved once on app start (cookie → Accept-Language /
-// navigator.language → English) and persisted in a cookie so the choice survives
+// navigator.language → Afrikaans) and persisted in a cookie so the choice survives
 // reloads. Read by `use-content` (drives the content fetch) and the footer toggle.
 export const useLocaleStore = defineStore("locale", {
 	state: (): { locale: Locale } => ({
-		locale: Locale.En,
+		locale: Locale.Af,
 	}),
 	actions: {
 		// SSR-safe resolution. Runs from the locale plugin on both server and client.
@@ -37,10 +37,10 @@ export const useLocaleStore = defineStore("locale", {
 });
 
 // First-visit language detection. Server reads the Accept-Language header; the
-// client falls back to navigator languages. Afrikaans is chosen only when it is
+// client falls back to navigator languages. English is chosen only when it is
 // the visitor's MOST-preferred language (top of the navigator list, or highest
-// q-value in the header). English is the default for everything else — no/empty
-// preferences, other languages, or Afrikaans listed only as a low-priority fallback.
+// q-value in the header). Afrikaans is the default for everything else — no/empty
+// preferences, other languages, or English listed only as a low-priority fallback.
 function detectLocale(): Locale {
 	let tags: { lang: string; q: number }[] = [];
 
@@ -63,7 +63,7 @@ function detectLocale(): Locale {
 	// Stable sort keeps the original order for equal q-values, so the first
 	// listed language wins ties.
 	const top = [...tags].sort((a, b) => b.q - a.q)[0]?.lang ?? "";
-	return top === "af" || top.startsWith("af-") ? Locale.Af : Locale.En;
+	return top === "en" || top.startsWith("en-") ? Locale.En : Locale.Af;
 }
 
 if (import.meta.hot) {

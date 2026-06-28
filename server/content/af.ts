@@ -57,7 +57,8 @@ const af: SiteContent = {
 	dressCode: "Die kleredrag vir die feestelikhede is streng swartdas (black tie).",
 	venue: {
 		about: "Ons viering vind plaas by die pragtige Dunkeld Country & Equestrian Estate in Dullstroom. Omring deur fluisterende dennebosse, glooiende heuwels en kristalhelder mere, balanseer die landgoed landelike rus perfek met moderne elegansie. Ons sien daarna uit om jou in hierdie stil, onvergeetlike platteland-omgewing te ontvang.",
-		mapUrl: "",
+		note: "Let asseblief daarop dat die villas per kamer vir die troue bespreek word. Indien jy saam met 'n spesifieke groep wil bly, meld dit asseblief in die e-pos tydens u bespreking en stel Jennifer ook daarvan in kennis.",
+
 		contact: "Kontak die geleenthede-span by Dunkeld Equestrian Estate om jou aktiwiteit voor die dag te bespreek: 0112346448 of by dunkeld@gmail.co.za",
 		accommodation: {
 			heading: "Bespreek jou verblyf",
@@ -189,8 +190,10 @@ const af: SiteContent = {
 		dressCode: { heading: "Kleredrag" },
 		venue: {
 			heading: "Oor die venue",
+			subHeading: "& Dullstroom",
 			bookAccommodation: "Bespreek jou verblyf",
 			activitiesTitle: "Venue-aktiwiteite",
+			activitiesSubTitle:  "Neem asseblief kennis dat alle aktiwiteite vooraf by die venue bespreek moet word.",
 			downloadMap: "Laai die venue-kaart af",
 			bookNow: "Bespreek nou",
 			copyReference: "Kopieer verwysingsnommer",
@@ -203,6 +206,7 @@ const af: SiteContent = {
 			passwordPlaceholder: "voer wagwoord in",
 			open: "Maak oop",
 			wrongPassword: "Daardie wagwoord stem nie ooreen nie. Probeer asseblief weer.",
+			hint: "Tik of klik op die koevert om te begin",
 		},
 		loader: { loading: "Laai tans" },
 		gallery: {
