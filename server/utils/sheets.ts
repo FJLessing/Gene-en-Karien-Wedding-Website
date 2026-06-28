@@ -13,6 +13,7 @@ function mapEntryToRow(e: RsvpEntry, timestamp: string): string[] {
 		e.name,
 		e.email,
 		normalizePhone(e.phone),
+		e.starterPreference,
 		e.mealPreference,
 		e.dietaryRequirement,
 		e.arrivalDay ?? "",

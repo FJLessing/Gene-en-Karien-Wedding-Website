@@ -174,6 +174,10 @@ const af: SiteContent = {
 			{ label: "Bees Fillet", value: "beef-fillet" },
 			{ label: "Vegetaries", value: "vegetarian" },
 		],
+		starterOptions: [
+			{ label: "Trout Trio", value: "trout-trio" },
+			{ label: "Chicken & Mushroom pakkie", value: "chicken-mushroom-trio" }
+		],
 		dietaryOptions: [
 			{ label: "Geen", value: "none" },
 			{ label: "Neut Allergie", value: "nuts" },
@@ -240,6 +244,7 @@ const af: SiteContent = {
 				email: "Voer jou e-posadres in",
 				phone: "Voer jou telefoonnommer in",
 				meal: "Kies spyskaart-opsie",
+				starter: "Kies voorgereg",
 				dietary: "Dieetvereistes",
 				dietaryOther: "Spesifiseer asseblief enige allergieë of dieetvereistes",
 				arrival: "Ek kom op",

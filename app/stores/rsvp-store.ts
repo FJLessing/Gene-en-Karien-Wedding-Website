@@ -128,6 +128,7 @@ export const useRsvpStore = defineStore("rsvp", {
 						name: this.selectedGuest.name,
 						email: "",
 						phone: "",
+						starterPreference: "",
 						mealPreference: "",
 						dietaryRequirement: "",
 						dietaryOther: "",

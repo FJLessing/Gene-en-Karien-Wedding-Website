@@ -172,9 +172,13 @@ const en: SiteContent = {
 	],
 	rsvp: {
 		mealOptions: [
-			{ label: "Lamb shank", value: "lamb-shank" },
+			{ label: "Lamb Shank", value: "lamb-shank" },
 			{ label: "Beef Fillet", value: "beef-fillet" },
 			{ label: "Vegetarian", value: "vegetarian" },
+		],
+		starterOptions: [
+			{ label: "Trout Trio", value: "trout-trio" },
+			{ label: "Chicken & Mushroom parcel", value: "chicken-mushroom-trio" }
 		],
 		dietaryOptions: [
 			{ label: "None", value: "none" },
@@ -242,6 +246,7 @@ const en: SiteContent = {
 				email: "Enter your email address",
 				phone: "Enter your phone number",
 				meal: "Select menu option",
+				starter: "Select starter option",
 				dietary: "Dietary restrictions",
 				dietaryOther: "Please specify any allergies or dietary requirements",
 				arrival: "I'm coming on",

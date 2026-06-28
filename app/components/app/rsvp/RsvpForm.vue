@@ -23,6 +23,7 @@ function blankEntry(fromSearch: boolean): RsvpEntry {
 		name: fromSearch ? store.selectedGuest?.name ?? "" : "",
 		email: "",
 		phone: "",
+		starterPreference: "",
 		mealPreference: "",
 		dietaryRequirement: "",
 		dietaryOther: "",
@@ -45,6 +46,7 @@ const canBringPlusOne = computed(() => store.selectedGuest?.canBringPlusOne ?? f
 const extraIsPartner = computed(() => extra.value?.guestId != null);
 
 const arrivalOptions = computed(() => content.value?.ui.rsvp.arrivalOptions ?? []);
+const starterOptions = computed(() => content.value?.rsvp.starterOptions ?? []);
 const mealOptions = computed(() => content.value?.rsvp.mealOptions ?? []);
 const dietaryOptions = computed(() => content.value?.rsvp.dietaryOptions ?? []);
 const countryCodes = computed(() => content.value?.ui.rsvp.countryCodes ?? []);
@@ -101,6 +103,7 @@ async function submit(): Promise<void> {
 
 		<TextField v-model="form.email" type="email" :placeholder="ui?.placeholders.email" required />
 		<PhoneInput v-model="form.phone" :country-codes="countryCodes" :placeholder="ui?.placeholders.phone" required />
+		<SelectField v-model="form.starterPreference" :placeholder="ui?.placeholders.starter" :options="starterOptions" required />
 		<SelectField v-model="form.mealPreference" :placeholder="ui?.placeholders.meal" :options="mealOptions" required />
 		<SelectField v-model="form.dietaryRequirement" :placeholder="ui?.placeholders.dietary" :options="dietaryOptions" />
 		<TextField
@@ -131,6 +134,7 @@ async function submit(): Promise<void> {
 
 			<TextField v-model="extra.email" type="email" :placeholder="ui?.placeholders.email" required />
 			<PhoneInput v-model="extra.phone" :country-codes="countryCodes" :placeholder="ui?.placeholders.phone" required />
+			<SelectField v-model="extra.starterPreference" :placeholder="ui?.placeholders.starter" :options="starterOptions" required />
 			<SelectField v-model="extra.mealPreference" :placeholder="ui?.placeholders.meal" :options="mealOptions" required />
 			<SelectField v-model="extra.dietaryRequirement" :placeholder="ui?.placeholders.dietary" :options="dietaryOptions" />
 			<TextField
