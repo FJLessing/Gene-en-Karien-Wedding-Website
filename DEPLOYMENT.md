@@ -191,13 +191,87 @@ for occasional updates.
 
 ---
 
-## Updating the site later
+## Updating
+
+Pick the path that matches what changed. Every command creates a **new Cloud Run revision**;
+traffic shifts to it automatically once it passes health checks, and the old revision stays
+available for instant rollback. The `*.run.app` hostname **never changes** across deploys, so
+your Cloudflare DNS/Origin Rule (step 6) never needs touching.
+
+### Code or content changed (the common case)
+
+Any change to app code **or site copy** (`server/content/en.ts` / `af.ts`, which is bundled
+into the image and served via `/api/content`) needs a rebuild + redeploy:
 
 ```bash
 gcloud run deploy gene-karien-trou --source . --region africa-south1
 ```
 
-(Env vars/secrets persist across deploys; only re-pass them if they change.)
+Env vars and secrets persist across deploys — you don't re-pass them unless they change.
+
+### A plain env var changed (no rebuild needed)
+
+For example switching the GCS bucket, sheet ID, or access param, or adding the gallery vars
+later. This is faster than a full deploy because it reuses the current image:
+
+```bash
+# Add or change one or more vars
+gcloud run services update gene-karien-trou --region africa-south1 \
+  --update-env-vars NUXT_PUBLIC_GALLERY_UNLOCK_DATE=2026-10-09
+
+# Remove a var
+gcloud run services update gene-karien-trou --region africa-south1 \
+  --remove-env-vars NUXT_PUBLIC_GALLERY_UNLOCK_DATE
+```
+
+> Use `--update-env-vars` (merges) — `--set-env-vars` **replaces the whole set**, which would
+> drop the others.
+
+### Rotating a secret (password or private key)
+
+Secrets are mounted as `:latest`, but a running revision keeps the version it started with —
+adding a new version does **not** affect live traffic until a new revision is created. So it's
+two steps: add the version, then roll a revision that re-resolves `:latest`.
+
+```bash
+# 1. Add a new version (example: new site password)
+printf 'NEW_PASSWORD' | gcloud secrets versions add NUXT_SITE_PASSWORD --data-file=-
+
+# 2. Roll a new revision that picks it up (no image rebuild)
+gcloud run services update gene-karien-trou --region africa-south1 \
+  --update-secrets NUXT_SITE_PASSWORD=NUXT_SITE_PASSWORD:latest
+```
+
+For the private key, write the new PEM to `key.pem`, run
+`gcloud secrets versions add NUXT_GOOGLE_PRIVATE_KEY --data-file=key.pem`, delete `key.pem`,
+then repeat step 2 with `--update-secrets NUXT_GOOGLE_PRIVATE_KEY=NUXT_GOOGLE_PRIVATE_KEY:latest`.
+If you rotated the key because it leaked, also **disable/destroy the old version** and delete
+the old key in GCP → IAM → Service Accounts.
+
+### Rolling back a bad deploy
+
+No rebuild — just send traffic back to a known-good revision:
+
+```bash
+gcloud run revisions list --service gene-karien-trou --region africa-south1
+
+gcloud run services update-traffic gene-karien-trou --region africa-south1 \
+  --to-revisions <GOOD_REVISION_NAME>=100
+```
+
+### After any update
+
+- Re-run the relevant checks from the [verification checklist](#final-verification-checklist).
+- **Cloudflare cache:** Nuxt's JS/CSS assets are content-hashed (`_nuxt/*.[hash].js`), so new
+  builds get fresh URLs and never serve stale — no action needed. The SSR HTML isn't cached by
+  Cloudflare unless you added a Cache Rule for it; if you did, purge via
+  **Cloudflare → Caching → Configuration → Purge Everything** after a content change.
+
+### Optional: make code updates automatic
+
+Set up the Cloud Build trigger from [step 7](#step-7--optional-auto-deploy-on-git-push) so a
+push to `master` runs the build + deploy for you — turning the "code or content changed" path
+into just `git push`.
 
 ---
 
