@@ -57,7 +57,7 @@ const en: SiteContent = {
 	dressCode: "The dress code for the festivities is strictly black tie.",
 	venue: {
 		about: "Our celebration will take place at the beautiful Dunkeld Country & Equestrian Estate in Dullstroom. Surrounded by whispering pine forests, rolling hills, and crystal-clear lakes, the estate perfectly balances rustic tranquility with modern elegance. We are thrilled to host you in this serene, unforgettable countryside setting.",
-		note: "Kindly note the villas are booked per room for the wedding. If you’d like to insure that you are staying with a specific group, please indicate that on the email when making your booking and let Jennifer know as well.",
+		note: "Kindly note the villas are booked per room for the wedding. To ensure that you are staying with a specific group, please include that in your e-mail when booking to let Jennifer know. We will also be cc’ed on the e-mails.",
 
 		contact: "Contact the events team at Dunkeld Equestrian Estate to book your activity before the day: 0112346448 or at dunkeld@gmail.co.za",
 		accommodation: {

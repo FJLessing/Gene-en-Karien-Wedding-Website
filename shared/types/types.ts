@@ -18,7 +18,8 @@ export enum AccessState {
 
 // ── Localisation ─────────────────────────────────────────────────────────────
 // Supported site languages. Drives the content API (`/api/content?locale=`) and
-// the footer language toggle. English is the default / fallback.
+// the footer language toggle. Afrikaans is the default for first-time visitors;
+// English is shown only when the visitor selects it via the footer toggle.
 export enum Locale {
 	En = "en",
 	Af = "af",

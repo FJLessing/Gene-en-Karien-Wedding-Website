@@ -8,9 +8,9 @@ function isLocale(value: unknown): value is Locale {
 	return value === Locale.En || value === Locale.Af;
 }
 
-// Current UI language. Resolved once on app start (cookie → Accept-Language /
-// navigator.language → Afrikaans) and persisted in a cookie so the choice survives
-// reloads. Read by `use-content` (drives the content fetch) and the footer toggle.
+// Current UI language. Afrikaans is the site default for every first-time
+// visitor regardless of browser language; a saved cookie (set by the footer
+// toggle) overrides it. Read by `use-content` (drives the content fetch).
 export const useLocaleStore = defineStore("locale", {
 	state: (): { locale: Locale } => ({
 		locale: Locale.Af,
@@ -25,7 +25,9 @@ export const useLocaleStore = defineStore("locale", {
 				return;
 			}
 
-			this.locale = detectLocale();
+			// No saved choice → default to Afrikaans (the site's primary language).
+			// Browser language is intentionally ignored; visitors switch via the footer.
+			this.locale = Locale.Af;
 			cookie.value = this.locale;
 		},
 		setLocale(locale: Locale) {
@@ -35,36 +37,6 @@ export const useLocaleStore = defineStore("locale", {
 		},
 	},
 });
-
-// First-visit language detection. Server reads the Accept-Language header; the
-// client falls back to navigator languages. English is chosen only when it is
-// the visitor's MOST-preferred language (top of the navigator list, or highest
-// q-value in the header). Afrikaans is the default for everything else — no/empty
-// preferences, other languages, or English listed only as a low-priority fallback.
-function detectLocale(): Locale {
-	let tags: { lang: string; q: number }[] = [];
-
-	if (import.meta.server) {
-		const header = useRequestHeaders(["accept-language"])["accept-language"] ?? "";
-		tags = header
-			.split(",")
-			.map((part) => {
-				const [tag, ...params] = part.split(";");
-				const qParam = params.find((p) => p.trim().startsWith("q="));
-				const q = qParam ? Number.parseFloat(qParam.split("=")[1] ?? "") : 1;
-				return { lang: (tag ?? "").trim().toLowerCase(), q: Number.isFinite(q) ? q : 1 };
-			})
-			.filter((t) => t.lang);
-	} else if (import.meta.client) {
-		// navigator.languages is already in descending preference order.
-		tags = [...(navigator.languages ?? [navigator.language])].map((l) => ({ lang: l.trim().toLowerCase(), q: 1 }));
-	}
-
-	// Stable sort keeps the original order for equal q-values, so the first
-	// listed language wins ties.
-	const top = [...tags].sort((a, b) => b.q - a.q)[0]?.lang ?? "";
-	return top === "en" || top.startsWith("en-") ? Locale.En : Locale.Af;
-}
 
 if (import.meta.hot) {
 	import.meta.hot.accept(acceptHMRUpdate(useLocaleStore, import.meta.hot));

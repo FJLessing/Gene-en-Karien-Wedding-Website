@@ -5,7 +5,7 @@
 const emit = defineEmits<{ unlock: []; }>();
 
 // How long the gate sits idle before nudging the visitor to tap the envelope.
-const HINT_DELAY_MS = 30_000;
+const HINT_DELAY_MS = 30000;
 
 const { isUnlocked, verifyPassword } = useAccess();
 const { content } = useContent();
@@ -270,9 +270,8 @@ onBeforeUnmount(() => clearTimeout(hintTimer));
 	// Idle nudge shown below the envelope after a delay; fades in/out via the
 	// gate-hint-fade transition. Display font echoes the invitation lettering.
 	&__hint {
-		margin-top: $space-md;
+		margin-top: $space-lg;
 		font-family: $font-display;
-		font-size: $font-size-lg;
 		color: $color-text-muted;
 		text-align: center;
 	}
