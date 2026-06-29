@@ -39,11 +39,12 @@ useReveal(root, { direction: "up" });
 	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.10);
 	backdrop-filter: blur(3.125rem);
 	border-radius: $radius-sm;
-	max-width: 90vw;
 	margin: auto;
+	max-width: min(90vw, 37.5rem);
 
 	&__frame {
 		padding: $space-xl $space-xl;
+		margin: auto $space-sm;
 	}
 
 	&__heading {

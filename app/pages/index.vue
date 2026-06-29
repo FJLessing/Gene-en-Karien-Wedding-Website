@@ -7,6 +7,7 @@ import AppFooter from "~/components/app/layout/AppFooter.vue";
 import HeroSection from "~/components/app/sections/HeroSection.vue";
 import ImageCarousel from "~/components/app/sections/ImageCarousel.vue";
 import type { CarouselImage } from "#shared/types/types";
+import { Locale } from "#shared/types/types";
 import CountdownTimer from "~/components/app/sections/CountdownTimer.vue";
 import WelcomeSection from "~/components/app/sections/WelcomeSection.vue";
 import DetailsSection from "~/components/app/sections/DetailsSection.vue";
@@ -25,6 +26,7 @@ const { ScrollTrigger } = useGsap();
 
 // Hydrate content up front so sections have data on first paint.
 const { content } = useContent();
+const localeStore = useLocaleStore();
 
 // Gate → content is a `v-if` swap, not a route change, so nothing resets scroll
 // when the (tall) content mounts. Force the top and recompute reveal triggers
@@ -61,7 +63,7 @@ const mapImages = buildCarouselImages(3, "maps", "map", "Map photo");
 
 SEOService.set({
 	description: () => content.value?.ui.meta.homeDescription,
-	image: "/img/the_happy_couple.webp",
+	image: () => localeStore.locale === Locale.Af ? "/img/sharing_af.webp" : "/img/sharing_en.webp",
 });
 </script>
 
