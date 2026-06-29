@@ -36,6 +36,8 @@ export class SEOService {
 			description: () => toValue(attrs.description),
 			ogDescription: () => toValue(attrs.description),
 			ogImage: resolveAbsoluteImage,
+			ogImageWidth: () => toValue(attrs.image) ? "1200" : undefined,
+			ogImageHeight: () => toValue(attrs.image) ? "630" : undefined,
 			ogImageAlt: resolveTitle,
 			twitterCard: "summary_large_image",
 			twitterTitle: resolveTitle,

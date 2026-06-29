@@ -17,8 +17,16 @@ export const useLocaleStore = defineStore("locale", {
 	}),
 	actions: {
 		// SSR-safe resolution. Runs from the locale plugin on both server and client.
-		init() {
+		// urlLocale is passed by the plugin when a ?lang= param is present — it takes
+		// priority over the cookie and is persisted so the choice survives navigation.
+		init(urlLocale?: string) {
 			const cookie = useCookie<Locale>(COOKIE_NAME, { sameSite: "lax", maxAge: COOKIE_MAX_AGE, path: "/" });
+
+			if (isLocale(urlLocale)) {
+				this.locale = urlLocale;
+				cookie.value = this.locale;
+				return;
+			}
 
 			if (isLocale(cookie.value)) {
 				this.locale = cookie.value;

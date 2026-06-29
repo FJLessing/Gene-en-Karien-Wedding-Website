@@ -4,7 +4,8 @@ import { useLocaleStore } from "~/stores/locale-store";
 // <html lang> attribute in sync with it.
 export default defineNuxtPlugin(() => {
 	const localeStore = useLocaleStore();
-	localeStore.init();
+	const route = useRoute();
+	localeStore.init(route.query.lang as string | undefined);
 
 	useHead({
 		htmlAttrs: { lang: computed(() => localeStore.locale) },
