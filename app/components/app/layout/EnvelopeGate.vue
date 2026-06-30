@@ -181,6 +181,7 @@ onBeforeUnmount(() => clearTimeout(hintTimer));
 					class="gate__input"
 					:disabled="isChecking"
 					autocomplete="off"
+					enterkeyhint="go"
 				/>
 				<button class="u-visually-hidden" type="submit">{{ content?.ui.gate.open }}</button>
 				<p v-if="error" class="gate__error">{{ error }}</p>

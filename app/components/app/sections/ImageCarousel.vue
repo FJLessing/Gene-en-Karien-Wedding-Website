@@ -23,6 +23,16 @@ const modules = [Autoplay, Pagination];
 
 const paginationId = useId();
 
+const FEW_IMAGES_THRESHOLD = 5;
+const WIDE_DESKTOP_BP = "(min-width: 60rem)"; // 960px
+
+const isWideDesktop = ref(false);
+const fewImages = computed(() => props.images.length < FEW_IMAGES_THRESHOLD);
+const showAllSlides = computed(() => fewImages.value && isWideDesktop.value);
+const slidesPerView = computed(() =>
+	showAllSlides.value ? props.images.length : "auto"
+);
+
 function imgSrcset(image: CarouselImage): string | undefined {
 	if (!image.srcDesktop) return undefined;
 	const w = image.width ?? 1440;
@@ -30,6 +40,14 @@ function imgSrcset(image: CarouselImage): string | undefined {
 }
 
 onMounted(() => {
+	const mq = window.matchMedia(WIDE_DESKTOP_BP);
+	isWideDesktop.value = mq.matches;
+	const onMqChange = (e: MediaQueryListEvent) => {
+		isWideDesktop.value = e.matches;
+	};
+	mq.addEventListener("change", onMqChange);
+	onBeforeUnmount(() => mq.removeEventListener("change", onMqChange));
+
 	const container = root.value;
 	if (!container) return;
 
@@ -59,13 +77,17 @@ onMounted(() => {
 </script>
 
 <template>
-	<section ref="root" class="image-carousel">
+	<section
+		ref="root"
+		class="image-carousel"
+		:class="{ 'image-carousel--show-all': showAllSlides }"
+	>
 		<Swiper
 			v-if="images.length > 0"
 			:modules="modules"
-			:slides-per-view="'auto'"
+			:slides-per-view="slidesPerView"
 			:space-between="0"
-			:loop="images.length > 1"
+			:loop="images.length > 1 && !showAllSlides"
 			:grab-cursor="true"
 			:autoplay="props.autoplay ? { delay: 5000, disableOnInteraction: true } : false"
 			:pagination="{ el: `#${paginationId}`, clickable: true }"
@@ -109,6 +131,22 @@ onMounted(() => {
 		}
 	}
 
+	// Few-images mode: drop the fixed height and let images size naturally.
+	&--show-all {
+		:deep(.swiper) {
+			@include up(60rem) {
+				height: auto;
+			}
+		}
+
+		.image-carousel__img {
+			@include up(60rem) {
+				width: 100%;
+				height: auto;
+			}
+		}
+	}
+
 	:deep(.swiper-slide) {
 		position: relative;
 		width: 100%;
@@ -127,6 +165,7 @@ onMounted(() => {
 		width: 100%;
 		height: auto;
 		object-fit: cover;
+		object-position: center;
 		opacity: 0;
 		transition: opacity $duration-base $ease-standard;
 

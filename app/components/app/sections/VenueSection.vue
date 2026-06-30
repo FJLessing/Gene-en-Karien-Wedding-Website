@@ -73,40 +73,39 @@ onBeforeUnmount(() => { if (copyResetTimer) clearTimeout(copyResetTimer); });
 			<p class="venue__note">{{ content.venue.note }}</p>
 
 		</section>
+
 		<ImageCarousel :images="mapImages" :autoplay="false" />
 		<section v-if="content" class="venue u-content">
 
+			<MapButton href="/dunkeld_estate_maps.pdf" :label="content.ui.venue.downloadMap" />
+			<BaseButton variant="secondary" @click="accommodationOpen = true">{{ content.ui.venue.bookAccommodation }}</BaseButton>
 
-
-		<MapButton href="/dunkeld_estate_maps.pdf" :label="content.ui.venue.downloadMap" />
-		<BaseButton variant="secondary" @click="accommodationOpen = true">{{ content.ui.venue.bookAccommodation }}</BaseButton>
-
-		<BaseModal
-			class="venue__modal"
-			:open="accommodationOpen"
-			:title="content.venue.accommodation.heading"
-			@close="accommodationOpen = false"
-		>
-			<p
-				class="venue__modal-body-line" v-for="line in content.venue.accommodation.body"
-			>{{ line }}</p>
-
-			<BaseButton
-				variant="grey"
-				class="venue__modal-copy"
-				@click="copyToClipboard(content.venue.accommodation.booking.reference)"
+			<BaseModal
+				class="venue__modal"
+				:open="accommodationOpen"
+				:title="content.venue.accommodation.heading"
+				@close="accommodationOpen = false"
 			>
-				<Transition name="copied-fade" mode="out-in">
-					<span v-if="copied" key="copied" class="venue__copied" role="status" aria-live="polite">
-						{{ content.ui.venue.copied }}
-					</span>
-					<span v-else key="label">{{ content.ui.venue.copyReference }}</span>
-				</Transition>
-			</BaseButton>
-			<BaseButton class="venue__modal-cta" @click="openBookingEmail">
-				{{ content.venue.accommodation.booking.cta }}
-			</BaseButton>
-		</BaseModal>
+				<p
+					class="venue__modal-body-line" v-for="line in content.venue.accommodation.body"
+				>{{ line }}</p>
+
+				<BaseButton
+					variant="grey"
+					class="venue__modal-copy"
+					@click="copyToClipboard(content.venue.accommodation.booking.reference)"
+				>
+					<Transition name="copied-fade" mode="out-in">
+						<span v-if="copied" key="copied" class="venue__copied" role="status" aria-live="polite">
+							{{ content.ui.venue.copied }}
+						</span>
+						<span v-else key="label">{{ content.ui.venue.copyReference }}</span>
+					</Transition>
+				</BaseButton>
+				<BaseButton class="venue__modal-cta" @click="openBookingEmail">
+					{{ content.venue.accommodation.booking.cta }}
+				</BaseButton>
+			</BaseModal>
 		</section>
 	</div>
 </template>
