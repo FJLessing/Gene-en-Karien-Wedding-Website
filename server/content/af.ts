@@ -170,7 +170,7 @@ const af: SiteContent = {
 	],
 	rsvp: {
 		mealOptions: [
-			{ label: "Lambs Skour", value: "lamb-shank" },
+			{ label: "Lamb Shank", value: "lamb-shank" },
 			{ label: "Bees Fillet", value: "beef-fillet" },
 			{ label: "Vegetaries", value: "vegetarian" },
 		],
