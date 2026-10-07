@@ -149,10 +149,11 @@ export interface SiteUi {
 	faqs: { heading: string };
 	gate: { passwordLabel: string; passwordPlaceholder: string; open: string; wrongPassword: string; hint: string };
 	loader: { loading: string };
-	gallery: { metaTitle: string; heading: string; lockedMessage: string };
-	photoUpload: { heading: string; metaTitle: string; choose: string; selectedSuffix: string; upload: string; success: string; failed: string };
+	gallery: { metaTitle: string; metaDescription: string; heading: string; lockedMessage: string };
+	photoUpload: { heading: string; metaTitle: string; metaDescription: string; choose: string; selectedSuffix: string; upload: string; success: string; failed: string };
 	rsvp: {
 		metaTitle: string;
+		metaDescription: string;
 		rsvpingFor: string;
 		searchPlaceholder: string;
 		notFound: string;
@@ -173,7 +174,7 @@ export interface SiteUi {
 		attendingMsg: string[];
 		declinedMsg: string;
 	};
-	seating: { metaTitle: string; heading: string; tableLabel: string };
+	seating: { metaTitle: string; metaDescription: string; heading: string; tableLabel: string };
 	partyMode: { label: string; stop: string; stopLabel: string };
 	meta: { homeDescription: string };
 	errors: { content: string; guests: string; rsvpSubmit: string; request: string };

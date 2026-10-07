@@ -219,12 +219,14 @@ const en: SiteContent = {
 		loader: { loading: "Loading" },
 		gallery: {
 			metaTitle: "Gallery",
+			metaDescription: "Photos from Gene & Karien’s wedding.",
 			heading: "Photo gallery",
 			lockedMessage: "The gallery opens on the wedding weekend. Check back soon!",
 		},
 		photoUpload: {
 			heading: "Share your photos",
 			metaTitle: "Share Photos",
+			metaDescription: "Share your photos from Gene & Karien’s wedding.",
 			choose: "Choose photo(s)",
 			selectedSuffix: "selected",
 			upload: "Upload photos",
@@ -233,6 +235,7 @@ const en: SiteContent = {
 		},
 		rsvp: {
 			metaTitle: "RSVP",
+			metaDescription: "Let Gene & Karien know if you’ll be celebrating with them.",
 			rsvpingFor: "I am RSVPing for:",
 			searchPlaceholder: "Type your name to search",
 			notFound: "We couldn't find that name. Maybe your partner has already RSVP\'d? Otherwise try again, or send us a message.",
@@ -280,7 +283,7 @@ const en: SiteContent = {
 			],
 			declinedMsg: "Thank you for letting us know!",
 		},
-		seating: { metaTitle: "Seating Plan", heading: "Seating Plan", tableLabel: "Table" },
+		seating: { metaTitle: "Seating Plan", metaDescription: "Find your table at Gene & Karien’s wedding.", heading: "Seating Plan", tableLabel: "Table" },
 		partyMode: { label: "Party mode", stop: "Stop", stopLabel: "Stop party mode" },
 		meta: { homeDescription: "You are hereby formally invited to the nuptials of Gene Stoltz & Karien de Kock" },
 		errors: {

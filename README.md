@@ -53,7 +53,7 @@ app/
   layouts/              default (with footer), minimal
   middleware/           auth-gate.global
   pages/                index, rsvp, upload, gallery, seating-chart (public, no gate)
-  plugins/              gsap.client (GSAP + ScrollTrigger), locale (detect + <html lang>)
+  plugins/              gsap.client (GSAP + ScrollTrigger), locale (resolve + <html lang>)
   services/             api-service, seo-service
   stores/               content-store, rsvp-store, locale-store
   utils/                monogram (GK path), party/ (party mode scenes + canvas helpers)
@@ -79,6 +79,7 @@ See `.env.example`. Nuxt maps `NUXT_`-prefixed vars onto `runtimeConfig` at runt
 |---|---|
 | `NUXT_SITE_PASSWORD` | Password for the envelope gate (Story 1) |
 | `NUXT_PUBLIC_ACCESS_PARAM` | URL param name (default `invite`) |
+| `NUXT_PUBLIC_SITE_URL` | Public origin for share links / OG tags (default `https://stoltztroue.co.za`) |
 | `NUXT_GOOGLE_SERVICE_ACCOUNT_EMAIL` | Sheets service account |
 | `NUXT_GOOGLE_PRIVATE_KEY` | Sheets private key (escaped `\n`) |
 | `NUXT_GOOGLE_SHEET_ID` | RSVP spreadsheet ID |

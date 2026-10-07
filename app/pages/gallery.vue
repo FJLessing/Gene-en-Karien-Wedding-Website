@@ -16,7 +16,10 @@ const isUnlocked = computed(() => {
 	return Date.now() >= new Date(unlockDate).getTime();
 });
 
-SEOService.set({ title: () => content.value?.ui.gallery.metaTitle });
+SEOService.set({
+	title: () => content.value?.ui.gallery.metaTitle,
+	description: () => content.value?.ui.gallery.metaDescription,
+});
 </script>
 
 <template>

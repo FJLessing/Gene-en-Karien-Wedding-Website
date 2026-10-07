@@ -63,7 +63,7 @@ const mapImages = buildCarouselImages(3, "maps", "map", "Map photo");
 
 SEOService.set({
 	description: () => content.value?.ui.meta.homeDescription,
-	image: () => localeStore.locale === Locale.Af ? "/img/sharing_af.webp" : "/img/sharing_en.webp",
+	image: () => localeStore.locale === Locale.Af ? "/img/sharing_af.jpg" : "/img/sharing_en.jpg",
 });
 </script>
 

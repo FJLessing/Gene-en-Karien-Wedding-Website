@@ -217,12 +217,14 @@ const af: SiteContent = {
 		loader: { loading: "Laai tans" },
 		gallery: {
 			metaTitle: "Galery",
+			metaDescription: "Foto’s van Gene & Karien se troue.",
 			heading: "Fotogalery",
 			lockedMessage: "Die galery maak oop op die troue-naweek. Kom kyk binnekort weer!",
 		},
 		photoUpload: {
 			heading: "Deel jou foto’s",
 			metaTitle: "Deel Foto’s",
+			metaDescription: "Deel jou foto’s van Gene & Karien se troue.",
 			choose: "Kies foto(’s)",
 			selectedSuffix: "gekies",
 			upload: "Laai foto’s op",
@@ -231,6 +233,7 @@ const af: SiteContent = {
 		},
 		rsvp: {
 			metaTitle: "RSVP",
+			metaDescription: "Laat Gene & Karien weet of jy saam met hulle kom feesvier.",
 			rsvpingFor: "Ek RSVP vir:",
 			searchPlaceholder: "Tik jou naam om te soek",
 			notFound: "Ons kon nie daardie naam vind nie. Dalk het jou metgesel reeds ons laat weet, anders probeer asseblief weer of stuur vir ons \'n boodskap.",
@@ -278,7 +281,7 @@ const af: SiteContent = {
 			],
 			declinedMsg: "Dankie dat jy ons laat weet het!",
 		},
-		seating: { metaTitle: "Seating Plan", heading: "Seating Plan", tableLabel: "Tafel" },
+		seating: { metaTitle: "Seating Plan", metaDescription: "Vind jou tafel by Gene & Karien se troue.", heading: "Seating Plan", tableLabel: "Tafel" },
 		partyMode: { label: "Partytjie-modus", stop: "Stop", stopLabel: "Stop partytjie-modus" },
 		meta: { homeDescription: "Jy word hiermee formeel uitgenooi na die troue van Gene Stoltz & Karien de Kock" },
 		errors: {

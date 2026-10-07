@@ -14,18 +14,21 @@ export class SEOService {
 	static fallbackTitle: string = "Gene & Karien";
 
 	static set(attrs: SEOAttributes): void {
-		const requestUrl = useRequestURL();
+		const route = useRoute();
+		// Share links must use the public domain: behind the Cloudflare Worker the
+		// request host is *.run.app. Falls back to the request origin when unset.
+		const origin = useRuntimeConfig().public.siteUrl || useRequestURL().origin;
 
 		const resolveTitle = (): string => {
 			const title = toValue(attrs.title);
 			return title ? `${title} | ${SEOService.fallbackTitle}` : SEOService.fallbackTitle;
 		};
 
-		// OG image URLs must be absolute — resolve relative paths against the request origin.
+		// OG image URLs must be absolute — resolve relative paths against the public origin.
 		const resolveAbsoluteImage = (): string | undefined => {
 			const img = toValue(attrs.image);
 			if (!img) return undefined;
-			return img.startsWith("http") ? img : new URL(img, requestUrl.origin).href;
+			return img.startsWith("http") ? img : new URL(img, origin).href;
 		};
 
 		useSeoMeta({
@@ -33,7 +36,7 @@ export class SEOService {
 			ogTitle: resolveTitle,
 			ogSiteName: SEOService.fallbackTitle,
 			ogType: "website",
-			ogUrl: () => requestUrl.href,
+			ogUrl: () => new URL(route.fullPath, origin).href,
 			description: () => toValue(attrs.description),
 			ogDescription: () => toValue(attrs.description),
 			ogImage: resolveAbsoluteImage,
