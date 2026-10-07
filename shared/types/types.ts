@@ -118,6 +118,13 @@ export interface FaqItem {
 	answer: string;
 }
 
+// One table on the seating chart. Guest names are first names / nicknames as the
+// couple want them shown — not translated, identical across locales.
+export interface SeatingTable {
+	number: number;
+	guests: string[];
+}
+
 // UI chrome strings (headings, buttons, labels, placeholders, messages). Kept in
 // the locale-aware content object so they translate alongside the copy — no
 // hardcoded strings in components (AGENTS.md rule).
@@ -166,6 +173,7 @@ export interface SiteUi {
 		attendingMsg: string[];
 		declinedMsg: string;
 	};
+	seating: { metaTitle: string; heading: string; tableLabel: string };
 	meta: { homeDescription: string };
 	errors: { content: string; guests: string; rsvpSubmit: string; request: string };
 }
@@ -215,6 +223,7 @@ export interface SiteContent {
 		starterOptions: SelectOption[];
 		dietaryOptions: SelectOption[];
 	};
+	seating: SeatingTable[];
 	footer: { tagline: string };
 	ui: SiteUi;
 }

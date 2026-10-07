@@ -5,8 +5,17 @@
 
 // ── Font faces ───────────────────────────────────────────────────────────────
 // Font files live in /public/fonts and are served from the site root.
-// Poppins (body) ships Light/Regular/Medium — the weights the design uses.
-// Bagien (display/script) is the supplied brand font.
+// Poppins (body) ships ExtraLight/Light/Regular/Medium — the weights the design uses.
+// Bagien (display/script) is the supplied brand font. Autobiography is the
+// supplied script used for the seating plan heading.
+@font-face {
+	font-family: "Poppins";
+	font-style: normal;
+	font-weight: 200;
+	font-display: swap;
+	src: url("/fonts/Poppins-ExtraLight.ttf") format("truetype");
+}
+
 @font-face {
 	font-family: "Poppins";
 	font-style: normal;
@@ -38,6 +47,16 @@
 	font-display: swap;
 	src: url("/fonts/Bagien.ttf") format("truetype"),
 		url("/fonts/Bagien.otf") format("opentype");
+}
+
+@font-face {
+	font-family: "Autobiography";
+	font-style: normal;
+	font-weight: 400;
+	font-display: swap;
+	src: url("/fonts/Autobiography.woff2") format("woff2"),
+		url("/fonts/Autobiography.woff") format("woff"),
+		url("/fonts/Autobiography.otf") format("opentype");
 }
 
 // ── Base element styling ─────────────────────────────────────────────────────
@@ -80,6 +99,6 @@ body {
 
 // Monogram
 .page-monogram {
-	max-width: min(80vw, 6,3125rem);
+	max-width: min(80vw, 6.3125rem);
 	margin: $space-xl auto;
 }

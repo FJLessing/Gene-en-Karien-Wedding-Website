@@ -1,4 +1,5 @@
 import type { SiteContent } from "#shared/types/types";
+import { seatingTables } from "./seating";
 
 // Afrikaans site content. Mirrors the structure of en.ts. Stable keys that must
 // not be translated — option `value`s (they key the Google Sheet), program
@@ -185,6 +186,7 @@ const af: SiteContent = {
 			{ label: "Ander", value: "other" },
 		],
 	},
+	seating: seatingTables,
 	footer: { tagline: "Ons kan nie wag om jou daar te sien nie!" },
 	ui: {
 		nav: { rsvpHere: "RSVP hier", back: "Terug", backHome: "Terug na tuisblad", scroll: "rol af" },
@@ -276,6 +278,7 @@ const af: SiteContent = {
 			],
 			declinedMsg: "Dankie dat jy ons laat weet het!",
 		},
+		seating: { metaTitle: "Sitplan", heading: "Sitplan", tableLabel: "Tafel" },
 		meta: { homeDescription: "Jy word hiermee formeel uitgenooi na die troue van Gene Stoltz & Karien de Kock" },
 		errors: {
 			content: "Inhoud kon nie laai nie",

@@ -32,7 +32,10 @@ $color-field-border: #f2f2f2;
 // Poppins = body, Bagien = display/script accents.
 $font-body: "Poppins", "Helvetica Neue", Arial, sans-serif;
 $font-display: "Bagien", "Times New Roman", serif;
+// Autobiography = script headings (seating plan), falling back to Bagien.
+$font-script: "Autobiography", $font-display;
 
+$font-weight-extralight: 200;
 $font-weight-light: 300;
 $font-weight-regular: 400;
 $font-weight-medium: 500;
@@ -44,6 +47,7 @@ $font-size-base: 1rem; // 16px
 $font-size-lg: 1.25rem; // 20px
 $font-size-xl: 1.6875rem; // 27px (section headings)
 $font-size-2xl: 2.5625rem; // 41px (names)
+$font-size-3xl: 3.375rem; // 54px (seating plan heading + table numbers)
 
 $line-height-tight: 1.2;
 $line-height-base: 1.4;
@@ -76,6 +80,7 @@ $content-padding: 1.25rem;
 $bp-sm: 30rem; // 480px
 $bp-md: 48rem; // 768px
 $bp-lg: 64rem; // 1024px
+$bp-xl: 100rem; // 1600px — widescreen
 
 // ── Elevation ────────────────────────────────────────────────────────────────
 // "Embossed" neumorphic effect from Figma.

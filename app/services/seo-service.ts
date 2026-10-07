@@ -7,6 +7,7 @@ export interface SEOAttributes {
 	title?: MaybeRefOrGetter<string | undefined>;
 	description?: MaybeRefOrGetter<string | undefined>;
 	image?: MaybeRefOrGetter<string | undefined>;
+	robots?: MaybeRefOrGetter<string | undefined>; // e.g. "noindex, nofollow"
 }
 
 export class SEOService {
@@ -43,6 +44,7 @@ export class SEOService {
 			twitterTitle: resolveTitle,
 			twitterDescription: () => toValue(attrs.description),
 			twitterImage: resolveAbsoluteImage,
+			robots: () => toValue(attrs.robots),
 		});
 	}
 }

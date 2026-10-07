@@ -1,4 +1,5 @@
 import type { SiteContent } from "#shared/types/types";
+import { seatingTables } from "./seating";
 
 // English site content. Copy is sourced from the Figma design (Wireframe Mockup
 // 2, node 32:658); FAQ copy supplied by the couple. Fields neither specifies
@@ -187,6 +188,7 @@ const en: SiteContent = {
 			{ label: "Other", value: "other" },
 		],
 	},
+	seating: seatingTables,
 	footer: { tagline: "We can’t wait to see you there!" },
 	ui: {
 		nav: { rsvpHere: "RSVP here", back: "Back", backHome: "Back to home page", scroll: "scroll" },
@@ -278,6 +280,7 @@ const en: SiteContent = {
 			],
 			declinedMsg: "Thank you for letting us know!",
 		},
+		seating: { metaTitle: "Seating Plan", heading: "Seating Plan", tableLabel: "Table" },
 		meta: { homeDescription: "You are hereby formally invited to the nuptials of Gene Stoltz & Karien de Kock" },
 		errors: {
 			content: "Failed to load content",
