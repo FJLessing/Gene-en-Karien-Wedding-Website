@@ -1,8 +1,7 @@
-// The scene party mode plays. The option branches (partymode/option-a, -b, -c)
-// each swap in their own scene here.
+// The scene party mode plays: option C, Dance Floor.
 import type { PartyScene } from "~/utils/party/scene";
-import { createPlainScene } from "~/utils/party/scenes/plain";
+import { createDanceFloorScene } from "~/utils/party/scenes/dance-floor";
 
 export function createPartyScene(): PartyScene {
-	return createPlainScene();
+	return createDanceFloorScene();
 }
