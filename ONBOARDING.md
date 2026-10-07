@@ -32,7 +32,7 @@ http://localhost:3000/?invite=anything
 
 Any value for the `invite` param unlocks the site. The param name is controlled by `NUXT_PUBLIC_ACCESS_PARAM` (default: `invite`). To test the password flow, set `NUXT_SITE_PASSWORD=yourpassword` in `.env` and visit without the param.
 
-The site is bilingual (English + Afrikaans). It opens in English by default — Afrikaans is auto-selected only if it's your browser's most-preferred language — and you can switch any time with the **EN/AF toggle in the footer** (the choice is remembered via a cookie). See [§7 Translations](#7-translations--enaf) for how it works and how to add strings.
+The site is bilingual (English + Afrikaans). It opens in Afrikaans by default for every first-time visitor (browser language is ignored; add `?lang=en` to the URL to force English) and you can switch any time with the **EN/AF toggle in the footer** (the choice is remembered via a cookie). See [§7 Translations](#7-translations--enaf) for how it works and how to add strings.
 
 ---
 
@@ -146,7 +146,7 @@ app/
   stores/
     content-store.ts    Site content for the active locale (fetched from /api/content)
     rsvp-store.ts       RSVP multi-step state + fuse.js guest search
-    locale-store.ts     Active language (detect / cookie / setLocale)
+    locale-store.ts     Active language (?lang= / cookie / setLocale)
 
 server/
   api/
@@ -296,12 +296,20 @@ The site is bilingual (English + Afrikaans) using a lightweight, content-driven 
 
 - **`server/content/en.ts`, `server/content/af.ts`** — the two sources of truth. Structurally identical `SiteContent` objects; `af.ts` is the Afrikaans translation of `en.ts`.
 - **`server/api/content.get.ts`** — reads `?locale=` and returns the matching file (defaults to `en` for anything unrecognised).
-- **`app/stores/locale-store.ts`** — holds the active `Locale`. On first visit it resolves cookie → browser preference → English, and persists the choice in a `locale` cookie. `setLocale()` switches language.
-- **`app/plugins/locale.ts`** — runs the detection on startup (server + client) and keeps `<html lang>` in sync.
+- **`app/stores/locale-store.ts`** — holds the active `Locale`. It resolves `?lang=` URL param → `locale` cookie → Afrikaans, and persists the result in the `locale` cookie. `setLocale()` switches language.
+- **`app/plugins/locale.ts`** — resolves the locale on startup (server + client), passing any `?lang=` query param to the store, and keeps `<html lang>` in sync.
 - **`app/composables/use-content.ts`** — fetches content for the active locale and **refetches when the language changes** (the `useAsyncData` key and `watch` are locale-bound).
 - **`app/components/app/layout/LocaleToggle.vue`** — the EN/AF switch in the footer.
 
-**Default language is English.** Afrikaans is auto-selected only when it is the visitor's *most-preferred* browser language (top of `navigator.languages`, or the highest `q`-value in `Accept-Language`); Afrikaans listed only as a low-priority fallback still yields English. The footer toggle overrides detection and persists in the cookie.
+**Default language is Afrikaans.** Resolution order:
+
+1. A `?lang=en|af` URL param wins and is persisted to the `locale` cookie.
+2. Otherwise a saved `locale` cookie wins.
+3. Otherwise Afrikaans, for every first-time visitor. Browser language (`navigator.languages` / `Accept-Language`) is intentionally ignored.
+
+The footer toggle switches language and persists the choice in the cookie.
+
+**Link previews:** crawlers like WhatsApp send no cookie, so they get the Afrikaans share tags/image. Append `?lang=en` to a shared link to get the English preview.
 
 #### Adding or changing a translatable string
 

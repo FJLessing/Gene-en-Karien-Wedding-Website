@@ -53,7 +53,7 @@ app/
   layouts/              default (with footer), minimal
   middleware/           auth-gate.global
   pages/                index, rsvp, upload, gallery, seating-chart (public, no gate)
-  plugins/              gsap.client (GSAP + ScrollTrigger), locale (detect + <html lang>)
+  plugins/              gsap.client (GSAP + ScrollTrigger), locale (resolve + <html lang>)
   services/             api-service, seo-service
   stores/               content-store, rsvp-store, locale-store
 server/
