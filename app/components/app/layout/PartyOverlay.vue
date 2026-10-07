@@ -235,11 +235,12 @@ onBeforeUnmount(() => {
 </template>
 
 <style scoped lang="scss">
-// Soft hole in the dim layer over the [data-party-spot] element; 20% of the dim
-// stays so it still reads as part of the room. Position set from script.
+// Soft, warm pool in the dim layer over the [data-party-spot] element. A third of
+// the dim stays so it reads as a spotlight in the room rather than a white hole.
+// Position set from script.
 $party-spot-mask: radial-gradient(
 	var(--spot-rx) var(--spot-ry) at var(--spot-x) var(--spot-y),
-	rgba(#000000, 0.2) 62%,
+	rgba(#000000, 0.36) 45%,
 	#000000 100%
 );
 
