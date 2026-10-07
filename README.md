@@ -52,19 +52,20 @@ app/
   composables/          use-gsap, use-reveal, use-access, use-content (locale-aware)
   layouts/              default (with footer), minimal
   middleware/           auth-gate.global
-  pages/                index, rsvp, gallery
+  pages/                index, rsvp, upload, gallery, seating-chart (public, no gate)
   plugins/              gsap.client (GSAP + ScrollTrigger), locale (detect + <html lang>)
   services/             api-service, seo-service
   stores/               content-store, rsvp-store, locale-store
 server/
   api/                  auth.post, content.get (locale-aware), guests.get, rsvp.post, photos.post
   content/              en.ts, af.ts  — per-locale SiteContent (copy + UI strings)
+                        seating.ts    — seating chart tables, shared by both locales
   utils/                sheets.ts, storage.ts
 shared/
   types/types.ts        Enums + interfaces (Locale, Guest, RsvpEntry, SiteContent, SiteUi, …)
   utils/result.ts       Result<T> envelope
 public/
-  fonts/                Poppins (Light/Regular/Medium), Bagien Regular
+  fonts/                Poppins (ExtraLight–Medium), Bagien Regular, Autobiography (script)
   logo.svg
 ```
 

@@ -22,6 +22,7 @@ shared/     Types + Result class — imported by both app and server, no Vue dep
 | File | Purpose |
 |---|---|
 | `server/content/en.ts`, `af.ts` | All site copy + UI strings, one file per locale — edit here, never hardcode in components |
+| `server/content/seating.ts` | Seating chart tables for `/seating-chart`, shared by both locales — spellings follow the couple's verified "Table placement" doc |
 | `server/api/content.get.ts` | Returns the right locale file for `?locale=` (defaults to `en`) |
 | `shared/types/types.ts` | All enums and interfaces (incl. `Locale`, `SiteContent`, `SiteUi`) |
 | `shared/utils/result.ts` | `Result<T>` envelope |
@@ -59,6 +60,8 @@ How it works:
 - **Password path** (no invite param): `verifyPassword()` → `POST /api/auth` (`server/api/auth.post.ts`) compares the submitted password against `runtimeConfig.sitePassword` (env `NUXT_SITE_PASSWORD`). The password is never sent to the client. An empty/unset password always rejects. Local `.env` ships `NUXT_SITE_PASSWORD=TEST`.
 
 For automated/preview verification, the `?invite=` param is the reliable bypass — don't try to type the password into the gate form.
+
+Public pages: `/gallery` and `/seating-chart` don't render the gate, so they open without a param. The seating chart is linked to guests on the day and sets `noindex, nofollow`.
 
 ## Sections (landing page order)
 
