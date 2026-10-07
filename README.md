@@ -1,27 +1,6 @@
 # Gene & Karien — Wedding Website
 
-A mobile-first wedding website built with **Nuxt 4 + Vue 3 + GSAP + SCSS**. See
-[`IMPLEMENTATION-PLAN.md`](./IMPLEMENTATION-PLAN.md) for the full brief and user stories.
-
-## Implementation status
-
-**Done**
-- Architecture — Nuxt 4 (`app/` srcDir), TypeScript strict, Pinia, GSAP, SCSS design tokens
-- All pages, layouts, composables, and middleware
-- All 9 landing-page sections + RSVP CTA
-- EnvelopeGate with GSAP hinge animation (access gate — Story 1)
-- CountdownTimer — custom GSAP digit-roll (no third-party timer lib)
-- Full RSVP multi-step flow: search → attendance → form → confirm; Sheets append (server util stubbed)
-- Photo upload → GCS route (server util stubbed)
-- All API routes, server utils, Pinia stores, shared types
-- **English + Afrikaans translation** — per-locale content files, browser auto-detect, footer toggle, cookie persistence
-
-**Pending / In Review**
-- Content copy — served from `server/content/{en,af}.ts`; needs sign-off (Afrikaans needs a native proofread)
-- Google Sheets & GCS credentials (real env vars not yet wired)
-- Hero imagery — venue + couple photos
-- Gallery grid rendering + date-gated unlock
-- Activity images — some still placeholder
+A mobile-first wedding website built with **Nuxt 4 + Vue 3 + GSAP + SCSS**.
 
 ## Stack
 
