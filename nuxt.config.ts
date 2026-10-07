@@ -57,7 +57,14 @@ export default defineNuxtConfig({
 			],
 			// Fonts are self-hosted from /public/fonts (see assets/scss/main.scss),
 			// so no external font CDN is needed.
-			link: [{ rel: "icon", type: "image/svg+xml", href: "/favicon.svg" }],
+			// Raster icons alongside the SVG: crawlers (WhatsApp, Facebook, Google) and iOS
+			// don't render SVG icons. All are generated from favicon.svg.
+			link: [
+				{ rel: "icon", href: "/favicon.ico", sizes: "48x48" },
+				{ rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
+				{ rel: "icon", type: "image/png", sizes: "192x192", href: "/icon-192.png" },
+				{ rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
+			],
 		},
 	},
 
