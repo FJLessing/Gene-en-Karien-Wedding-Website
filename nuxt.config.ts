@@ -40,6 +40,9 @@ export default defineNuxtConfig({
 		public: {
 			// Exposed to the client. Safe, non-secret values only.
 			accessParam: "invite", // NUXT_PUBLIC_ACCESS_PARAM — URL param that grants access (Story 1)
+			// NUXT_PUBLIC_SITE_URL — public origin for share links (og:url / og:image). The
+			// Cloudflare Worker rewrites the Host to *.run.app, so the request URL can't be used.
+			siteUrl: "https://stoltztroue.co.za",
 			galleryFolderUrl: "", // NUXT_PUBLIC_GALLERY_FOLDER_URL — moderated gallery source
 			galleryUnlockDate: "", // NUXT_PUBLIC_GALLERY_UNLOCK_DATE — ISO date the gallery opens
 		},

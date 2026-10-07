@@ -13,6 +13,7 @@ const { content } = useContent();
 
 SEOService.set({
 	title: () => content.value?.ui.seating.metaTitle,
+	description: () => content.value?.ui.seating.metaDescription,
 	robots: "noindex, nofollow",
 });
 </script>

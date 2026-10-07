@@ -13,7 +13,10 @@ definePageMeta({ layout: false });
 const { content } = useContent();
 const { isUnlocked, unlock } = useAccess();
 
-SEOService.set({ title: () => content.value?.ui.photoUpload.metaTitle });
+SEOService.set({
+	title: () => content.value?.ui.photoUpload.metaTitle,
+	description: () => content.value?.ui.photoUpload.metaDescription,
+});
 </script>
 
 <template>

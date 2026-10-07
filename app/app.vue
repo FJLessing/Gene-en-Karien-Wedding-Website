@@ -8,11 +8,14 @@ import { Locale } from "#shared/types/types";
 const isPageLoading = ref(false);
 const nuxtApp = useNuxtApp();
 const localeStore = useLocaleStore();
+const { content } = useContent();
 
-// Global default OG image — locale-aware. Page-level SEOService.set() calls
-// override this for pages that supply their own image.
+// Global share defaults — every route gets a description and a locale-aware OG
+// image (JPEG: WhatsApp previews don't reliably render WebP). Page-level
+// SEOService.set() calls override these where they supply their own.
 SEOService.set({
-	image: () => localeStore.locale === Locale.Af ? "/img/sharing_af.webp" : "/img/sharing_en.webp",
+	description: () => content.value?.ui.meta.homeDescription,
+	image: () => localeStore.locale === Locale.Af ? "/img/sharing_af.jpg" : "/img/sharing_en.jpg",
 });
 
 nuxtApp.hook("page:loading:start", () => {

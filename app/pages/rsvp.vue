@@ -34,7 +34,10 @@ function goBack(): void {
 	}
 }
 
-SEOService.set({ title: () => content.value?.ui.rsvp.metaTitle });
+SEOService.set({
+	title: () => content.value?.ui.rsvp.metaTitle,
+	description: () => content.value?.ui.rsvp.metaDescription,
+});
 </script>
 
 <template>

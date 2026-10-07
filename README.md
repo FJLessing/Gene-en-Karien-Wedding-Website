@@ -78,6 +78,7 @@ See `.env.example`. Nuxt maps `NUXT_`-prefixed vars onto `runtimeConfig` at runt
 |---|---|
 | `NUXT_SITE_PASSWORD` | Password for the envelope gate (Story 1) |
 | `NUXT_PUBLIC_ACCESS_PARAM` | URL param name (default `invite`) |
+| `NUXT_PUBLIC_SITE_URL` | Public origin for share links / OG tags (default `https://stoltztroue.co.za`) |
 | `NUXT_GOOGLE_SERVICE_ACCOUNT_EMAIL` | Sheets service account |
 | `NUXT_GOOGLE_PRIVATE_KEY` | Sheets private key (escaped `\n`) |
 | `NUXT_GOOGLE_SHEET_ID` | RSVP spreadsheet ID |
