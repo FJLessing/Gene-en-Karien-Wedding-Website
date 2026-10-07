@@ -31,7 +31,7 @@ SEOService.set({ title: () => content.value?.ui.photoUpload.metaTitle });
 				{{ content.ui.photoUpload.heading }}
 			</h1>
 
-			<PhotoUpload />
+			<PhotoUpload data-party-spot />
 		</div>
 	</NuxtLayout>
 </template>

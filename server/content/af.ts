@@ -279,6 +279,7 @@ const af: SiteContent = {
 			declinedMsg: "Dankie dat jy ons laat weet het!",
 		},
 		seating: { metaTitle: "Seating Plan", heading: "Seating Plan", tableLabel: "Tafel" },
+		partyMode: { label: "Partytjie-modus", stop: "Stop", stopLabel: "Stop partytjie-modus" },
 		meta: { homeDescription: "Jy word hiermee formeel uitgenooi na die troue van Gene Stoltz & Karien de Kock" },
 		errors: {
 			content: "Inhoud kon nie laai nie",

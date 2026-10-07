@@ -15,7 +15,7 @@ useReveal(root, { direction: "fade", duration: 1 });
 		<div class="hero__media hero__monogram" aria-hidden="true">
 			<BaseMonogram/>
 		</div>
-		<div v-if="content" class="hero__copy u-content">
+		<div v-if="content" class="hero__copy u-content" data-party-spot>
 			<p class="hero__invite">
 				<span>{{ content.couple.invitationLine1 }}</span>
 				<span>{{ content.couple.invitationLine2 }}</span>

@@ -43,19 +43,20 @@ app/
   components/
     ui/                 BaseButton, BaseModal, BaseAccordion, TextField, SelectField
     app/
-      layout/           AppLoader, AppFooter, EnvelopeGate, LocaleToggle
+      layout/           AppLoader, AppFooter, EnvelopeGate, LocaleToggle, PartyOverlay
       sections/         HeroSection, CountdownTimer, WelcomeSection, DetailsSection,
                         ProgramSection, DressCodeSection, VenueSection,
                         AreaActivitiesSection, FaqSection, RsvpCta
       rsvp/             RsvpSearch, RsvpAttendChoice, RsvpForm, RsvpConfirm
       PhotoUpload.vue
-  composables/          use-gsap, use-reveal, use-access, use-content (locale-aware)
+  composables/          use-gsap, use-reveal, use-access, use-content (locale-aware), use-party-mode
   layouts/              default (with footer), minimal
   middleware/           auth-gate.global
   pages/                index, rsvp, upload, gallery, seating-chart (public, no gate)
   plugins/              gsap.client (GSAP + ScrollTrigger), locale (detect + <html lang>)
   services/             api-service, seo-service
   stores/               content-store, rsvp-store, locale-store
+  utils/                monogram (GK path), party/ (party mode scenes + canvas helpers)
 server/
   api/                  auth.post, content.get (locale-aware), guests.get, rsvp.post, photos.post
   content/              en.ts, af.ts  — per-locale SiteContent (copy + UI strings)

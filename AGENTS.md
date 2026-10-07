@@ -35,6 +35,10 @@ shared/     Types + Result class — imported by both app and server, no Vue dep
 | `app/plugins/locale.ts` | Resolves the locale on startup, binds `<html lang>` |
 | `app/components/app/layout/LocaleToggle.vue` | Footer EN/AF switch |
 | `app/assets/scss/_tokens.scss` | Design tokens (colours, fonts, easing) |
+| `app/composables/use-party-mode.ts` | Party mode on/off state + triggers (monogram taps, typing "party", `?party` link) |
+| `app/components/app/layout/PartyOverlay.vue` | Party mode overlay, mounted once in `app.vue`: dim layer, two canvases, Stop button |
+| `app/utils/party/` | Party mode drawing: `scene.ts` (scene contract), `canvas.ts` (helpers), `scenes/index.ts` (picks the active scene) |
+| `app/utils/monogram.ts` | GK monogram path + bounds, shared by `BaseMonogram` and the party scenes |
 
 ## Rules
 
@@ -62,6 +66,19 @@ How it works:
 For automated/preview verification, the `?invite=` param is the reliable bypass — don't try to type the password into the gate form.
 
 Public pages: `/gallery` and `/seating-chart` don't render the gate, so they open without a param. The seating chart is linked to guests on the day and sets `noindex, nofollow`.
+
+## Party mode (easter egg)
+
+Tapping any GK monogram five times turns the site into a dance floor. On a keyboard, typing `party` (outside form fields) also works, and a link with `?party` opens with it already on. To try it in dev: `http://localhost:3000/?invite=preview&party`.
+
+How it works:
+
+- `use-party-mode.ts` holds the state (`isOn`, `startedAt`) and the triggers. It switches itself off after 5 minutes.
+- `PartyOverlay.vue` sits above every page (`$z-party`, below modals) with `pointer-events: none`, so the site keeps working underneath. Only its Stop button takes taps.
+- A dim layer darkens the page, leaving a soft spotlight over the first visible `[data-party-spot]` element (the photo upload controls, the hero names). Mark other key controls the same way.
+- The active scene (`app/utils/party/scenes/index.ts`) implements `PartyScene`: a `dim` colour/opacity and a `draw(frame)` called every animation frame. Draw solid shapes on `frame.base` and light on `frame.light`, which is screen-blended over the page. Scenes find the monogram through `frame.monograms` (BaseMonogram's `<svg data-party-monogram>`).
+- **Safety**: never flash more than three times a second. When `frame.reducedMotion` is true the overlay draws a single still frame; scenes must skip flashes then too.
+- The loop pauses when the tab is hidden and frees the canvases when party mode is off.
 
 ## Sections (landing page order)
 

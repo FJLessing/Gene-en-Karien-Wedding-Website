@@ -281,6 +281,7 @@ const en: SiteContent = {
 			declinedMsg: "Thank you for letting us know!",
 		},
 		seating: { metaTitle: "Seating Plan", heading: "Seating Plan", tableLabel: "Table" },
+		partyMode: { label: "Party mode", stop: "Stop", stopLabel: "Stop party mode" },
 		meta: { homeDescription: "You are hereby formally invited to the nuptials of Gene Stoltz & Karien de Kock" },
 		errors: {
 			content: "Failed to load content",

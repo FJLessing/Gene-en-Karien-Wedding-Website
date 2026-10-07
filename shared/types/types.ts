@@ -174,6 +174,7 @@ export interface SiteUi {
 		declinedMsg: string;
 	};
 	seating: { metaTitle: string; heading: string; tableLabel: string };
+	partyMode: { label: string; stop: string; stopLabel: string };
 	meta: { homeDescription: string };
 	errors: { content: string; guests: string; rsvpSubmit: string; request: string };
 }

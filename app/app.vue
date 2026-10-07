@@ -1,7 +1,8 @@
 <script lang="ts" setup>
-// Root component. Renders the active layout + page and a pulsing-logo loader
-// that shows during route changes (Story 2).
+// Root component. Renders the active layout + page, a pulsing-logo loader
+// that shows during route changes (Story 2), and the party mode overlay.
 import AppLoader from "~/components/app/layout/AppLoader.vue";
+import PartyOverlay from "~/components/app/layout/PartyOverlay.vue";
 import { SEOService } from "~/services/seo-service";
 import { Locale } from "#shared/types/types";
 
@@ -28,6 +29,7 @@ nuxtApp.hook("page:loading:end", () => {
 		<NuxtLayout>
 			<NuxtPage />
 		</NuxtLayout>
+		<PartyOverlay />
 		<AppLoader :visible="isPageLoading" />
 	</div>
 </template>
